@@ -60,7 +60,7 @@ const Body = () => {
 
   const handleFormOption = () => {
     if (searchType === 'prepare') {
-      window.location.href = 'https://nucleusfusionic.netlify.app/';
+      window.location.href = 'https://nucleusfusionconnectify.netlify.app/';
     }
   };
 
