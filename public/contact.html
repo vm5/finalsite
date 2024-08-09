@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #003366, #FF6F00); /* Gradient background */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            animation: fadeIn 2s ease-in-out; /* Animation for body */
+        }
+
+        .header {
+            background-color: rgba(0, 51, 102, 0.8); /* Semi-transparent background */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideIn 1s ease-out; /* Animation for header */
+        }
+
+        .header img {
+            width: 100px; /* Reduced size of the logo */
+            margin-right: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 40px;
+            animation: fadeInUp 2s ease-out; /* Animation for content */
+        }
+
+        footer {
+            background-color: rgba(0, 51, 102, 0.8); /* Semi-transparent background */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-links a {
+            color: #ffffff;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #FF6F00;
+        }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="logo-removebg-preview.png" alt="LOGO" />
+        <h1>Contact Us</h1>
+    </header>
+    <main class="content">
+        <p>If you have any questions, please feel free to reach out to us at:</p>
+        <p>Email: <a href="mailto:connectpes01@gmail.com">connectpes01@gmail.com</a></p>
+        <p>Phone number 1: (+91) 8951475102</p>
+        <p>Phone number 2: (+91) 9080657742</p>
+        <p>Phone number 3: (+91) 9620374123</p>
+    </main>
+    <footer>
+        <p>&copy; <span id="year"></span> connectPES. All rights reserved.</p>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
