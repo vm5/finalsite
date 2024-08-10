@@ -234,7 +234,7 @@ const styles = {
   },
   companyList: {
     display: 'flex',
-    flex-direction:'column',
+    flexDirection:'column',
     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
   },
   companyContainer: {
