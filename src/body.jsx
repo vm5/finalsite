@@ -234,7 +234,7 @@ const styles = {
   },
   companyList: {
   display: 'flex',
-  flexDirection: 'column', /* Stack items vertically */
+  flexDirection: 'row', /* Stack items vertically */
   gap: '10px', /* Space between the stickers */
   alignItems: 'center', /* Center the stickers */
   padding: '10px', /* Optional: Adds padding around the stickers */
