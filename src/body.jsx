@@ -172,14 +172,14 @@ const styles = {
     color: '#333',
   },
   radioGroup: {
-    display: 'flex',
+    display: 'grid',
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
     marginBottom: '1rem',
   },
   radioLabel: {
-    display: 'flex',
+    display: 'grid',
     alignItems: 'center',
     marginBottom: '0.5rem',
   },
