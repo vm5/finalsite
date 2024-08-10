@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 const DummyAlumni = [
   { company: 'Apple', designation: 'Software Development Engineer' },
   { company: 'Walmart', designation: 'Software Dvelopment Engineer' },
+  { company: 'Morgan Stanley', designation: 'Tech Analyst' },
+  { company: 'CRED', designation: 'Software Development Engineer' },
   { company: 'Deloitte', designation: 'Solution Delivery Analyst' },
-  { company: 'HCL Software', designation: 'Product Manager' },
+  { company: 'HCL', designation: 'Product Manager' },
   { company: 'Oracle', designation: 'Software Development Engineer' },
   { company: 'PwC', designation: 'Tech Consultant' },
   { company: 'Cisco', designation: 'Big Data Analytics Engineer' },
@@ -32,9 +34,12 @@ const DummyAlumni = [
   { company: 'Hewlett-Packard Enterprise', designation: 'Software Dvelopment Engineer' },
   { company: 'Consillio', designation: 'Software Dvelopment Engineer' },
   { company: 'Blue Yonder', designation: 'Software Dvelopment Engineer' },
+  { company: 'HPE', designation: 'Software Dvelopment Engineer' },
   { company: 'Indian Navy', designation: 'Sub Lieutenant' },
   { company: 'IIT Kanpur', designation: 'PhD' },
+  { company: 'IISc', designation: 'PhD' },
   { company: 'Zebra Technologies', designation: 'Software Dvelopment Engineer' },
+  { company: 'Intel', designation: 'Applied Scientist' },
   { company: 'Commvault', designation: 'Software Dvelopment Engineer' },
   { company: 'Tejas Networks', designation: 'Software Dvelopment Engineer' },
   { company: 'Akamai Technologies', designation: 'Software Dvelopment Engineer' },
@@ -49,7 +54,13 @@ const DummyAlumni = [
   { company: 'Mercedes Benz Research and Development ', designation: 'Software Dvelopment Engineer' },
   { company: 'Via Play Group', designation: 'Data Engineer' },
   { company: 'Sense', designation: 'Software Dvelopment Engineer' },
-  { company: 'Hero-Vired', designation: 'Product Manager' }
+  { company: 'Hero-Vired', designation: 'Product Manager' },
+  { company: 'Caterpillar Inc', designation: 'Software Development Engineer' },
+  { company: 'GSK', designation: 'Software Development Engineer' },
+  { company: 'RtBrick', designation: 'Software Development Engineer' },
+  { company: 'Adobe', designation: 'Software Development Engineer' },
+  { company: 'Itron', designation: 'Software Development Engineer' },
+  { company: 'Rattle', designation: 'Software Development Engineer' },
 ];
 
 const Body = () => {
