@@ -168,7 +168,7 @@ const Subtitle = styled.h2`
   margin: 0;
   margin-top: 10px;
   font-family: 'Verdana';
-  margin-left:20px;
+  margin-left:30px;
 
   @media (min-width: 768px) {
     font-size: 1.8rem;
