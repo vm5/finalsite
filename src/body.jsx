@@ -235,8 +235,6 @@ const styles = {
   companyList: {
     display: 'flex',
     flexDirection:'column',
-    alignItems: 'center',
-    width: '100%',
     gap: '10px',
   },
   companyContainer: {
