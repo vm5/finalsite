@@ -197,6 +197,7 @@ const Footer = () => {
       <AdditionalContent>
         <p>nucleus<HighlightedText>FUSION</HighlightedText>: Your go-to platform for establishing professional connections. Get the answers you need and stay informed with the latest insights!</p>
         <p>&copy; {new Date().getFullYear()} nucleus<HighlightedText>FUSION</HighlightedText>. All rights reserved.</p>
+        <p>Version v1.0.0</p>
       </AdditionalContent>
     </FooterContainer>
   );
