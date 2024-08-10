@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 function Verification({ onVerify }) {
   const [srns, setSrns] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const savedSRN = localStorage.getItem('savedSRN');
+    if (savedSRN) {
+      setSrns(savedSRN);
+    }
+  }, []);
 
   const handleStudentVerification = () => {
     setIsLoading(true);
@@ -17,6 +24,12 @@ function Verification({ onVerify }) {
     }, 2000); // Simulating a delay for verification
   };
 
+  const handleInputChange = (e) => {
+    const value = e.target.value.trim();
+    setSrns(value);
+    localStorage.setItem('savedSRN', value); // Save to localStorage
+  };
+
   return (
     <PageContainer>
       <HeaderSection>
@@ -25,8 +38,8 @@ function Verification({ onVerify }) {
             <MainTitle>nucleus<HighlightedText>FUSION</HighlightedText></MainTitle>
             <Subtitle>Bridging the gap between <Span>professionals</Span> and <Span>experienced mentors</Span> working across various organizations.</Subtitle>
           </TitleContainer>
-            <Subtitle>What is nucleus<HighlightedText>FUSION</HighlightedText>?</Subtitle>
-            <Answer>nucleus<HighlightedText>FUSION</HighlightedText> is a platform that provides a seamless way for current job-seeking individuals to connect with former alumni, industry experts, and mentors to gain valuable insights and guidance for their career development. Whether you’re looking for advice on job interviews, career transitions, or industry trends, nucleus<HighlightedText>FUSION</HighlightedText> offers a network of knowledgeable individuals ready to share their experiences and expertise. The platform ensures that users receive personalized support, helping them navigate their professional journey with confidence and clarity. Start your journey with nucleus<HighlightedText>FUSION</HighlightedText> today!</Answer>
+          <Subtitle>What is nucleus<HighlightedText>FUSION</HighlightedText>?</Subtitle>
+          <Answer>nucleus<HighlightedText>FUSION</HighlightedText> is a platform that provides a seamless way for current job-seeking individuals to connect with former alumni, industry experts, and mentors to gain valuable insights and guidance for their career development. Whether you’re looking for advice on job interviews, career transitions, or industry trends, nucleus<HighlightedText>FUSION</HighlightedText> offers a network of knowledgeable individuals ready to share their experiences and expertise. The platform ensures that users receive personalized support, helping them navigate their professional journey with confidence and clarity. Start your journey with nucleus<HighlightedText>FUSION</HighlightedText> today!</Answer>
         </TextContainer>
         <HeaderImage src="/networking.png" alt="Networking" />
       </HeaderSection>
@@ -39,7 +52,7 @@ function Verification({ onVerify }) {
               type="text"
               placeholder="Enter your SRN (Case-sensitive)"
               value={srns}
-              onChange={(e) => setSrns(e.target.value.trim())}
+              onChange={handleInputChange}
               aria-label="SRN Input"
             />
             <Button onClick={handleStudentVerification} aria-label="Verify SRN">
@@ -173,10 +186,6 @@ const HeaderImage = styled.img`
     margin-top: 0;
   }
 `;
-
-
-
-
 
 const SilverContainer = styled.div`
   display: flex;
