@@ -234,10 +234,11 @@ const styles = {
   },
   companyList: {
   display: 'flex',
-  flexDirection: 'row', /* Stack items vertically */
+  flexDirection: 'row', /* Stack items horizontally */
   gap: '10px', /* Space between the stickers */
-  alignItems: 'center', /* Center the stickers */
-  padding: '10px', /* Optional: Adds padding around the stickers */
+  justifyContent: 'center', /* Center the stickers horizontally within the container */
+  alignItems: 'center', /* Center the stickers vertically within the container */
+  flexWrap: 'wrap', /* Allow items to wrap to the next line if there's not enough space */
 },
 
 companyItem: {
@@ -248,6 +249,7 @@ companyItem: {
   textAlign: 'center', /* Center the text inside each sticker */
   width: 'fit-content', /* Stickers fit the content inside */
 },
+
   companyContainer: {
     backgroundColor: 'LightCyan',
     padding: '1rem',
