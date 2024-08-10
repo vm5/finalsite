@@ -235,7 +235,6 @@ const styles = {
   companyList: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-    gap: '1rem',
   },
   companyContainer: {
     backgroundColor: 'LightCyan',
