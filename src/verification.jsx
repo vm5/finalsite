@@ -262,7 +262,7 @@ const Answer = styled.p`
   color: black;
   font-family: 'Verdana';
   line-height: 1.4;
-  margin-left:20px;
+  margin-left:30px;
 `;
 
 const Span = styled.span`
