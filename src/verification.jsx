@@ -126,6 +126,7 @@ const TextContainer = styled.div`
 
 const TitleContainer = styled.div`
   margin-bottom: 30px;
+  margin-left: 20px;
 `;
 
 const MainTitle = styled.h1`
@@ -135,6 +136,7 @@ const MainTitle = styled.h1`
   margin: 50px;
   font-weight: bold;
   animation: ${slideIn} 1s ease-out;
+  margin-left:20px;
 
   @media (min-width: 768px) {
     font-size: 3rem;
@@ -153,6 +155,7 @@ const Subtitle = styled.h2`
   margin: 0;
   margin-top: 10px;
   font-family: 'Verdana';
+  margin-left:20px;
 
   @media (min-width: 768px) {
     font-size: 1.8rem;
@@ -209,6 +212,7 @@ const SectionTitle = styled.h2`
   font-family: 'Verdana';
   margin-bottom: 20px;
   text-align: center;
+  margin-left:20px;
 `;
 
 const SectionDescription = styled.p`
