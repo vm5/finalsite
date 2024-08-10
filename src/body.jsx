@@ -232,7 +232,7 @@ const styles = {
     borderRadius: '0.5rem',
     textAlign: 'center',
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
-    color: blue,
+    color: 'blue',
   },
 };
 
