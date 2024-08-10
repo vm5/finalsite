@@ -233,10 +233,21 @@ const styles = {
     color: '#333',
   },
   companyList: {
-    display: 'flex',
-    flexDirection:'column',
-    gap: '10px',
-  },
+  display: 'flex',
+  flexDirection: 'column', /* Stack items vertically */
+  gap: '10px', /* Space between the stickers */
+  alignItems: 'center', /* Center the stickers */
+  padding: '10px', /* Optional: Adds padding around the stickers */
+},
+
+companyItem: {
+  backgroundColor: '#f5f5f5', /* Light background to resemble a sticker */
+  padding: '10px 15px', /* Space inside each sticker */
+  borderRadius: '8px', /* Rounded corners for a sticker-like appearance */
+  boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', /* Subtle shadow to lift the stickers off the background */
+  textAlign: 'center', /* Center the text inside each sticker */
+  width: 'fit-content', /* Stickers fit the content inside */
+},
   companyContainer: {
     backgroundColor: 'LightCyan',
     padding: '1rem',
