@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 
 const DummyAlumni = [
   { company: 'Apple', designation: 'Software Development Engineer' },
@@ -62,6 +62,8 @@ const Body = () => {
   const handleFormOption = () => {
     if (searchType === 'prepare') {
       window.location.href = 'https://nucleusfusionconnectify.netlify.app/';
+    } else if (searchType === 'learn') {
+      window.location.href = 'https://nucleusfusioninfo.netlify.app/';
     }
   };
 
@@ -80,14 +82,26 @@ const Body = () => {
                 style={styles.radioInput}
               />
               <span style={styles.radioText}>
-                Connect to a mentor of your preferred organization
+                Connect to a mentor of your preferred organization if you have received an interview call and require tips on cracking it.
+              </span>
+            </label>
+            <label style={styles.radioLabel}>
+              <input
+                type="radio"
+                value="learn"
+                checked={searchType === 'learn'}
+                onChange={(e) => setSearchType(e.target.value)}
+                style={styles.radioInput}
+              />
+              <span style={styles.radioText}>
+                Connect to a mentor of your preferred organization if you require generic information about the organization (e.g., its work culture).
               </span>
             </label>
           </div>
           <input
             type="text"
             list="companySuggestions"
-            placeholder="Search by Organization Name...."
+            placeholder="Search by Organization Name..."
             style={styles.input}
             value={company}
             onChange={(e) => setCompany(e.target.value)}
@@ -198,27 +212,25 @@ const styles = {
     transition: 'background-color 0.3s ease',
   },
   companySection: {
-    marginTop: '2rem',
     width: '100%',
-    maxWidth: '1200px',
+    padding: '2rem',
     boxSizing: 'border-box',
   },
   companyHeading: {
-    marginBottom: '1rem',
     textAlign: 'center',
-    color: 'blue',
+    marginBottom: '1rem',
+    color: '#333',
   },
   companyList: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: '0.5rem',
-    color: 'purple',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+    gap: '1rem',
   },
   companyContainer: {
-    padding: '0.5rem',
-    backgroundColor: 'white',
+    backgroundColor: 'LightCyan',
+    padding: '1rem',
     borderRadius: '0.5rem',
+    textAlign: 'center',
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
   },
 };
