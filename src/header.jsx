@@ -182,7 +182,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <SlidingDiv>
-        <SlidingText>This portal is cuurently functional for students with an interview call only for 2024-25</SlidingText>
+        <SlidingText>This portal is now functional for 2024-25</SlidingText>
       </SlidingDiv>
       <HeaderContent>
         <LogoContainer>
