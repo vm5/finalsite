@@ -80,7 +80,7 @@ const Body = () => {
                 style={styles.radioInput}
               />
               <span style={styles.radioText}>
-                Connect to a mentor for your preferred organization
+                Connect to a mentor of your preferred organization
               </span>
             </label>
           </div>
