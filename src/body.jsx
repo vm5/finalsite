@@ -233,7 +233,8 @@ const styles = {
     color: '#333',
   },
   companyList: {
-    display: 'grid',
+    display: 'flex',
+    flex-direction:'column',
     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
   },
   companyContainer: {
