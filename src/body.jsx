@@ -172,14 +172,14 @@ const styles = {
     color: '#333',
   },
   radioGroup: {
-    display: 'grid',
+    display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
     marginBottom: '1rem',
   },
   radioLabel: {
-    display: 'grid',
+    display: 'flex',
     alignItems: 'center',
     marginBottom: '0.5rem',
   },
@@ -222,7 +222,7 @@ const styles = {
     color: '#333',
   },
   companyList: {
-    display: 'flex',
+    display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
     gap: '1rem',
   },
