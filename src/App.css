@@ -76,7 +76,7 @@
   color: purple;
   font-weight: bold;
   white-space: nowrap;
-  animation: slide-left 100s linear infinite; /* Adjust duration as needed */
+  animation: slide-left 60s linear infinite; /* Adjust duration as needed */
   width: 200%; /* Ensure this is double the width of the container for seamless scroll */
 }
 
