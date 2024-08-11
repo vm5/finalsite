@@ -248,8 +248,9 @@ const styles = {
   },
   companyItem: {
     padding: '1rem', // Reduced padding for better fit on smaller screens
-    fontSize: '0.8rem', // Reduced font size for smaller screens
+    fontSize: '1 rem', // Reduced font size for smaller screens
     display: 'inline-block',
+    color : 'purple',
   },
   '@keyframes slide-left': {
     '100%': {
