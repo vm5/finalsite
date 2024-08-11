@@ -26,13 +26,21 @@ const slideIn = keyframes`
 const FooterContainer = styled.footer`
   background: #111;
   color: white;
-  padding: 40px 20px;
+  padding: 20px;
   text-align: center;
   border-top: 1px solid #444;
   position: relative;
   width: 100%;
   font-family: 'Verdana', sans-serif;
   animation: ${fadeIn} 1s ease-in-out;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `;
 
 const HighlightedText = styled.span`
@@ -41,35 +49,34 @@ const HighlightedText = styled.span`
 `;
 
 const AdditionalContent = styled.div`
-  margin-top: 40px;
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 14px;
   animation: ${slideIn} 1s ease-out;
-  text-align: center;
 
   @media (max-width: 768px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 480px) {
     font-size: 12px;
   }
 
+  @media (max-width: 480px) {
+    font-size: 10px;
+  }
+
   p {
-    margin-top: 20px;
+    margin-top: 10px;
     color: #ccc;
-    line-height: 1.5;
+    line-height: 1.4;
   }
 `;
 
 const LinkContainer = styled.div`
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 40px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
   margin-bottom: 20px;
 
   @media (max-width: 768px) {
-    gap: 20px;
+    gap: 15px;
   }
 
   @media (max-width: 480px) {
@@ -81,73 +88,138 @@ const Link = styled.a`
   text-decoration: none;
   color: lightblue;
   transition: color 0.3s ease;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
 
   &:hover {
     color: yellow;
   }
 
   img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
   }
 `;
 
 const Logo = styled.img`
-  width: 150px;
+  width: 120px;
   height: auto;
-  margin: 30px auto;
+  margin: 20px auto;
   display: block;
+
+  @media (max-width: 768px) {
+    width: 100px;
+  }
+
+  @media (max-width: 480px) {
+    width: 80px;
+  }
 `;
 
 const FAQSection = styled.section`
-  margin-bottom: 60px;
+  margin-bottom: 30px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 15px;
+  }
 `;
 
 const FAQTitle = styled.h2`
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  margin-bottom: 10px;
   color: #fff;
   text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const FAQSubtitle = styled.h5`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: #bbb;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const FAQContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  max-width: 1200px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 100%;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    gap: 15px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 10px;
+  }
 `;
 
 const FAQBox = styled.div`
   background: #1c1c1c;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   animation: ${fadeIn} 1.5s ease-out;
-  width: 100%;
+  width: 90%;
   max-width: 300px;
   color: #ddd;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+  }
 `;
 
 const Question = styled.h3`
-  font-size: 1.3rem;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
   color: #6a1b9a;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const Answer = styled.p`
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.4;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const Footer = () => {
@@ -187,7 +259,6 @@ const Footer = () => {
       <Logo src="/nucleus.png" alt="nucleusFUSION Logo" />
 
       <LinkContainer>
-       
         <Link href="https://nucleusfusioncontact.netlify.app/">
           <img src="/contactus-removebg-preview.png" alt="Contact Us" />
           Contact Us
