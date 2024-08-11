@@ -251,6 +251,7 @@ const styles = {
     fontSize: '1 rem', // Reduced font size for smaller screens
     display: 'inline-block',
     color : 'purple',
+    fontWeight: 'bold',
   },
   '@keyframes slide-left': {
     '100%': {
