@@ -155,7 +155,7 @@ const Body = () => {
 const styles = {
   container: {
     width: '100%',
-    padding: '2rem',
+    padding: '1rem',
     boxSizing: 'border-box',
   },
   main: {
@@ -163,18 +163,18 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
-    padding: '2rem',
+    padding: '1rem',
   },
   searchSection: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     background: 'LightCyan',
-    padding: '2rem',
-    borderRadius: '0.75rem',
+    padding: '1rem',
+    borderRadius: '0.5rem',
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
     width: '100%',
-    maxWidth: '1200px',
+    maxWidth: '600px',
     boxSizing: 'border-box',
   },
   heading: {
@@ -199,6 +199,7 @@ const styles = {
   },
   radioText: {
     color: 'blue',
+    fontSize: '0.9rem',
   },
   input: {
     width: '100%',
@@ -210,7 +211,8 @@ const styles = {
   },
   optionsSection: {
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
     gap: '1rem',
     width: '100%',
   },
@@ -224,7 +226,7 @@ const styles = {
   },
   companySection: {
     width: '100%',
-    padding: '2rem',
+    padding: '1rem',
     boxSizing: 'border-box',
   },
   companyHeading: {
@@ -233,30 +235,20 @@ const styles = {
     color: '#333',
   },
   companyList: {
-  display: 'flex',
-  flexDirection: 'row', /* Stack items horizontally */
-  gap: '10px', /* Space between the stickers */
-  justifyContent: 'center', /* Center the stickers horizontally within the container */
-  alignItems: 'center', /* Center the stickers vertically within the container */
-  flexWrap: 'wrap', /* Allow items to wrap to the next line if there's not enough space */
-},
-
-companyItem: {
-  backgroundColor: '#f5f5f5', /* Light background to resemble a sticker */
-  padding: '10px 15px', /* Space inside each sticker */
-  borderRadius: '8px', /* Rounded corners for a sticker-like appearance */
-  boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', /* Subtle shadow to lift the stickers off the background */
-  textAlign: 'center', /* Center the text inside each sticker */
-  width: 'fit-content', /* Stickers fit the content inside */
-},
-
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: '10px',
+    justifyContent: 'center',
+  },
   companyContainer: {
     backgroundColor: 'LightCyan',
-    padding: '1rem',
+    padding: '0.5rem',
     borderRadius: '0.5rem',
     textAlign: 'center',
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
     color: 'blue',
+    fontSize: '0.9rem',
   },
 };
 
