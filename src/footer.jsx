@@ -163,7 +163,7 @@ const FAQContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 30px;
+  gap: 40px;
   max-width: 100%;
   margin: 0 auto;
 
