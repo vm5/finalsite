@@ -129,7 +129,7 @@ const Body = () => {
         </section>
         <section className="companySection">
   <h2 className="companyHeading">
-    Organizations our mentors are a part of:
+    Organizations our mentors come from:
   </h2>
   <div className="companyContainer">
     <div className="companyList">
@@ -193,7 +193,8 @@ const styles = {
   },
   radioText: {
     color: 'blue',
-    fontSize: '0.9rem',
+    fontSize: '1 rem',
+    fontWeight: 'bold',
   },
   input: {
     width: '100%',
