@@ -162,8 +162,9 @@ const FAQSubtitle = styled.h5`
 const FAQContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content:center;
   align-items: center;
-  gap: 40px;
+  gap: 30px;
   max-width: 100%;
   margin: 0 auto;
 
