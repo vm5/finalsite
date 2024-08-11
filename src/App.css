@@ -50,5 +50,41 @@
   max-width: 100%;        /* Ensure the image fits within the box */
   height: auto;           /* Maintain the image's aspect ratio */
 }
+.companyContainer {
+  overflow: hidden;
+  position: relative;
+  height: 5rem; /* Adjust based on content height */
+  background-color: LightCyan;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+@keyframes slide-left {
+  40% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.companyList {
+  display: flex;
+  flex-direction: row;
+  color: purple;
+  font-weight: bold;
+  white-space: nowrap;
+  animation: slide-left 60s linear infinite; /* Adjust duration as needed */
+  width: 200%; /* Ensure this is double the width of the container for seamless scroll */
+}
+
+.companyItem {
+  padding: 1rem; /* Adjust padding as needed */
+  font-size: 2rem;
+  display: inline-block;
+}
+
 
 
