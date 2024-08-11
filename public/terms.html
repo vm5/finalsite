@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #003366, #FF6F00); /* Gradient background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            animation: fadeIn 2s ease-in-out; /* Animation for body */
+        }
+
+        header {
+            background-color: rgba(0, 51, 102, 0.8); /* Semi-transparent background */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: slideIn 1s ease-out; /* Animation for header */
+        }
+
+        .logo {
+            width: 150px;
+            margin-right: 20px;
+        }
+
+        .header-title {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            margin: 20px auto;
+            flex: 1;
+            animation: fadeInUp 2s ease-out; /* Animation for container */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .content {
+            color: #555;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        ol {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        footer {
+            background-color: rgba(0, 51, 102, 0.8); /* Semi-transparent background */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            animation: slideIn 1s ease-out; /* Animation for footer */
+        }
+
+        .footer-links a {
+            color: #ffffff;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #FF6F00;
+        }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo-removebg-preview.png" alt="LOGO" class="logo" />
+        <h1 class="header-title">Terms of Service</h1>
+    </header>
+    <main class="container">
+        <div class="content">
+            <p>Welcome to our Terms of Service page. Please read the terms and conditions carefully.</p>
+            <ol>
+                <li>
+                    <strong>Acceptance of Terms</strong>
+                    <p>By accessing and using our website, you accept and agree to be bound by the terms and provisions of this agreement. In addition, when using our website’s particular services, you shall be subject to any posted guidelines or rules applicable to such services.</p>
+                </li>
+                <li>
+                    <strong>Provision of Services</strong>
+                    <p>We will use reasonable efforts to make our services available at all times. However, we do not warrant or guarantee that our services will be available at all times, without interruption or error.</p>
+                </li>
+                <li>
+                    <strong>User Responsibilities</strong>
+                    <p>Users must not use our website in any way that causes, or may cause, damage to the website or impairment of the availability or accessibility of the website. Users must not use our website in any way which is unlawful, illegal, fraudulent, or harmful, or in connection with any unlawful, illegal, fraudulent, or harmful purpose or activity.</p>
+                </li>
+                <li>
+                    <strong>Privacy Policy</strong>
+                    <p>Our privacy policy explains how we treat your personal data and protect your privacy when you use our services. By using our services, you agree that we can use such data in accordance with our privacy policy.</p>
+                </li>
+                <li>
+                    <strong>Intellectual Property</strong>
+                    <p>All content on this website, including text, graphics, logos, and images, is the property of our company and is protected by intellectual property laws. Users are not allowed to reproduce, duplicate, copy, sell, or exploit any portion of the website without express written permission from us.</p>
+                </li>
+                <li>
+                    <strong>Limitation of Liability</strong>
+                    <p>We will not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or relating to your use of our services.</p>
+                </li>
+                <li>
+                    <strong>Changes to Terms</strong>
+                    <p>We reserve the right to change these terms at any time. We will notify you about significant changes in the way we treat personal information by sending a notice to the primary email address specified in your account or by placing a prominent notice on our website.</p>
+                </li>
+                <li>
+                    <strong>Governing Law</strong>
+                    <p>These terms will be governed by and construed in accordance with the laws of the jurisdiction in which our company is based, without regard to its conflict of law provisions.</p>
+                </li>
+            </ol>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; <span id="year"></span> connectPES. All rights reserved.</p>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+WL1YGYFJX724AQBFKJR9E6FU
