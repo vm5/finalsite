@@ -53,7 +53,7 @@
 .companyContainer {
   overflow: hidden;
   position: relative;
-  height: 5rem; /* Adjust based on content height */
+  height: 6 rem; /* Adjust based on content height */
   background-color: LightCyan;
   border-radius: 0.5rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
@@ -62,8 +62,8 @@
 }
 
 @keyframes slide-left {
-  0% {
-    transform: translateX(0);
+  40% {
+    transform: translateX(-50%);
   }
   100% {
     transform: translateX(-100%);
@@ -82,7 +82,7 @@
 
 .companyItem {
   padding: 1rem; /* Adjust padding as needed */
-  font-size: 2rem;
+  font-size: 2.5rem;
   display: inline-block;
 }
 
