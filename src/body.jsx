@@ -54,7 +54,6 @@ const DummyAlumni = [
   { company: 'Rattle', designation: 'Software Development Engineer', logo: '/rattle.png' },
 ];
 
-
 const Body = () => {
   const [company, setCompany] = useState('');
   const [searchType, setSearchType] = useState('learn');
@@ -127,20 +126,20 @@ const Body = () => {
             </button>
           </div>
         </section>
-        <section className="companySection">
-  <h2 className="companyHeading">
-    Organizations our mentors come from:
-  </h2>
-  <div className="companyContainer">
-    <div className="companyList">
-      {uniqueCompanies.map((company, index) => (
-        <div key={index} className="companyItem">
-          {company}
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
+        <section style={styles.companySection}>
+          <h2 style={styles.companyHeading}>
+            Organizations our mentors come from:
+          </h2>
+          <div style={styles.companyContainer}>
+            <div style={styles.companyList}>
+              {uniqueCompanies.map((company, index) => (
+                <div key={index} style={styles.companyItem}>
+                  {company}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
@@ -193,7 +192,7 @@ const styles = {
   },
   radioText: {
     color: 'blue',
-    fontSize: '1 rem',
+    fontSize: '1rem',
     fontWeight: 'bold',
   },
   input: {
@@ -245,16 +244,11 @@ const styles = {
     flexDirection: 'row',
     whiteSpace: 'nowrap',
     animation: 'slide-left 60s linear infinite', // Adjust the duration here
-    width: '100%', // Set width to double the container's width for seamless scroll
-  },
-  logo: {
-    width: '50px', // Adjust the size as needed
-    height: 'auto',
-    marginRight: '10px',
+    width: '200%', // Ensure the list is wide enough for seamless scrolling
   },
   companyItem: {
-    padding: '3rem',
-    fontSize: '0.9rem',
+    padding: '1rem', // Reduced padding for better fit on smaller screens
+    fontSize: '0.8rem', // Reduced font size for smaller screens
     display: 'inline-block',
   },
   '@keyframes slide-left': {
@@ -266,4 +260,5 @@ const styles = {
     },
   },
 };
+
 export default Body;
