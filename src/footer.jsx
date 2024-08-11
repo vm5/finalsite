@@ -161,7 +161,7 @@ const FAQSubtitle = styled.h5`
 
 const FAQContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
   gap: 20px;
   max-width: 100%;
