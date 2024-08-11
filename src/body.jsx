@@ -1,67 +1,59 @@
 import React, { useState } from 'react';
+import './App.css';
 
 const DummyAlumni = [
-  { company: 'Apple', designation: 'Software Development Engineer' },
-  { company: 'Walmart', designation: 'Software Dvelopment Engineer' },
-  { company: 'Morgan Stanley', designation: 'Tech Analyst' },
-  { company: 'CRED', designation: 'Software Development Engineer' },
-  { company: 'Deloitte', designation: 'Solution Delivery Analyst' },
-  { company: 'HCL', designation: 'Product Manager' },
-  { company: 'Oracle', designation: 'Software Development Engineer' },
-  { company: 'PwC', designation: 'Tech Consultant' },
-  { company: 'Cisco', designation: 'Big Data Analytics Engineer' },
-  { company: 'IBM', designation: 'Software Development Engineer' },
-  { company: 'SAP Labs', designation: 'Software Development Engineer' },
-  { company: 'PwC', designation: 'Associate consultant' },
-  { company: 'Epsilon', designation: 'Software Development Engineer' },
-  { company: 'Schneider Electric', designation: 'Full Stack Developer' },
-  { company: 'Cloudera', designation: 'Software Development Engineer' },
-  { company: 'Schneider Electric', designation: 'Full Stack developer' },
-  { company: 'Mercedes Benz', designation: 'Data Engineer' },
-  { company: 'PwC', designation: 'Associate' },
-  { company: 'Paypal', designation: 'Target Corporation' },
-  { company: 'GE', designation: 'Software Dvelopment Engineer' },
-  { company: 'Allo Health', designation: 'Software Development Engineer' },
-  { company: 'GSK', designation: 'Software Development Engineer' },
-  { company: 'Autodesk', designation: 'Software Development Engineer' },
-  { company: 'Target', designation: 'Software Development Engineer' },
-  { company: 'KPMG India', designation: 'Data Analyst' },
-  { company: 'Arcesium', designation: 'Software Development Engineer' },
-  { company: 'Games 24x7', designation: 'Software Development Engineer' },
-  { company: 'Hewlett-Packard Enterprise', designation: 'Data Scientist' },
-  { company: 'Change Jar Technologies', designation: 'Software Development Engineer' },
-  { company: 'LAM Research', designation: 'IT Engineer' },
-  { company: 'Hewlett-Packard Enterprise', designation: 'Software Dvelopment Engineer' },
-  { company: 'Consillio', designation: 'Software Dvelopment Engineer' },
-  { company: 'Blue Yonder', designation: 'Software Dvelopment Engineer' },
-  { company: 'HPE', designation: 'Software Dvelopment Engineer' },
-  { company: 'Indian Navy', designation: 'Sub Lieutenant' },
-  { company: 'IIT Kanpur', designation: 'PhD' },
-  { company: 'IISc', designation: 'PhD' },
-  { company: 'Zebra Technologies', designation: 'Software Dvelopment Engineer' },
-  { company: 'Intel', designation: 'Applied Scientist' },
-  { company: 'Commvault', designation: 'Software Dvelopment Engineer' },
-  { company: 'Tejas Networks', designation: 'Software Dvelopment Engineer' },
-  { company: 'Akamai Technologies', designation: 'Software Dvelopment Engineer' },
-  { company: 'Zebra Technologies', designation: 'Software Dvelopment Engineer' },
-  { company: 'CGI', designation: 'Software Dvelopment Engineer' },
-  { company: 'Hewlett Packard Enterprise', designation: 'Cloud Dveloper' },
-  { company: 'TruckX', designation: 'Senior Software Dvelopment Engineer' },
-  { company: 'IBM', designation: 'Software Dvelopment Engineer' },
-  { company: 'Universal automation solutions private limited', designation: 'Software Dvelopment Engineer' },
-  { company: 'Reliance', designation: 'Software Dvelopment Engineer' },
-  { company: 'Tesco', designation: 'Software Dvelopment Engineer' },
-  { company: 'Mercedes Benz', designation: 'Software Dvelopment Engineer' },
-  { company: 'Via Play Group', designation: 'Data Engineer' },
-  { company: 'Sense', designation: 'Software Dvelopment Engineer' },
-  { company: 'Hero-Vired', designation: 'Product Manager' },
-  { company: 'Caterpillar Inc', designation: 'Software Development Engineer' },
-  { company: 'GSK', designation: 'Software Development Engineer' },
-  { company: 'RtBrick', designation: 'Software Development Engineer' },
-  { company: 'Adobe', designation: 'Software Development Engineer' },
-  { company: 'Itron', designation: 'Software Development Engineer' },
-  { company: 'Rattle', designation: 'Software Development Engineer' },
+  { company: 'Apple', designation: 'Software Development Engineer', logo: '/apple.png' },
+  { company: 'Walmart', designation: 'Software Development Engineer', logo: '/walmart.png' },
+  { company: 'Morgan Stanley', designation: 'Tech Analyst', logo: '/morgan-stanley.png' },
+  { company: 'CRED', designation: 'Software Development Engineer', logo: '/cred.png' },
+  { company: 'Deloitte', designation: 'Solution Delivery Analyst', logo: '/deloitte.png' },
+  { company: 'HCL', designation: 'Product Manager', logo: '/hcl.png' },
+  { company: 'Oracle', designation: 'Software Development Engineer', logo: '/oracle.png' },
+  { company: 'PwC', designation: 'Tech Consultant', logo: '/pwc.png' },
+  { company: 'Cisco', designation: 'Big Data Analytics Engineer', logo: '/cisco.png' },
+  { company: 'IBM', designation: 'Software Development Engineer', logo: '/ibm.png' },
+  { company: 'SAP Labs', designation: 'Software Development Engineer', logo: '/sap.png' },
+  { company: 'Epsilon', designation: 'Software Development Engineer', logo: '/epsilon.png' },
+  { company: 'Schneider Electric', designation: 'Full Stack Developer', logo: '/schneider-electric.png' },
+  { company: 'Cloudera', designation: 'Software Development Engineer', logo: '/cloudera.png' },
+  { company: 'Mercedes Benz', designation: 'Data Engineer', logo: '/mercedes-benz.png' },
+  { company: 'Paypal', designation: 'Target Corporation', logo: '/paypal.png' },
+  { company: 'GE', designation: 'Software Development Engineer', logo: '/ge.png' },
+  { company: 'Allo Health', designation: 'Software Development Engineer', logo: '/allo-health.png' },
+  { company: 'GSK', designation: 'Software Development Engineer', logo: '/gsk.png' },
+  { company: 'Autodesk', designation: 'Software Development Engineer', logo: '/autodesk.png' },
+  { company: 'Target', designation: 'Software Development Engineer', logo: '/target.png' },
+  { company: 'KPMG India', designation: 'Data Analyst', logo: '/kpmg.png' },
+  { company: 'Arcesium', designation: 'Software Development Engineer', logo: '/arcesium.png' },
+  { company: 'Games 24x7', designation: 'Software Development Engineer', logo: '/games-24x7.png' },
+  { company: 'Hewlett-Packard Enterprise', designation: 'Data Scientist', logo: '/hewlett-packard.png' },
+  { company: 'Change Jar Technologies', designation: 'Software Development Engineer', logo: '/change-jar.png' },
+  { company: 'LAM Research', designation: 'IT Engineer', logo: '/lam-research.png' },
+  { company: 'Consillio', designation: 'Software Development Engineer', logo: '/consillio.png' },
+  { company: 'Blue Yonder', designation: 'Software Development Engineer', logo: '/blue-yonder.png' },
+  { company: 'Indian Navy', designation: 'Sub Lieutenant', logo: '/indian-navy.png' },
+  { company: 'IIT Kanpur', designation: 'PhD', logo: '/iit-kanpur.png' },
+  { company: 'IISc', designation: 'PhD', logo: '/iisc.png' },
+  { company: 'Zebra Technologies', designation: 'Software Development Engineer', logo: '/zebra-technologies.png' },
+  { company: 'Intel', designation: 'Applied Scientist', logo: '/intel.png' },
+  { company: 'Commvault', designation: 'Software Development Engineer', logo: '/commvault.png' },
+  { company: 'Tejas Networks', designation: 'Software Development Engineer', logo: '/tejas-networks.png' },
+  { company: 'Akamai Technologies', designation: 'Software Development Engineer', logo: '/akamai.png' },
+  { company: 'CGI', designation: 'Software Development Engineer', logo: '/cgi.png' },
+  { company: 'Hewlett Packard Enterprise', designation: 'Cloud Developer', logo: '/hewlett-packard.png' },
+  { company: 'TruckX', designation: 'Senior Software Development Engineer', logo: '/truckx.png' },
+  { company: 'Reliance', designation: 'Software Development Engineer', logo: '/reliance.png' },
+  { company: 'Tesco', designation: 'Software Development Engineer', logo: '/tesco.png' },
+  { company: 'Via Play Group', designation: 'Data Engineer', logo: '/via-play-group.png' },
+  { company: 'Sense', designation: 'Software Development Engineer', logo: '/sense.png' },
+  { company: 'Hero-Vired', designation: 'Product Manager', logo: '/hero-vired.png' },
+  { company: 'Caterpillar Inc', designation: 'Software Development Engineer', logo: '/caterpillar.png' },
+  { company: 'RtBrick', designation: 'Software Development Engineer', logo: '/rtbrick.png' },
+  { company: 'Adobe', designation: 'Software Development Engineer', logo: '/adobe.png' },
+  { company: 'Itron', designation: 'Software Development Engineer', logo: '/itron.png' },
+  { company: 'Rattle', designation: 'Software Development Engineer', logo: '/rattle.png' },
 ];
+
 
 const Body = () => {
   const [company, setCompany] = useState('');
@@ -135,18 +127,20 @@ const Body = () => {
             </button>
           </div>
         </section>
-        <section style={styles.companySection}>
-          <h2 style={styles.companyHeading}>
-            Organizations our mentors are a part of:
-          </h2>
-          <div style={styles.companyList}>
-            {uniqueCompanies.map((company, index) => (
-              <div key={index} style={styles.companyContainer}>
-                <strong>{company}</strong>
-              </div>
-            ))}
-          </div>
-        </section>
+        <section className="companySection">
+  <h2 className="companyHeading">
+    Organizations our mentors are a part of:
+  </h2>
+  <div className="companyContainer">
+    <div className="companyList">
+      {uniqueCompanies.map((company, index) => (
+        <div key={index} className="companyItem">
+          {company}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
       </main>
     </div>
   );
@@ -234,22 +228,41 @@ const styles = {
     marginBottom: '1rem',
     color: '#333',
   },
+  companyContainer: {
+    overflow: 'hidden',
+    position: 'relative',
+    height: '2.5rem', // Adjust based on content height
+    backgroundColor: 'LightCyan',
+    borderRadius: '0.5rem',
+    boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%', // Ensure the container is wide enough
+  },
   companyList: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: '10px',
-    justifyContent: 'center',
+    whiteSpace: 'nowrap',
+    animation: 'slide-left 60s linear infinite', // Adjust the duration here
+    width: '100%', // Set width to double the container's width for seamless scroll
   },
-  companyContainer: {
-    backgroundColor: 'LightCyan',
-    padding: '0.5rem',
-    borderRadius: '0.5rem',
-    textAlign: 'center',
-    boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
-    color: 'blue',
+  logo: {
+    width: '50px', // Adjust the size as needed
+    height: 'auto',
+    marginRight: '10px',
+  },
+  companyItem: {
+    padding: '3rem',
     fontSize: '0.9rem',
+    display: 'inline-block',
+  },
+  '@keyframes slide-left': {
+    '100%': {
+      transform: 'translateX(-100%)',
+    },
+    '10%': {
+      transform: 'translateX(-10%)', // Adjust based on width of companyList
+    },
   },
 };
-
 export default Body;
