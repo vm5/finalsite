@@ -258,7 +258,7 @@ const Button = styled.button`
 `;
 
 const Answer = styled.p`
-  font-size: 1.3rem;
+  font-size: 1 rem;
   color: black;
   font-family: 'Verdana';
   line-height: 1.4;
