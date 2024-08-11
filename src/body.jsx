@@ -96,7 +96,7 @@ const Body = () => {
                 style={styles.radioInput}
               />
               <span style={styles.radioText}>
-                Connect to a mentor of your preferred organization if you require generic information about the organization (e.g., its work culture).
+                Connect to a mentor of your preferred organization if you require generic information about the organization (e.g. its work culture).
               </span>
             </label>
           </div>
