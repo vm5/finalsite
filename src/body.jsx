@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './App.css';
 
 const DummyAlumni = [
-  { company: 'Apple', designation: 'Software Development Engineer', logo: '/apple.png' },
+  { company: 'Apple', designation: 'Software Development Engineer', logo: '/apple-removebg-preview.png' },
   { company: 'Walmart', designation: 'Software Development Engineer', logo: '/walmart.png' },
-  { company: 'Morgan Stanley', designation: 'Tech Analyst', logo: '/morgan-stanley.png' },
+  { company: 'Morgan Stanley', designation: 'Tech Analyst', logo: '/morgan-stanley-removebg-preview.png' },
   { company: 'CRED', designation: 'Software Development Engineer', logo: '/cred.png' },
   { company: 'Deloitte', designation: 'Solution Delivery Analyst', logo: '/deloitte.png' },
   { company: 'HCL', designation: 'Product Manager', logo: '/hcl.png' },
@@ -53,6 +53,7 @@ const DummyAlumni = [
   { company: 'Itron', designation: 'Software Development Engineer', logo: '/itron.png' },
   { company: 'Rattle', designation: 'Software Development Engineer', logo: '/rattle.png' },
 ];
+
 
 const Body = () => {
   const [company, setCompany] = useState('');
@@ -132,9 +133,10 @@ const Body = () => {
           </h2>
           <div style={styles.companyContainer}>
             <div style={styles.companyList}>
-              {uniqueCompanies.map((company, index) => (
+              {DummyAlumni.map((alumnus, index) => (
                 <div key={index} style={styles.companyItem}>
-                  {company}
+                  <img src={alumnus.logo} alt={alumnus.company} style={styles.logo} />
+                  <span style={styles.companyName}>{alumnus.company}</span>
                 </div>
               ))}
             </div>
@@ -231,7 +233,7 @@ const styles = {
   companyContainer: {
     overflow: 'hidden',
     position: 'relative',
-    height: '2.5rem', // Adjust based on content height
+    height: '4rem', // Adjust based on content height
     backgroundColor: 'LightCyan',
     borderRadius: '0.5rem',
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
@@ -247,18 +249,23 @@ const styles = {
     width: '200%', // Ensure the list is wide enough for seamless scrolling
   },
   companyItem: {
-    padding: '1rem', // Reduced padding for better fit on smaller screens
-    fontSize: '1 rem', // Reduced font size for smaller screens
-    display: 'inline-block',
-    color : 'purple',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '1rem', // Adjust padding for better fit
+    fontSize: '2.2rem', // Adjust font size for better fit
+  },
+  logo: {
+    width: '50px', // Adjust logo size as needed
+    height: 'auto',
+    marginRight: '1rem',
+  },
+  companyName: {
+    color: 'purple',
     fontWeight: 'bold',
   },
   '@keyframes slide-left': {
     '100%': {
       transform: 'translateX(-100%)',
-    },
-    '10%': {
-      transform: 'translateX(-10%)', // Adjust based on width of companyList
     },
   },
 };
