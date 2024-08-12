@@ -278,6 +278,7 @@ const SignInTitle = styled.h2`
   font-size: 1.5rem;
   text-align: center;
   font-family: 'Verdana', sans-serif;
+  font-weight: bold;
   color: #333;
   animation: ${slideIn} 1s ease-out;
 
