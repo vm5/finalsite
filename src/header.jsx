@@ -43,6 +43,10 @@ const SlidingDiv = styled.div`
   background: linear-gradient(to right, #ff5733, #ffbd00);
   padding: 10px 0;
   z-index: 0;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 const SlidingText = styled.span`
@@ -232,7 +236,6 @@ const SignInButton = styled.button`
     padding: 8px 16px;
   }
 `;
-
 
 const Header = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
