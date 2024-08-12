@@ -182,7 +182,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <SlidingDiv>
-        <SlidingText>This portal is now functional for 2024-25. Please note, this portal can be installed as a React App through your mobile browser(s)</SlidingText>
+        <SlidingText>This portal is now functional for 2024-25. You can also install this portal can be installed as an app through your phone browser(s)</SlidingText>
       </SlidingDiv>
       <HeaderContent>
         <LogoContainer>
