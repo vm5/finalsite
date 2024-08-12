@@ -233,26 +233,27 @@ const styles = {
   companyContainer: {
     overflow: 'hidden',
     position: 'relative',
-    height: '4rem', // Adjust based on content height
+    height: '4rem',
     backgroundColor: 'LightCyan',
     borderRadius: '0.5rem',
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
     display: 'flex',
     alignItems: 'center',
-    width: '100%', // Ensure the container is wide enough
+    width: '100%', 
   },
   companyList: {
     display: 'flex',
     flexDirection: 'row',
     whiteSpace: 'nowrap',
-    animation: 'slide-left 60s linear infinite', // Adjust the duration here
-    width: '200%', // Ensure the list is wide enough for seamless scrolling
+    animation: 'slide-left 60s linear infinite', 
+    width: '200%',
   },
   companyItem: {
     display: 'flex',
     alignItems: 'center',
     padding: '1.2rem', 
     fontSize: '1.5rem', 
+    fontFamily: 'Brush Script MT ',
   },
   logo: {
     width: '50px',
