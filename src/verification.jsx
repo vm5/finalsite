@@ -67,7 +67,7 @@ function Verification({ onVerify }) {
         </TextContainer>
         <HeaderImage src="/networking.png" alt="Networking" />
       </HeaderSection>
-      <SilverContainer>
+      <FormContainer>
         <VerificationWrapper>
           {user ? (
             <UserSection>
@@ -104,7 +104,7 @@ function Verification({ onVerify }) {
             </SignInContainer>
           )}
         </VerificationWrapper>
-      </SilverContainer>
+      </FormContainer>
       {loadingMessage && (
         <LoadingOverlay>
           <LoadingSpinner />
@@ -115,10 +115,11 @@ function Verification({ onVerify }) {
   );
 }
 
+// Animations
 const fadeIn = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
@@ -129,7 +130,7 @@ const fadeIn = keyframes`
 const slideIn = keyframes`
   from {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(-30px);
   }
   to {
     opacity: 1;
@@ -142,13 +143,14 @@ const spin = keyframes`
   100% { transform: rotate(360deg); }
 `;
 
+// Styled Components
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #f9f9f9;
+  background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
   padding: 20px;
   margin: 0;
   box-sizing: border-box;
@@ -187,11 +189,11 @@ const TitleContainer = styled.div`
 `;
 
 const MainTitle = styled.h1`
-  color: #333;
+  color: #222;
   font-weight: bold;
-  font-size: 2rem;
-  font-family: 'Verdana', sans-serif;
-  margin-top: 30px;
+  font-size: 2.5rem;
+  font-family: 'Roboto', sans-serif;
+  margin-top: 20px;
   animation: ${slideIn} 1s ease-out;
 
   @media (min-width: 768px) {
@@ -200,16 +202,16 @@ const MainTitle = styled.h1`
 `;
 
 const HighlightedText = styled.span`
-  color: #6a1b9a;
+  color: purple;
   font-weight: bold;
 `;
 
 const Subtitle = styled.h2`
   color: #555;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   margin: 10px 0;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Roboto', sans-serif;
 
   @media (min-width: 768px) {
     font-size: 1.8rem;
@@ -217,15 +219,15 @@ const Subtitle = styled.h2`
 `;
 
 const Description = styled.p`
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #666;
   text-align: center;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
-  font-weight: bold;
+  font-weight: normal;
 
   @media (min-width: 768px) {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 `;
 
@@ -239,12 +241,14 @@ const HeaderImage = styled.img`
   }
 `;
 
-const SilverContainer = styled.div`
+const FormContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   padding: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const VerificationWrapper = styled.div`
@@ -271,94 +275,101 @@ const SignInContainer = styled.div`
   gap: 15px;
   width: 100%;
   background-color: white;
-  border-radius: 5%;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const SignInTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   text-align: center;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
   color: #333;
   animation: ${slideIn} 1s ease-out;
-
-  @media (min-width: 768px) {
-    font-size: 1.8rem;
-  }
 `;
 
 const InputField = styled.input`
   width: 100%;
   max-width: 400px;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 10px;
   margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   font-size: 1rem;
-  box-sizing: border-box;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Roboto', sans-serif;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
 `;
 
 const Button = styled.button`
-  padding: 12px 24px;
-  font-size: 1rem;
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
-  background-color: #6a1b9a;
-  color: white;
+  border-radius: 4px;
   cursor: pointer;
-  margin: 10px 0;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #5c0a8a;
+    background-color: #0056b3;
+  }
+
+  &:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
   }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   gap: 10px;
+  margin-top: 20px;
 `;
 
 const LoadingOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 1000;
-  animation: ${fadeIn} 1s ease-out;
+  animation: ${fadeIn} 0.5s ease-out;
 `;
 
 const LoadingSpinner = styled.div`
   border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #007bff;
   border-radius: 50%;
-  border-top: 4px solid #fff;
   width: 50px;
   height: 50px;
   animation: ${spin} 1s linear infinite;
 `;
 
-const LoadingMessage = styled.p`
-  color: white;
-  font-size: 1rem;
-  margin-left: 10px;
-  font-family: 'Verdana';
+const LoadingMessage = styled.div`
+  color: #fff;
+  font-size: 1.2rem;
+  margin-left: 20px;
+  font-family: 'Roboto', sans-serif;
+`;
+
+const WelcomeMessage = styled.h2`
+  font-size: 1.6rem;
+  color: #333;
 `;
 const Span = styled.span`
-  color: #6a1b9a;
   font-weight: bold;
-  font-family: 'Verdana';
+  color: #007bff;
 `;
-const WelcomeMessage = styled.span`
-  color: purple;
-  font-weight: bold;
-  font-size: 2rem;
-  font-family: 'Verdana;'
-`;
+
 
 export default Verification;
