@@ -52,6 +52,14 @@ const SlidingText = styled.span`
   white-space: nowrap;
   font-family: 'Verdana';
   font-style: italic;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 `;
 
 const HeaderContainer = styled.header`
@@ -68,7 +76,7 @@ const HeaderContainer = styled.header`
   position: relative;
   animation: ${fadeIn} 2.5s ease-in-out;
   text-align: center;
-  z-index: 1000; /* Ensure header is above other content */
+  z-index: 1000;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
@@ -112,7 +120,15 @@ const StyledLogo = styled.img`
   margin: 40px;
 
   @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
     margin: 20px;
+  }
+
+  @media (max-width: 480px) {
+    width: 120px;
+    height: 120px;
+    margin: 10px;
   }
 `;
 
@@ -157,12 +173,23 @@ const NavLinks = styled.div`
     font-size: 15px;
     transition: color 0.3s;
     padding: 5px;
-    
+
     img {
       width: 24px;
       height: auto;
       margin-right: 8px;
     }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    gap: 10px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    flex-direction: column;
+    gap: 5px;
   }
 `;
 
@@ -194,6 +221,20 @@ const SignInButton = styled.button`
     height: 24px;
     margin-right: 10px;
   }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 8px 16px;
+    margin-top: 40px;
+    margin-right: 30px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    padding: 6px 12px;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
 `;
 
 const Header = () => {
@@ -201,16 +242,13 @@ const Header = () => {
 
   const handleSignIn = () => {
     if (!isSignedIn) {
-      // Simulate sign-in action
       setIsSignedIn(true);
-      // Scroll to the middle of the page
       const middlePosition = document.body.scrollHeight / 2;
       window.scrollTo({
         top: middlePosition,
         behavior: 'smooth',
       });
     } else {
-      // Redirect to home page
       window.location.href = '/';
     }
   };
