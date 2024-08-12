@@ -258,7 +258,7 @@ const Header = () => {
       <HeaderContainer>
         <SignInButton onClick={handleSignIn}>
           <img src="/dm-removebg-preview.png" alt="Google Logo" />
-          {isSignedIn ? 'Finish' : 'Get Started'}
+          {isSignedIn ? 'Exit' : 'Get Started'}
         </SignInButton>
         <SlidingDiv>
           <SlidingText>This portal is now functional for 2024-25. This portal can also be installed as an app through your phone browser(s)</SlidingText>
