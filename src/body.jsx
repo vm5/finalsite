@@ -145,7 +145,7 @@ const Body = () => {
   );
 };
 
-// Styles object
+// Styles object with media queries
 const styles = {
   container: {
     padding: '0 20px',
@@ -223,6 +223,54 @@ const styles = {
   '@keyframes slide-left': {
     '50%': { transform: 'translateX(-50%)' },
     '100%': { transform: 'translateX(-100%)' },
+  },
+  '@media (max-width: 768px)': {
+    heading: {
+      fontSize: '20px',
+    },
+    radioText: {
+      fontSize: '14px',
+    },
+    dropdown: {
+      padding: '8px',
+    },
+    button: {
+      padding: '8px 16px',
+      fontSize: '14px',
+    },
+    companyHeading: {
+      fontSize: '18px',
+    },
+    slidingContainer: {
+      gap: '10px',
+    },
+    logo: {
+      width: '40px',
+    },
+  },
+  '@media (max-width: 480px)': {
+    heading: {
+      fontSize: '18px',
+    },
+    radioText: {
+      fontSize: '12px',
+    },
+    dropdown: {
+      padding: '6px',
+    },
+    button: {
+      padding: '6px 12px',
+      fontSize: '12px',
+    },
+    companyHeading: {
+      fontSize: '16px',
+    },
+    slidingContainer: {
+      gap: '5px',
+    },
+    logo: {
+      width: '30px',
+    },
   },
 };
 
