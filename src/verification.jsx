@@ -74,13 +74,13 @@ function Verification({ onVerify }) {
               <WelcomeMessage>Welcome, {user.name}</WelcomeMessage>
               <ButtonContainer>
                 <Button onClick={handleSignOut}>Finish</Button>
-                <Button onClick={onVerify} aria-label="Verify">
+                <Button onClick={onVerify} aria-label="Verify" disabled={processing}>
                   {processing ? 'Processing...' : 'Proceed'}
                 </Button>
               </ButtonContainer>
             </UserSection>
           ) : (
-          
+            <>
               <SignInTitle>Enter your details to explore nucleus<HighlightedText>FUSION</HighlightedText>!</SignInTitle>
               <Description>
                 To access the full range of offerings provided by the nucleus<HighlightedText>FUSION</HighlightedText> platform, please enter your University SRN and name. This step is essential for unlocking tailored resources and connecting with mentors.
@@ -98,10 +98,10 @@ function Verification({ onVerify }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <Button onClick={handleVerify}>
+              <Button onClick={handleVerify} disabled={processing}>
                 {processing ? 'Processing...' : 'Verify and Proceed'}
               </Button>
-            
+            </>
           )}
         </VerificationWrapper>
       </FormContainer>
@@ -268,7 +268,6 @@ const UserSection = styled.div`
   width: 100%;
 `;
 
-
 const SignInTitle = styled.h2`
   font-size: 1.8rem;
   text-align: center;
@@ -295,14 +294,14 @@ const InputField = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #007bff;
-  color: #fff;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
   font-size: 1rem;
   font-family: 'Roboto', sans-serif;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -315,45 +314,48 @@ const Button = styled.button`
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-`;
-
 const LoadingOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: rgba(255, 255, 255, 0.8);
   z-index: 1000;
-  animation: ${fadeIn} 0.5s ease-out;
+  animation: ${fadeIn} 1s ease-out;
 `;
 
 const LoadingSpinner = styled.div`
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #007bff;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #007bff;
   border-radius: 50%;
   width: 50px;
   height: 50px;
   animation: ${spin} 1s linear infinite;
 `;
 
-const LoadingMessage = styled.div`
-  color: #fff;
+const LoadingMessage = styled.p`
   font-size: 1.2rem;
-  margin-left: 20px;
+  color: #333;
+  margin-top: 10px;
   font-family: 'Roboto', sans-serif;
 `;
 
 const WelcomeMessage = styled.h2`
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: #333;
+  text-align: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 `;
 const Span = styled.span`
   font-weight: bold;
