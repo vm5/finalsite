@@ -1,33 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { auth, GoogleAuthProvider, signInWithPopup, signOut } from './firebase';
+import './google-logo.png';
 
 function Verification({ onVerify }) {
-  const [srns, setSrns] = useState('');
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
-    const savedSRN = localStorage.getItem('savedSRN');
-    if (savedSRN) {
-      setSrns(savedSRN);
-    }
+    const unsubscribe = auth.onAuthStateChanged(setUser);
+    return () => unsubscribe();
   }, []);
 
-  const handleStudentVerification = () => {
+  const handleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      setUser(result.user);
+    } catch (error) {
+      console.error('Error during sign-in:', error);
+    } finally {
       setIsLoading(false);
-      if ((srns.length === 13 || srns.length === 14) && srns.startsWith("PES") && srns.includes("UG")) {
-        onVerify();
-      } else {
-        alert('Please provide a valid SRN');
-      }
-    }, 2000); // Simulating a delay for verification
+    }
   };
 
-  const handleInputChange = (e) => {
-    const value = e.target.value.trim();
-    setSrns(value);
-    localStorage.setItem('savedSRN', value); // Save to localStorage
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        setUser(null);
+      })
+      .catch((error) => {
+        console.error('Error during sign-out:', error);
+      });
+  };
+
+  const handleVerify = () => {
+    if (user) {
+      setProcessing(true);
+      setLoadingMessage('Processing...');
+      setTimeout(() => {
+        setProcessing(false);
+        setLoadingMessage('');
+        onVerify();
+      }, 2000); // Simulate a processing time of 2 seconds
+    } else {
+      alert('Please sign in first');
+    }
   };
 
   return (
@@ -35,36 +56,52 @@ function Verification({ onVerify }) {
       <HeaderSection>
         <TextContainer>
           <TitleContainer>
-            <MainTitle>nucleus<HighlightedText>FUSION</HighlightedText></MainTitle>
-            <Subtitle>Bridging the gap between <Span>professionals</Span> and <Span>experienced mentors</Span> working across various organizations.</Subtitle>
+            <MainTitle>
+              nucleus<HighlightedText>FUSION</HighlightedText>
+            </MainTitle>
+            <Subtitle>
+              Bridging the gap between <Span>professionals</Span> and{' '}
+              <Span>experienced mentors</Span> working across various organizations.
+            </Subtitle>
           </TitleContainer>
-          <Subtitle>What is nucleus<HighlightedText>FUSION</HighlightedText>?</Subtitle>
-          <Answer>nucleus<HighlightedText>FUSION</HighlightedText> is a platform that provides a seamless way for current job-seeking individuals to connect with former alumni, industry experts, and mentors to gain valuable insights and guidance for their career development. Whether you’re looking for advice on job interviews, career transitions, or industry trends, nucleus<HighlightedText>FUSION</HighlightedText> offers a network of knowledgeable individuals ready to share their experiences and expertise. The platform ensures that users receive personalized support, helping them navigate their professional journey with confidence and clarity. Start your journey with nucleus<HighlightedText>FUSION</HighlightedText> today!</Answer>
+          <Subtitle>
+            What is nucleus<HighlightedText>FUSION</HighlightedText>?
+          </Subtitle>
+          <Answer>
+            nucleus<HighlightedText>FUSION</HighlightedText> is a platform that provides a seamless way for current job-seeking individuals to connect with former alumni, industry experts, and mentors to gain valuable insights and guidance for their career development. Whether you’re looking for advice on job interviews, career transitions, or industry trends, nucleus<HighlightedText>FUSION</HighlightedText> offers a network of knowledgeable individuals ready to share their experiences and expertise. The platform ensures that users receive personalized support, helping them navigate their professional journey with confidence and clarity. Start your journey with nucleus<HighlightedText>FUSION</HighlightedText> today!
+          </Answer>
         </TextContainer>
         <HeaderImage src="/networking.png" alt="Networking" />
       </HeaderSection>
       <SilverContainer>
         <VerificationWrapper>
-          <VerificationContainer>
-            <SectionTitle>Student Verification</SectionTitle>
-            <SectionDescription>Verify your status as a student by entering your University SRN and then proceed.</SectionDescription>
-            <Input
-              type="text"
-              placeholder="Enter your SRN (Case-sensitive)"
-              value={srns}
-              onChange={handleInputChange}
-              aria-label="SRN Input"
-            />
-            <Button onClick={handleStudentVerification} aria-label="Verify SRN">
-              {isLoading ? 'Verifying...' : 'Get Started >'}
-            </Button>
-          </VerificationContainer>
+          {user ? (
+            <div>
+              <WelcomeMessage>Welcome, {user.displayName}</WelcomeMessage>
+              <Button onClick={handleSignOut}>Sign Out</Button>
+              <Button onClick={handleVerify} aria-label="Verify">
+                {processing ? 'Processing...' : 'Verify and Proceed'}
+              </Button>
+            </div>
+          ) : (
+            <SignInContainer>
+              <SignInTitle>Sign in to explore nucleus<HighlightedText>FUSION</HighlightedText>!</SignInTitle>
+              <Description>
+                Discover the full range of offerings provided by the nucleus<HighlightedText>FUSION</HighlightedText>platform. By signing in, users gain access to a portal that connects them with mentors of their preferred organization(s) and take advantage of various tools designed to support their career growth. This step is essential for unlocking the tailored resources and connecting with the broader network of professionals within nucleus<HighlightedText>FUSION</HighlightedText>.
+              </Description>
+              <GoogleSignInButton onClick={handleSignIn}>
+                {isLoading ? 'Signing in...' : <><GoogleLogo src="/google-logo-removebg-preview.png" alt="Google logo" /> Sign in with Google</>}
+              </GoogleSignInButton>
+            </SignInContainer>
+          )}
         </VerificationWrapper>
       </SilverContainer>
-      {isLoading && (
+      {isLoading && !loadingMessage ? (
         <LoadingOverlay>
           <LoadingSpinner />
         </LoadingOverlay>
+      ) : (
+        loadingMessage && <LoadingMessage>{loadingMessage}</LoadingMessage>
       )}
     </PageContainer>
   );
@@ -144,12 +181,12 @@ const TitleContainer = styled.div`
 
 const MainTitle = styled.h1`
   color: #222;
+  font-weight: bold;
   font-size: 2rem;
   font-family: 'Verdana';
   margin: 50px;
-  font-weight: bold;
   animation: ${slideIn} 1s ease-out;
-  margin-left:20px;
+  margin-left: 20px;
 
   @media (min-width: 768px) {
     font-size: 3rem;
@@ -164,11 +201,11 @@ const HighlightedText = styled.span`
 const Subtitle = styled.h2`
   color: #555;
   font-size: 1.2rem;
-  font-weight: 400;
+  font-weight: bold;
   margin: 0;
   margin-top: 10px;
   font-family: 'Verdana';
-  margin-left:30px;
+  margin-left: 20px;
 
   @media (min-width: 768px) {
     font-size: 1.8rem;
@@ -203,69 +240,85 @@ const VerificationWrapper = styled.div`
   align-items: center;
   gap: 20px;
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
 `;
 
-const VerificationContainer = styled.div`
+const SignInContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
   width: 100%;
-  background: #fff;
-  border-radius: 12px;
+  max-width: 600px;
+  background: white;
   padding: 20px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  animation: ${fadeIn} 1.5s ease-out;
 `;
 
-const SectionTitle = styled.h2`
-  font-size: 1.5rem;
-  color: #333;
-  font-family: 'Verdana';
-  margin-bottom: 20px;
-  text-align: center;
-  margin-left:20px;
+const SignInTitle = styled.h2`
+  font-size: 2rem;
+  color: black;
+  margin: 0;
+  margin-bottom: 15px;
+  font-weight: bold;
 `;
 
-const SectionDescription = styled.p`
+const Description = styled.p`
   font-size: 1rem;
-  color: #666;
-  font-family: 'Verdana';
-  margin-bottom: 20px;
+  color: #555;
+  font-weight: 10000;
+  font-family: 'Verdana;'
   text-align: center;
+  margin: 0 0 20px;
 `;
 
-const Input = styled.input`
-  width: 65%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+const GoogleSignInButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
   font-size: 1rem;
-  margin-bottom: 20px;
-`;
-
-const Button = styled.button`
-  width: 35%;
-  padding: 12px;
-  background-color: #6a1b9a;
   color: #fff;
+  background-color: #4285f4;
+  font-family: 'Verdana';
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
+  font-weight: bold;
 
   &:hover {
-    background-color: #4a148c;
+    background-color: #357ae8;
   }
 `;
 
-const Answer = styled.p`
-  font-size: 1.1 rem;
-  color: black;
-  font-family: 'Verdana';
-  line-height: 1.4;
-  margin-left:30px;
+const GoogleLogo = styled.img`
+  width: 24px;
+  height: 24px;
 `;
 
-const Span = styled.span`
+const Button = styled.button`
+  background-color: #6a1b9a;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #5e35b1;
+  }
+`;
+
+const WelcomeMessage = styled.p`
+  font-size: 1.2rem;
+  color: purple;
   font-weight: bold;
 `;
 
@@ -273,22 +326,41 @@ const LoadingOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 999;
 `;
 
 const LoadingSpinner = styled.div`
-  border: 4px solid rgba(255, 255, 255, 0.3);
+  border: 8px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 4px solid #fff;
-  width: 40px;
-  height: 40px;
+  border-top: 8px solid #6a1b9a;
+  width: 60px;
+  height: 60px;
   animation: ${spin} 1s linear infinite;
+`;
+
+const LoadingMessage = styled.p`
+  font-size: 1.2rem;
+  color: #6a1b9a;
+  font-weight: bold;
+`;
+
+const Answer = styled.p`
+  font-size: 1.2rem;
+  color: #555;
+  margin: 20px 0;
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Verdana';
+`;
+
+const Span = styled.span`
+  font-weight: bold;
 `;
 
 export default Verification;
