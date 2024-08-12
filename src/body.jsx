@@ -53,6 +53,8 @@ const DummyAlumni = [
   { company: 'Itron', designation: 'Software Development Engineer', logo: '/itron.png' },
   { company: 'Rattle', designation: 'Software Development Engineer', logo: '/rattle.png' },
 ];
+
+
 const Body = () => {
   const [company, setCompany] = useState('');
   const [searchType, setSearchType] = useState('learn');
@@ -134,6 +136,7 @@ const Body = () => {
               {DummyAlumni.map((alumnus, index) => (
                 <div key={index} style={styles.companyItem}>
                   <img src={alumnus.logo} alt={alumnus.company} style={styles.logo} />
+                  <span style={styles.companyName}>{alumnus.company}</span>
                 </div>
               ))}
             </div>
@@ -173,7 +176,6 @@ const styles = {
     marginBottom: '1rem',
     textAlign: 'center',
     color: '#333',
-    fontSize: '1.5rem',
   },
   radioGroup: {
     display: 'flex',
@@ -202,7 +204,6 @@ const styles = {
     borderRadius: '0.5rem',
     border: '1px solid #ccc',
     boxSizing: 'border-box',
-    fontSize: '1rem',
   },
   optionsSection: {
     display: 'flex',
@@ -218,7 +219,6 @@ const styles = {
     color: 'white',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
-    fontSize: '1rem',
   },
   companySection: {
     width: '100%',
@@ -229,38 +229,42 @@ const styles = {
     textAlign: 'center',
     marginBottom: '1rem',
     color: '#333',
-    fontSize: '1.5rem',
   },
   companyContainer: {
     overflow: 'hidden',
     position: 'relative',
-    height: '4rem',
+    height: '4rem', // Adjust based on content height
     backgroundColor: 'LightCyan',
     borderRadius: '0.5rem',
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
     display: 'flex',
     alignItems: 'center',
-    width: '100%',
-    padding: '0.5rem',
+    width: '100%', // Ensure the container is wide enough
   },
   companyList: {
     display: 'flex',
     flexDirection: 'row',
     whiteSpace: 'nowrap',
-    animation: 'slide-left 60s linear infinite',
+    animation: 'slide-left 60s linear infinite', // Adjust the duration here
+    width: '200%', // Ensure the list is wide enough for seamless scrolling
   },
   companyItem: {
-    flexShrink: 0,
-    padding: '0 1rem',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '1rem', // Adjust padding for better fit
+    fontSize: '2.2rem', // Adjust font size for better fit
   },
   logo: {
-    width: '40px',
+    width: '50px', // Adjust logo size as needed
     height: 'auto',
+    marginRight: '1rem',
+  },
+  companyName: {
+    color: 'purple',
+    fontWeight: 'bold',
   },
   '@keyframes slide-left': {
-    '50%': {
-      transform: 'translateX(-50%)',
-      '100%': {
+    '100%': {
       transform: 'translateX(-100%)',
     },
   },
