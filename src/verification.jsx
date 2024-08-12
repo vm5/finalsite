@@ -73,7 +73,7 @@ function Verification({ onVerify }) {
             <UserSection>
               <WelcomeMessage>Welcome, {user.name}</WelcomeMessage>
               <ButtonContainer>
-                <Button onClick={handleSignOut}>Finish</Button>
+                <Button onClick={handleSignOut}>Exit</Button>
                 <Button onClick={onVerify} aria-label="Verify" disabled={processing}>
                   {processing ? 'Processing...' : 'Proceed'}
                 </Button>
