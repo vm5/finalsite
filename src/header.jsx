@@ -166,62 +166,12 @@ const NavLinks = styled.div`
   }
 `;
 
-const SignInButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-family: 'Verdana';
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 60px;
-  margin-right: 20px;
-  font-weight: bold;
 
-  &:hover {
-    background-color: #357ae8; /* Darker blue on hover */
-  }
 
-  img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-  }
-`;
-
-const Header = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-
-  const handleSignIn = () => {
-    if (!isSignedIn) {
-      // Simulate sign-in action
-      setIsSignedIn(true);
-      // Scroll to the middle of the page
-      const middlePosition = document.body.scrollHeight / 2;
-      window.scrollTo({
-        top: middlePosition,
-        behavior: 'smooth',
-      });
-    } else {
-      // Redirect to home page
-      window.location.href = '/';
-    }
-  };
-
+ 
   return (
     <>
       <HeaderContainer>
-        <SignInButton onClick={handleSignIn}>
-          <img src="/google-logo-removebg-preview.png" alt="Google Logo" />
-          {isSignedIn ? 'Sign Out' : 'Sign In with Google'}
-        </SignInButton>
         <SlidingDiv>
           <SlidingText>This portal is now functional for 2024-25. This portal can also be installed as an app through your phone browser(s)</SlidingText>
         </SlidingDiv>
