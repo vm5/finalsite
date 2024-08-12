@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 
 const DummyAlumni = [
-const DummyAlumni = [
   { designation: 'Software Development Engineer', logo: '/walmart.png' },
   { designation: 'Software Development Engineer', logo: '/apple-removebg-preview.png' },
   { designation: 'Tech Analyst', logo: '/morgan-stanley.png' },
