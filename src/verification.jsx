@@ -222,7 +222,7 @@ const Description = styled.p`
   text-align: center;
   font-family: 'Verdana', sans-serif;
   margin: 0;
-  font-weight: normal;
+  font-weight: bold;
 
   @media (min-width: 768px) {
     font-size: 1.1rem;
