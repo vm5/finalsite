@@ -99,7 +99,7 @@ function Verification({ onVerify }) {
                 onChange={(e) => setName(e.target.value)}
               />
               <Button onClick={handleVerify} disabled={processing}>
-                {processing ? 'Processing...' : 'Verify and Proceed'}
+                {processing ? 'Processing...' : 'Get started >'}
               </Button>
             </>
           )}
