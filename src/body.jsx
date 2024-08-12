@@ -4,7 +4,7 @@ import './App.css';
 const DummyAlumni = [
   { company: 'Apple', designation: 'Software Development Engineer', logo: '/apple-removebg-preview.png' },
   { company: 'Walmart', designation: 'Software Development Engineer', logo: '/walmart.png' },
-  { company: 'Morgan Stanley', designation: 'Tech Analyst', logo: '/morgan-stanley-removebg-preview.png' },
+  { company: 'Morgan Stanley', designation: 'Tech Analyst', logo: '/morgan-stanley.png' },
   { company: 'CRED', designation: 'Software Development Engineer', logo: '/cred.png' },
   { company: 'Deloitte', designation: 'Solution Delivery Analyst', logo: '/deloitte.png' },
   { company: 'HCL', designation: 'Product Manager', logo: '/hcl.png' },
