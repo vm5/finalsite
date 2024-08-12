@@ -271,6 +271,7 @@ const SignInContainer = styled.div`
   gap: 15px;
   width: 100%;
   background-color: white;
+  border-radius: 5%;
 `;
 
 const SignInTitle = styled.h2`
