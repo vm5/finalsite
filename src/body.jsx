@@ -2,58 +2,8 @@ import React, { useState } from 'react';
 import './App.css';
 
 const DummyAlumni = [
-  { company: 'Apple', designation: 'Software Development Engineer', logo: '/apple-removebg-preview.png' },
-  { company: 'Walmart', designation: 'Software Development Engineer', logo: '/walmart.png' },
-  { company: 'Morgan Stanley', designation: 'Tech Analyst', logo: '/morgan-stanley-removebg-preview.png' },
-  { company: 'CRED', designation: 'Software Development Engineer', logo: '/cred.png' },
-  { company: 'Deloitte', designation: 'Solution Delivery Analyst', logo: '/deloitte.png' },
-  { company: 'HCL', designation: 'Product Manager', logo: '/hcl.png' },
-  { company: 'Oracle', designation: 'Software Development Engineer', logo: '/oracle.png' },
-  { company: 'PwC', designation: 'Tech Consultant', logo: '/pwc.png' },
-  { company: 'Cisco', designation: 'Big Data Analytics Engineer', logo: '/cisco.png' },
-  { company: 'IBM', designation: 'Software Development Engineer', logo: '/ibm.png' },
-  { company: 'SAP Labs', designation: 'Software Development Engineer', logo: '/sap.png' },
-  { company: 'Epsilon', designation: 'Software Development Engineer', logo: '/epsilon.png' },
-  { company: 'Schneider Electric', designation: 'Full Stack Developer', logo: '/schneider-electric.png' },
-  { company: 'Cloudera', designation: 'Software Development Engineer', logo: '/cloudera.png' },
-  { company: 'Mercedes Benz', designation: 'Data Engineer', logo: '/mercedes-benz.png' },
-  { company: 'Paypal', designation: 'Target Corporation', logo: '/paypal.png' },
-  { company: 'GE', designation: 'Software Development Engineer', logo: '/ge.png' },
-  { company: 'Allo Health', designation: 'Software Development Engineer', logo: '/allo-health.png' },
-  { company: 'GSK', designation: 'Software Development Engineer', logo: '/gsk.png' },
-  { company: 'Autodesk', designation: 'Software Development Engineer', logo: '/autodesk.png' },
-  { company: 'Target', designation: 'Software Development Engineer', logo: '/target.png' },
-  { company: 'KPMG India', designation: 'Data Analyst', logo: '/kpmg.png' },
-  { company: 'Arcesium', designation: 'Software Development Engineer', logo: '/arcesium.png' },
-  { company: 'Games 24x7', designation: 'Software Development Engineer', logo: '/games-24x7.png' },
-  { company: 'Hewlett-Packard Enterprise', designation: 'Data Scientist', logo: '/hewlett-packard.png' },
-  { company: 'Change Jar Technologies', designation: 'Software Development Engineer', logo: '/change-jar.png' },
-  { company: 'LAM Research', designation: 'IT Engineer', logo: '/lam-research.png' },
-  { company: 'Consillio', designation: 'Software Development Engineer', logo: '/consillio.png' },
-  { company: 'Blue Yonder', designation: 'Software Development Engineer', logo: '/blue-yonder.png' },
-  { company: 'Indian Navy', designation: 'Sub Lieutenant', logo: '/indian-navy.png' },
-  { company: 'IIT Kanpur', designation: 'PhD', logo: '/iit-kanpur.png' },
-  { company: 'IISc', designation: 'PhD', logo: '/iisc.png' },
-  { company: 'Zebra Technologies', designation: 'Software Development Engineer', logo: '/zebra-technologies.png' },
-  { company: 'Intel', designation: 'Applied Scientist', logo: '/intel.png' },
-  { company: 'Commvault', designation: 'Software Development Engineer', logo: '/commvault.png' },
-  { company: 'Tejas Networks', designation: 'Software Development Engineer', logo: '/tejas-networks.png' },
-  { company: 'Akamai Technologies', designation: 'Software Development Engineer', logo: '/akamai.png' },
-  { company: 'CGI', designation: 'Software Development Engineer', logo: '/cgi.png' },
-  { company: 'Hewlett Packard Enterprise', designation: 'Cloud Developer', logo: '/hewlett-packard.png' },
-  { company: 'TruckX', designation: 'Senior Software Development Engineer', logo: '/truckx.png' },
-  { company: 'Reliance', designation: 'Software Development Engineer', logo: '/reliance.png' },
-  { company: 'Tesco', designation: 'Software Development Engineer', logo: '/tesco.png' },
-  { company: 'Via Play Group', designation: 'Data Engineer', logo: '/via-play-group.png' },
-  { company: 'Sense', designation: 'Software Development Engineer', logo: '/sense.png' },
-  { company: 'Hero-Vired', designation: 'Product Manager', logo: '/hero-vired.png' },
-  { company: 'Caterpillar Inc', designation: 'Software Development Engineer', logo: '/caterpillar.png' },
-  { company: 'RtBrick', designation: 'Software Development Engineer', logo: '/rtbrick.png' },
-  { company: 'Adobe', designation: 'Software Development Engineer', logo: '/adobe.png' },
-  { company: 'Itron', designation: 'Software Development Engineer', logo: '/itron.png' },
-  { company: 'Rattle', designation: 'Software Development Engineer', logo: '/rattle.png' },
+  // ... your alumni data
 ];
-
 
 const Body = () => {
   const [company, setCompany] = useState('');
@@ -136,7 +86,6 @@ const Body = () => {
               {DummyAlumni.map((alumnus, index) => (
                 <div key={index} style={styles.companyItem}>
                   <img src={alumnus.logo} alt={alumnus.company} style={styles.logo} />
-                  <span style={styles.companyName}>{alumnus.company}</span>
                 </div>
               ))}
             </div>
@@ -176,6 +125,7 @@ const styles = {
     marginBottom: '1rem',
     textAlign: 'center',
     color: '#333',
+    fontSize: '1.5rem',
   },
   radioGroup: {
     display: 'flex',
@@ -204,6 +154,7 @@ const styles = {
     borderRadius: '0.5rem',
     border: '1px solid #ccc',
     boxSizing: 'border-box',
+    fontSize: '1rem',
   },
   optionsSection: {
     display: 'flex',
@@ -219,6 +170,7 @@ const styles = {
     color: 'white',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
+    fontSize: '1rem',
   },
   companySection: {
     width: '100%',
@@ -229,43 +181,37 @@ const styles = {
     textAlign: 'center',
     marginBottom: '1rem',
     color: '#333',
+    fontSize: '1.5rem',
   },
   companyContainer: {
     overflow: 'hidden',
     position: 'relative',
-    height: '4rem', // Adjust based on content height
+    height: '4rem',
     backgroundColor: 'LightCyan',
     borderRadius: '0.5rem',
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
     display: 'flex',
     alignItems: 'center',
-    width: '100%', // Ensure the container is wide enough
+    width: '100%',
+    padding: '0.5rem',
   },
   companyList: {
     display: 'flex',
     flexDirection: 'row',
     whiteSpace: 'nowrap',
-    animation: 'slide-left 60s linear infinite', // Adjust the duration here
-    width: '200%', // Ensure the list is wide enough for seamless scrolling
+    animation: 'slide-left 30s linear infinite',
   },
   companyItem: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '1rem', // Adjust padding for better fit
-    fontSize: '2.2rem', // Adjust font size for better fit
+    flexShrink: 0,
+    padding: '0 1rem',
   },
   logo: {
-    width: '50px', // Adjust logo size as needed
+    width: '40px',
     height: 'auto',
-    marginRight: '1rem',
-  },
-  companyName: {
-    color: 'purple',
-    fontWeight: 'bold',
   },
   '@keyframes slide-left': {
     '100%': {
-      transform: 'translateX(-100%)',
+      transform: 'translateX(-50%)',
     },
   },
 };
