@@ -40,8 +40,9 @@ const SlidingDiv = styled.div`
   left: 0;
   width: 100%;
   overflow: hidden;
-  background-color: red;
-  font-family: 'Verdana';
+  background: linear-gradient(to right, #ff5733, #ffbd00);
+  padding: 10px 0;
+  z-index: 0;
 `;
 
 const SlidingText = styled.span`
@@ -194,48 +195,44 @@ const NavLinks = styled.div`
 `;
 
 const SignInButton = styled.button`
-  position: absolute;
+  position: fixed;
   top: 10px;
   right: 10px;
-  background-color: black;
-  color: white;
+  background-color: #333;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 20px;
-  font-family: 'Verdana';
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-family: 'Verdana', sans-serif;
   display: flex;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 60px;
-  margin-right: 50px;
-  font-weight: bold;
+  transition: background-color 0.3s, transform 0.3s;
+  z-index: 2000;
 
   &:hover {
-    background-color: #357ae8; /* Darker blue on hover */
+    background-color: #357ae8;
+    transform: scale(1.05);
   }
 
   img {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     margin-right: 10px;
   }
 
   @media (max-width: 768px) {
-    font-size: 16px;
-    padding: 8px 16px;
-    margin-top: 40px;
-    margin-right: 30px;
+    font-size: 0.9rem;
+    padding: 10px 20px;
   }
 
   @media (max-width: 480px) {
-    font-size: 14px;
-    padding: 6px 12px;
-    margin-top: 20px;
-    margin-right: 20px;
+    font-size: 0.8rem;
+    padding: 8px 16px;
   }
 `;
+
 
 const Header = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
