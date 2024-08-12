@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const fadeIn = keyframes`
@@ -33,7 +33,6 @@ const slideRightToLeft = keyframes`
     opacity: 1;
   }
 `;
-
 
 const SlidingDiv = styled.div`
   position: absolute;
@@ -167,7 +166,6 @@ const NavLinks = styled.div`
   }
 `;
 
-
 const SignInButton = styled.button`
   position: absolute;
   top: 10px;
@@ -199,27 +197,30 @@ const SignInButton = styled.button`
 `;
 
 const Header = () => {
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth',
-    });
-  };
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const scrollToMiddle = () => {
-    const middlePosition = document.body.scrollHeight / 2;
-    window.scrollTo({
-      top: middlePosition,
-      behavior: 'smooth', 
-    });
+  const handleSignIn = () => {
+    if (!isSignedIn) {
+      // Simulate sign-in action
+      setIsSignedIn(true);
+      // Scroll to the middle of the page
+      const middlePosition = document.body.scrollHeight / 2;
+      window.scrollTo({
+        top: middlePosition,
+        behavior: 'smooth',
+      });
+    } else {
+      // Redirect to home page
+      window.location.href = '/';
+    }
   };
 
   return (
     <>
       <HeaderContainer>
-        <SignInButton onClick={scrollToMiddle}>
+        <SignInButton onClick={handleSignIn}>
           <img src="/google-logo-removebg-preview.png" alt="Google Logo" />
-          Sign In with Google
+          {isSignedIn ? 'Sign Out' : 'Sign In with Google'}
         </SignInButton>
         <SlidingDiv>
           <SlidingText>This portal is now functional for 2024-25. This portal can also be installed as an app through your phone browser(s)</SlidingText>
@@ -236,11 +237,11 @@ const Header = () => {
               <img src="/home-removebg-preview (1).png" alt="Home" />
               Home
             </a>
-            <a href="#bottom" onClick={scrollToMiddle}>
+            <a href="#bottom" onClick={() => window.scrollTo({ top: document.body.scrollHeight / 2, behavior: 'smooth' })}>
               <img src="/faq.png" alt="FAQS" />
               FAQS
             </a>
-            <a href="#bottom" onClick={scrollToBottom}>
+            <a href="#bottom" onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}>
               <img src="/contactus-removebg-preview.png" alt="Contact Us" />
               Contact Us
             </a>
