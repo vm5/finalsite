@@ -268,17 +268,6 @@ const UserSection = styled.div`
   width: 100%;
 `;
 
-const SignInContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  width: 100%;
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
 
 const SignInTitle = styled.h2`
   font-size: 1.8rem;
