@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { auth, GoogleAuthProvider, signInWithPopup, signOut } from './firebase';
-import './google-logo.png';
+
 
 function Verification({ onVerify }) {
   const [user, setUser] = useState(null);
