@@ -191,7 +191,7 @@ const MainTitle = styled.h1`
   font-weight: bold;
   font-size: 2rem;
   font-family: 'Verdana', sans-serif;
-  margin: 0;
+  margin-top: 30px;
   animation: ${slideIn} 1s ease-out;
 
   @media (min-width: 768px) {
