@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const fadeIn = keyframes`
@@ -68,7 +68,7 @@ const HeaderContainer = styled.header`
   position: relative;
   animation: ${fadeIn} 2.5s ease-in-out;
   text-align: center;
-  z-index: 1000; /* Ensure header is above other content */
+  z-index: 1000;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
@@ -88,18 +88,12 @@ const HeaderContent = styled.div`
   align-items: center;
   width: 100%;
   padding-bottom: 20px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  margin-left: 0;
 
   @media (max-width: 768px) {
     margin-bottom: 10px;
@@ -112,7 +106,15 @@ const StyledLogo = styled.img`
   margin: 40px;
 
   @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
     margin: 20px;
+  }
+
+  @media (max-width: 480px) {
+    width: 120px;
+    height: 120px;
+    margin: 10px;
   }
 `;
 
@@ -163,42 +165,42 @@ const NavLinks = styled.div`
       height: auto;
       margin-right: 8px;
     }
+
+    &:hover {
+      color: #3399ff;
+    }
   }
 `;
 
-
-
- 
+const Header = () => {
   return (
-    <>
-      <HeaderContainer>
-        <SlidingDiv>
-          <SlidingText>This portal is now functional for 2024-25. This portal can also be installed as an app through your phone browser(s)</SlidingText>
-        </SlidingDiv>
-        <HeaderContent>
-          <LogoContainer>
-            <StyledLogo src="/nucleus.png" alt="connectCOMPASS Logo" />
-          </LogoContainer>
-          <SlidingHeading>
-            Welcome to nucleus<span>FUSION</span>
-          </SlidingHeading>
-          <NavLinks>
-            <a href="/">
-              <img src="/home-removebg-preview (1).png" alt="Home" />
-              Home
-            </a>
-            <a href="#bottom" onClick={() => window.scrollTo({ top: document.body.scrollHeight / 2, behavior: 'smooth' })}>
-              <img src="/faq.png" alt="FAQS" />
-              FAQS
-            </a>
-            <a href="#bottom" onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}>
-              <img src="/contactus-removebg-preview.png" alt="Contact Us" />
-              Contact Us
-            </a>
-          </NavLinks>
-        </HeaderContent>
-      </HeaderContainer>
-    </>
+    <HeaderContainer>
+      <SlidingDiv>
+        <SlidingText>This portal is now functional for 2024-25. This portal can also be installed as an app through your phone browser(s)</SlidingText>
+      </SlidingDiv>
+      <HeaderContent>
+        <LogoContainer>
+          <StyledLogo src="/nucleus.png" alt="connectCOMPASS Logo" />
+        </LogoContainer>
+        <SlidingHeading>
+          Welcome to nucleus<span>FUSION</span>
+        </SlidingHeading>
+        <NavLinks>
+          <a href="/" aria-label="Home">
+            <img src="/home-removebg-preview (1).png" alt="Home" />
+            Home
+          </a>
+          <a href="#bottom" aria-label="FAQS" onClick={() => window.scrollTo({ top: document.body.scrollHeight / 2, behavior: 'smooth' })}>
+            <img src="/faq.png" alt="FAQS" />
+            FAQS
+          </a>
+          <a href="#bottom" aria-label="Contact Us" onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}>
+            <img src="/contactus-removebg-preview.png" alt="Contact Us" />
+            Contact Us
+          </a>
+        </NavLinks>
+      </HeaderContent>
+    </HeaderContainer>
   );
 };
 
