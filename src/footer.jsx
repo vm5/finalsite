@@ -26,21 +26,13 @@ const slideIn = keyframes`
 const FooterContainer = styled.footer`
   background: #111;
   color: white;
-  padding: 20px;
+  padding: 40px 20px;
   text-align: center;
   border-top: 1px solid #444;
   position: relative;
   width: 100%;
   font-family: 'Verdana', sans-serif;
   animation: ${fadeIn} 1s ease-in-out;
-
-  @media (max-width: 768px) {
-    padding: 15px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 10px;
-  }
 `;
 
 const HighlightedText = styled.span`
@@ -49,34 +41,35 @@ const HighlightedText = styled.span`
 `;
 
 const AdditionalContent = styled.div`
-  margin-top: 20px;
-  font-size: 14px;
+  margin-top: 40px;
+  font-size: 16px;
   animation: ${slideIn} 1s ease-out;
+  text-align: center;
 
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   @media (max-width: 480px) {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   p {
-    margin-top: 10px;
+    margin-top: 20px;
     color: #ccc;
-    line-height: 1.4;
+    line-height: 1.5;
   }
 `;
 
 const LinkContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
   margin-bottom: 20px;
 
   @media (max-width: 768px) {
-    gap: 15px;
+    gap: 20px;
   }
 
   @media (max-width: 480px) {
@@ -88,139 +81,73 @@ const Link = styled.a`
   text-decoration: none;
   color: lightblue;
   transition: color 0.3s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
 
   &:hover {
     color: yellow;
   }
 
   img {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
   }
 `;
 
 const Logo = styled.img`
-  width: 120px;
+  width: 150px;
   height: auto;
-  margin: 20px auto;
+  margin: 30px auto;
   display: block;
-
-  @media (max-width: 768px) {
-    width: 100px;
-  }
-
-  @media (max-width: 480px) {
-    width: 80px;
-  }
 `;
 
 const FAQSection = styled.section`
-  margin-bottom: 30px;
-
-  @media (max-width: 768px) {
-    margin-bottom: 20px;
-  }
-
-  @media (max-width: 480px) {
-    margin-bottom: 15px;
-  }
+  margin-bottom: 60px;
 `;
 
 const FAQTitle = styled.h2`
-  font-size: 2rem;
-  margin-bottom: 10px;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
   color: #fff;
   text-transform: uppercase;
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.2rem;
-  }
 `;
 
 const FAQSubtitle = styled.h5`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #bbb;
-  margin-bottom: 20px;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.9rem;
-  }
+  margin-bottom: 40px;
 `;
 
 const FAQContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content:center;
-  align-items: center;
+  justify-content: center;
   gap: 30px;
-  max-width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-
-  @media (max-width: 768px) {
-    gap: 15px;
-  }
-
-  @media (max-width: 480px) {
-    gap: 10px;
-  }
 `;
 
 const FAQBox = styled.div`
   background: #1c1c1c;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   animation: ${fadeIn} 1.5s ease-out;
-  width: 90%;
+  width: 100%;
   max-width: 300px;
   color: #ddd;
-
-  @media (max-width: 768px) {
-    padding: 10px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 8px;
-  }
 `;
 
 const Question = styled.h3`
-  font-size: 1.1rem;
-  margin-bottom: 8px;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
   color: #6a1b9a;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.9rem;
-  }
 `;
 
 const Answer = styled.p`
-  font-size: 1rem;
-  line-height: 1.4;
-
-  @media (max-width: 768px) {
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.8rem;
-  }
+  font-size: 1.1rem;
+  line-height: 1.6;
 `;
 
 const Footer = () => {
@@ -260,6 +187,7 @@ const Footer = () => {
       <Logo src="/nucleus.png" alt="nucleusFUSION Logo" />
 
       <LinkContainer>
+       
         <Link href="https://nucleusfusioncontact.netlify.app/">
           <img src="/contactus-removebg-preview.png" alt="Contact Us" />
           Contact Us
@@ -269,7 +197,6 @@ const Footer = () => {
       <AdditionalContent>
         <p>nucleus<HighlightedText>FUSION</HighlightedText>: Your go-to platform for establishing professional connections. Get the answers you need and stay informed with the latest insights!</p>
         <p>&copy; {new Date().getFullYear()} nucleus<HighlightedText>FUSION</HighlightedText>. All rights reserved.</p>
-        <p>Version v1.0.0</p>
       </AdditionalContent>
     </FooterContainer>
   );
