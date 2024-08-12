@@ -80,7 +80,7 @@ function Verification({ onVerify }) {
               </ButtonContainer>
             </UserSection>
           ) : (
-            <SignInContainer>
+          
               <SignInTitle>Enter your details to explore nucleus<HighlightedText>FUSION</HighlightedText>!</SignInTitle>
               <Description>
                 To access the full range of offerings provided by the nucleus<HighlightedText>FUSION</HighlightedText> platform, please enter your University SRN and name. This step is essential for unlocking tailored resources and connecting with mentors.
@@ -101,7 +101,7 @@ function Verification({ onVerify }) {
               <Button onClick={handleVerify}>
                 {processing ? 'Processing...' : 'Verify and Proceed'}
               </Button>
-            </SignInContainer>
+            
           )}
         </VerificationWrapper>
       </FormContainer>
