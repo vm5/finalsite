@@ -54,11 +54,11 @@ const DummyAlumni = [
   { designation: 'Software Development Engineer', logo: '/rattle.png' },
 ];
 
-
 const Body = () => {
   const [company, setCompany] = useState('');
   const [searchType, setSearchType] = useState('learn');
 
+  // Create unique list of companies for the dropdown
   const uniqueCompanies = [...new Set(DummyAlumni.map(alumnus => alumnus.company))];
   const isButtonDisabled = !company.trim();
 
@@ -101,19 +101,18 @@ const Body = () => {
               </span>
             </label>
           </div>
-          <input
-            type="text"
-            list="companySuggestions"
-            placeholder="Search by Organization Name..."
-            style={styles.input}
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-          />
-          <datalist id="companySuggestions">
-            {uniqueCompanies.map((company, index) => (
-              <option key={index} value={company} />
-            ))}
-          </datalist>
+          <div style={styles.searchWrapper}>
+            <select
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              style={styles.dropdown}
+            >
+              <option value="">Select a Company</option>
+              {uniqueCompanies.map((company, index) => (
+                <option key={index} value={company}>{company}</option>
+              ))}
+            </select>
+          </div>
           <div style={styles.optionsSection}>
             <button
               style={{
@@ -131,12 +130,11 @@ const Body = () => {
           <h2 style={styles.companyHeading}>
             Organizations our mentors come from:
           </h2>
-          <div style={styles.companyContainer}>
-            <div style={styles.companyList}>
+          <div style={styles.slidingSection}>
+            <div style={styles.slidingContainer}>
               {DummyAlumni.map((alumnus, index) => (
                 <div key={index} style={styles.companyItem}>
                   <img src={alumnus.logo} alt={alumnus.company} style={styles.logo} />
-                  <span style={styles.companyName}>{alumnus.company}</span>
                 </div>
               ))}
             </div>
@@ -147,127 +145,84 @@ const Body = () => {
   );
 };
 
+// Styles object
 const styles = {
   container: {
-    width: '100%',
-    padding: '1rem',
-    boxSizing: 'border-box',
+    padding: '0 20px',
+    maxWidth: '1200px',
+    margin: '0 auto',
   },
   main: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    padding: '1rem',
+    padding: '20px',
   },
   searchSection: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    background: 'LightCyan',
-    padding: '1rem',
-    borderRadius: '0.5rem',
-    boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
-    width: '100%',
-    maxWidth: '600px',
-    boxSizing: 'border-box',
+    marginBottom: '40px',
   },
   heading: {
-    marginBottom: '1rem',
-    textAlign: 'center',
-    color: '#333',
+    fontSize: '24px',
+    marginBottom: '20px',
   },
   radioGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    width: '100%',
-    marginBottom: '1rem',
+    marginBottom: '20px',
   },
   radioLabel: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '0.5rem',
+    display: 'block',
+    marginBottom: '10px',
   },
   radioInput: {
-    marginRight: '0.5rem',
+    marginRight: '10px',
   },
   radioText: {
-    color: 'blue',
-    fontSize: '1rem',
-    fontWeight: 'bold',
+    fontSize: '16px',
   },
-  input: {
+  searchWrapper: {
+    marginBottom: '20px',
+  },
+  dropdown: {
     width: '100%',
-    padding: '0.5rem',
-    marginBottom: '1rem',
-    borderRadius: '0.5rem',
-    border: '1px solid #ccc',
-    boxSizing: 'border-box',
+    padding: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
   },
   optionsSection: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '1rem',
-    width: '100%',
+    textAlign: 'center',
   },
   button: {
-    padding: '0.5rem 1rem',
+    padding: '10px 20px',
     border: 'none',
-    borderRadius: '0.5rem',
-    color: 'white',
+    borderRadius: '4px',
+    color: '#fff',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
   },
   companySection: {
-    width: '100%',
-    padding: '1rem',
-    boxSizing: 'border-box',
+    marginTop: '40px',
   },
   companyHeading: {
-    textAlign: 'center',
-    marginBottom: '1rem',
-    color: '#333',
+    fontSize: '20px',
+    marginBottom: '20px',
   },
-  companyContainer: {
+  slidingSection: {
     overflow: 'hidden',
+    width: '100%',
     position: 'relative',
-    height: '4rem',
-    backgroundColor: 'LightCyan',
-    borderRadius: '0.5rem',
-    boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%', 
   },
-  companyList: {
+  slidingContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    whiteSpace: 'nowrap',
-    animation: 'slide-left 60s linear infinite', 
-    width: '200%',
+    gap: '20px',
+    animation: 'slide-left 60s linear infinite',
   },
   companyItem: {
     display: 'flex',
     alignItems: 'center',
-    padding: '1.2rem', 
-    fontSize: '1.5rem', 
-    fontFamily: 'Brush Script MT ',
+    marginBottom: '20px',
   },
   logo: {
     width: '50px',
     height: 'auto',
-    marginRight: '1rem',
-  },
-  companyName: {
-    color: 'purple',
-    fontWeight: 'bold',
   },
   '@keyframes slide-left': {
-    '100%': {
-      transform: 'translateX(-100%)',
-    },
+    '50%': { transform: 'translateX(-50%)' },
+    '100%': { transform: 'translateX(-100%)' },
   },
 };
 
