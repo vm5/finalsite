@@ -247,7 +247,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     whiteSpace: 'nowrap',
-    animation: 'slide-left 30s linear infinite',
+    animation: 'slide-left 60s linear infinite',
   },
   companyItem: {
     flexShrink: 0,
@@ -258,8 +258,10 @@ const styles = {
     height: 'auto',
   },
   '@keyframes slide-left': {
-    '100%': {
+    '50%': {
       transform: 'translateX(-50%)',
+      '100%': {
+      transform: 'translateX(-100%)',
     },
   },
 };
