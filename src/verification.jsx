@@ -31,10 +31,10 @@ function Verification({ onVerify }) {
           setUser({ name });
         }, 2000);
       } else {
-        alert('Please enter your name');
+        alert('Please enter your name!');
       }
     } else {
-      alert('SRN must be 13 or 14 digits');
+      alert('Please enter a valid SRN!');
     }
   };
 
