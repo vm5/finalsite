@@ -67,7 +67,18 @@ function Verification({ onVerify }) {
             What is nucleus<HighlightedText>FUSION</HighlightedText>?
           </Subtitle>
           <Description>
-            nucleus<HighlightedText>FUSION</HighlightedText> is a platform that provides a seamless way for current job-seeking individuals to connect with former alumni, industry experts, and mentors to gain valuable insights and guidance for their career development. Whether you’re looking for advice on job interviews, career transitions, or industry trends, nucleus<HighlightedText>FUSION</HighlightedText> offers a network of knowledgeable individuals ready to share their experiences and expertise. The platform ensures that users receive personalized support, helping them navigate their professional journey with confidence and clarity. Start your journey with nucleus<HighlightedText>FUSION</HighlightedText> today!
+            nucleus<HighlightedText>FUSION</HighlightedText> is a platform that
+            provides a seamless way for current job-seeking individuals to
+            connect with former alumni, industry experts, and mentors to gain
+            valuable insights and guidance for their career development.
+            Whether you’re looking for advice on job interviews, career
+            transitions, or industry trends, nucleus
+            <HighlightedText>FUSION</HighlightedText> offers a network of
+            knowledgeable individuals ready to share their experiences and
+            expertise. The platform ensures that users receive personalized
+            support, helping them navigate their professional journey with
+            confidence and clarity. Start your journey with nucleus
+            <HighlightedText>FUSION</HighlightedText> today!
           </Description>
         </TextContainer>
         <HeaderImage src="/networking.png" alt="Networking" />
@@ -86,9 +97,15 @@ function Verification({ onVerify }) {
             </UserSection>
           ) : (
             <>
-              <SignInTitle>Enter your details to explore nucleus<HighlightedText>FUSION</HighlightedText>!</SignInTitle>
+              <SignInTitle>
+                Enter your details to explore nucleus
+                <HighlightedText>FUSION</HighlightedText>!
+              </SignInTitle>
               <Description>
-                To access the full range of offerings provided by the nucleus<HighlightedText>FUSION</HighlightedText> platform, please enter your University SRN and name. This step is essential for unlocking tailored resources and connecting with mentors.
+                To access the full range of offerings provided by the nucleus
+                <HighlightedText>FUSION</HighlightedText> platform, please enter
+                your University SRN and name. This step is essential for
+                unlocking tailored resources and connecting with mentors.
               </Description>
               <InputField
                 type="text"
@@ -152,7 +169,6 @@ const shimmer = keyframes`
   0% { background-position: 0 0; }
   100% { background-position: 100% 100%; }
 `;
-
 
 const starAnimation = keyframes`
   from {
@@ -288,88 +304,116 @@ const Subtitle = styled.h2`
 `;
 
 const Span = styled.span`
-  color: #ff6bcb;
+  color: #ffffff;
 `;
 
 const Description = styled.p`
   color: #ccc;
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 1.6;
   margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
 `;
 
 const HeaderImage = styled.img`
-  max-width: 90%;
-  max-height: 400px;
-  animation: ${fadeIn} 1.5s ease-out;
-  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  animation: ${fadeIn} 1s ease-out;
 `;
 
 const FormContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100%;
   max-width: 600px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
   z-index: 1;
+  backdrop-filter: blur(10px);
+  animation: ${fadeIn} 1s ease-out;
 `;
 
 const VerificationWrapper = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  animation: ${fadeIn} 2s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 `;
 
-const SignInTitle = styled.h2`
+const SignInTitle = styled.h3`
   color: #ffffff;
+  font-size: 1.6rem;
   font-weight: bold;
-  text-align: center;
-  font-size: 1.8rem;
   margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const InputField = styled.input`
   width: 100%;
-  padding: 15px;
-  margin-bottom: 15px;
-  border: none;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
   font-size: 1rem;
-  font-family: 'Roboto', sans-serif;
+  color: #333;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 
-  &::placeholder {
-    color: #bbb;
+  &:focus {
+    outline: none;
+    border-color: #ff6bcb;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
   }
 `;
 
 const Button = styled.button`
-  width: 100%;
-  padding: 15px;
-  margin-top: 15px;
-  background: linear-gradient(45deg, #ff6bcb, #ff4e50);
-  border: none;
-  border-radius: 5px;
-  color: #ffffff;
+  padding: 10px 20px;
   font-size: 1rem;
   font-weight: bold;
+  color: #ffffff;
+  background: #ff6bcb;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: background 0.3s ease;
-  font-family: 'Roboto', sans-serif;
 
   &:hover {
-    background: linear-gradient(45deg, #ff4e50, #ff6bcb);
+    background: #ff569b;
   }
 
   &:disabled {
-    background: #999;
+    background: #bbb;
     cursor: not-allowed;
   }
+`;
+
+const UserSection = styled.div`
+  text-align: center;
+`;
+
+const WelcomeMessage = styled.h4`
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
 `;
 
 const LoadingOverlay = styled.div`
@@ -378,55 +422,27 @@ const LoadingOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 9999;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 const LoadingSpinner = styled.div`
-  border: 5px solid rgba(255, 255, 255, 0.2);
-  border-top: 5px solid #ffffff;
-  border-radius: 50%;
   width: 50px;
   height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-top: 5px solid #ffffff;
+  border-radius: 50%;
   animation: ${spin} 1s linear infinite;
 `;
 
 const LoadingMessage = styled.p`
   color: #ffffff;
-  margin-top: 20px;
-  font-family: 'Roboto', sans-serif;
+  margin-top: 10px;
+  font-size: 1.2rem;
 `;
-
-const UserSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const WelcomeMessage = styled.h3`
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 1.6rem;
-  margin-bottom: 20px;
-`;
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-
-  @media (min-width: 768px) {
-    gap: 20px;
-  }
-
-  button {
-    flex: 1;
-  }
-`;
-
 
 export default Verification;
