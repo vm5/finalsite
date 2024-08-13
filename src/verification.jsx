@@ -388,7 +388,7 @@ const Button = styled.button`
   font-size: 1rem;
   font-weight: bold;
   color: #ffffff;
-  background: #ff6bcb;
+  background: linear-gradient(to right, orange, red);
   border: none;
   border-radius: 5px;
   cursor: pointer;
