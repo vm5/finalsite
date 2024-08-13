@@ -414,16 +414,19 @@ const WelcomeMessage = styled.h3`
   font-size: 1.6rem;
   margin-bottom: 20px;
 `;
-
 const ButtonContainer = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 20px;
 
-  @media (max-width: 600px) {
-    flex-direction: column;
-    width: 100%;
+  @media (min-width: 768px) {
+    gap: 20px;
+  }
+
+  button {
+    flex: 1;
   }
 `;
+
 
 export default Verification;
