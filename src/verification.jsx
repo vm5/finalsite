@@ -293,7 +293,7 @@ const Description = styled.p`
   margin-top: 10px;
   font-weight: bold;
   animation: ${fadeIn} 2s ease-out;
-  font-family:'Verdana;
+  font-family:'Verdana';
   @media (min-width: 768px) {
     font-size: 1.1rem;
   }
