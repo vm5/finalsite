@@ -49,8 +49,6 @@ function Verification({ onVerify }) {
     <PageContainer>
       <StarsContainer>
         <StarLayer />
-        <StarLayer />
-        <StarLayer />
       </StarsContainer>
       <HeaderSection>
         <TextContainer>
@@ -170,14 +168,12 @@ const shimmer = keyframes`
   100% { background-position: 100% 100%; }
 `;
 
-const starAnimation = keyframes`
-  from {
-    transform: translateY(-200px);
-    opacity: 1;
+const starMovement = keyframes`
+  0% {
+    background-position: 0 0;
   }
-  to {
-    transform: translateY(100vh);
-    opacity: 0;
+  100% {
+    background-position: 100% 100%;
   }
 `;
 
@@ -190,9 +186,9 @@ const PageContainer = styled.div`
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #1e1e1e, #2e2e2e);
-  padding: 20px;
+  background: linear-gradient(135deg, #0a0a0a, #1b1b1b); /* Dark gradient background */
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 `;
 
@@ -207,32 +203,17 @@ const StarsContainer = styled.div`
 `;
 
 const StarLayer = styled.div`
-  position: absolute;
+  position: absolute; /* Adjusted to cover the entire viewport */
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
-  pointer-events: none;
-  background-image: url('/path-to-your-star-image.png');
-  animation: ${starAnimation} 20s linear infinite;
-
-  &:nth-child(1) {
-    top: -200px;
-    left: -200px;
-    animation-duration: 25s;
-    opacity: 0.8;
-  }
-  &:nth-child(2) {
-    top: -400px;
-    left: -300px;
-    animation-duration: 20s;
-    opacity: 0.6;
-  }
-  &:nth-child(3) {
-    top: -600px;
-    left: -100px;
-    animation-duration: 30s;
-    opacity: 0.9;
-  }
+  background-image: url('/sky-2668711_1280.jpg'); /* Replace with your image path */
+  background-size: cover; /* Ensure the background image covers the entire area */
+  background-repeat: repeat; /* Allow image to repeat */
+  background-position: 0 0; /* Start position */
+  z-index: -1; /* Make sure it stays behind other content */
+  animation: ${starMovement} 20s linear infinite; /* Animation for movement */
 `;
 
 const HeaderSection = styled.div`
@@ -272,12 +253,12 @@ const MainTitle = styled.h1`
   color: #ffffff;
   font-weight: bold;
   font-size: 2.5rem;
-  font-family: 'Roboto', sans-serif;
-  margin-top: 20px;
+  font-family: 'Verdana';
+  margin-top: 40px;
   animation: ${slideIn} 1s ease-out;
   background: linear-gradient(90deg, #ffffff, #ff6bcb, #ffffc7);
   background-size: 200% 200%;
-  animation: ${shimmer} 3s infinite linear;
+  animation: ${shimmer} 20s infinite linear;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
@@ -287,133 +268,120 @@ const MainTitle = styled.h1`
 `;
 
 const HighlightedText = styled.span`
-  color: #ff6bcb;
+  color: purple;
   font-weight: bold;
 `;
 
 const Subtitle = styled.h2`
-  color: #ddd;
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin: 10px 0;
-  font-family: 'Roboto', sans-serif;
-
+  color: #ffffff;
+  font-size: 1.5rem;
+  margin-top: 10px;
+  animation: ${slideIn} 1s ease-out;
   @media (min-width: 768px) {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 `;
 
 const Span = styled.span`
-  color: #ffffff;
+  color: #ff6bcb;
+  font-weight: bold;
 `;
 
 const Description = styled.p`
-  color: #ccc;
-  font-size: 1.2rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  font-family: 'Roboto', sans-serif;
+  color: silver;
+  font-size: 1rem;
+  margin-top: 10px;
+  font-weight: bold;
+  animation: ${fadeIn} 2s ease-out;
+  font-family:'Verdana;
+  @media (min-width: 768px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const HeaderImage = styled.img`
-  width: 100%;
-  max-width: 400px;
-  margin-top: 20px;
-  animation: ${fadeIn} 1s ease-out;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
 `;
 
 const FormContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
   z-index: 1;
-  backdrop-filter: blur(10px);
-  animation: ${fadeIn} 1s ease-out;
 `;
 
 const VerificationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 500px;
   width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: ${fadeIn} 1s ease-out;
+
+  @media (min-width: 768px) {
+    max-width: 600px;
+  }
 `;
 
 const SignInTitle = styled.h3`
-  color: #ffffff;
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-
-  @media (min-width: 768px) {
-    font-size: 2rem;
-  }
+  color: #333333;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 `;
 
 const InputField = styled.input`
-  width: 100%;
-  padding: 10px;
+  width: 75%;
+  padding: 12px;
   margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
   font-size: 1rem;
-  color: #333;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-
-  &:focus {
-    outline: none;
-    border-color: #ff6bcb;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    width: 75%;
-  }
+  box-sizing: border-box;
 `;
 
 const Button = styled.button`
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #ffffff;
   background: linear-gradient(to right, orange, red);
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  padding: 12px 20px;
+  width: 75%;
+  margin: 10px 5px;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: background 0.3s ease;
 
   &:hover {
-    background: #ff569b;
+    background: #ff4a9a;
   }
 
   &:disabled {
-    background: #bbb;
+    background: #bdbdbd;
     cursor: not-allowed;
   }
 `;
 
 const UserSection = styled.div`
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-const WelcomeMessage = styled.h4`
-  color: #ffffff;
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 20px;
+const WelcomeMessage = styled.p`
+  color: #333333;
+  font-size: 1.2rem;
+`;
+
+const ButtonContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 `;
 
 const LoadingOverlay = styled.div`
@@ -422,27 +390,26 @@ const LoadingOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 `;
 
 const LoadingSpinner = styled.div`
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #ff6bcb;
+  border-radius: 50%;
   width: 50px;
   height: 50px;
-  border: 5px solid rgba(255, 255, 255, 0.3);
-  border-top: 5px solid #ffffff;
-  border-radius: 50%;
   animation: ${spin} 1s linear infinite;
 `;
 
 const LoadingMessage = styled.p`
   color: #ffffff;
-  margin-top: 10px;
   font-size: 1.2rem;
+  margin-left: 20px;
 `;
 
 export default Verification;
