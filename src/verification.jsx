@@ -379,7 +379,7 @@ const ButtonContainer = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    width: 100%;
+    width: 75%;
   }
 `;
 
