@@ -47,6 +47,11 @@ function Verification({ onVerify }) {
 
   return (
     <PageContainer>
+      <StarsContainer>
+        <StarLayer />
+        <StarLayer />
+        <StarLayer />
+      </StarsContainer>
       <HeaderSection>
         <TextContainer>
           <TitleContainer>
@@ -73,7 +78,7 @@ function Verification({ onVerify }) {
             <UserSection>
               <WelcomeMessage>Welcome, {user.name}</WelcomeMessage>
               <ButtonContainer>
-                <Button onClick={handleSignOut}>Exit</Button>
+                <Button onClick={handleSignOut}></Button>
                 <Button onClick={onVerify} aria-label="Verify" disabled={processing}>
                   {processing ? 'Processing...' : 'Proceed'}
                 </Button>
@@ -99,7 +104,7 @@ function Verification({ onVerify }) {
                 onChange={(e) => setName(e.target.value)}
               />
               <Button onClick={handleVerify} disabled={processing}>
-                {processing ? 'Processing...' : 'Get started >'}
+                {processing ? 'Processing...' : 'Verify and Proceed'}
               </Button>
             </>
           )}
@@ -143,6 +148,23 @@ const spin = keyframes`
   100% { transform: rotate(360deg); }
 `;
 
+const shimmer = keyframes`
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 100%; }
+`;
+
+
+const starAnimation = keyframes`
+  from {
+    transform: translateY(-200px);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+`;
+
 // Styled Components
 const PageContainer = styled.div`
   display: flex;
@@ -150,10 +172,51 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e1e1e, #2e2e2e);
   padding: 20px;
   margin: 0;
   box-sizing: border-box;
+`;
+
+const StarsContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 0;
+`;
+
+const StarLayer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+  background-image: url('/path-to-your-star-image.png');
+  animation: ${starAnimation} 20s linear infinite;
+
+  &:nth-child(1) {
+    top: -200px;
+    left: -200px;
+    animation-duration: 25s;
+    opacity: 0.8;
+  }
+  &:nth-child(2) {
+    top: -400px;
+    left: -300px;
+    animation-duration: 20s;
+    opacity: 0.6;
+  }
+  &:nth-child(3) {
+    top: -600px;
+    left: -100px;
+    animation-duration: 30s;
+    opacity: 0.9;
+  }
 `;
 
 const HeaderSection = styled.div`
@@ -165,6 +228,7 @@ const HeaderSection = styled.div`
   max-width: 1200px;
   margin-bottom: 40px;
   gap: 20px;
+  z-index: 1;
   animation: ${fadeIn} 1s ease-out;
 
   @media (min-width: 768px) {
@@ -189,12 +253,17 @@ const TitleContainer = styled.div`
 `;
 
 const MainTitle = styled.h1`
-  color: #222;
+  color: #ffffff;
   font-weight: bold;
   font-size: 2.5rem;
   font-family: 'Roboto', sans-serif;
   margin-top: 20px;
   animation: ${slideIn} 1s ease-out;
+  background: linear-gradient(90deg, #ffffff, #ff6bcb, #ffffc7);
+  background-size: 200% 200%;
+  animation: ${shimmer} 3s infinite linear;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
   @media (min-width: 768px) {
     font-size: 3rem;
@@ -202,12 +271,12 @@ const MainTitle = styled.h1`
 `;
 
 const HighlightedText = styled.span`
-  color: purple;
+  color: #ff6bcb;
   font-weight: bold;
 `;
 
 const Subtitle = styled.h2`
-  color: #555;
+  color: #ddd;
   font-size: 1.4rem;
   font-weight: bold;
   margin: 10px 0;
@@ -218,98 +287,87 @@ const Subtitle = styled.h2`
   }
 `;
 
-const Description = styled.p`
-  font-size: 1.1rem;
-  color: #666;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  font-weight: normal;
+const Span = styled.span`
+  color: #ff6bcb;
+`;
 
-  @media (min-width: 768px) {
-    font-size: 1.2rem;
-  }
+const Description = styled.p`
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
 `;
 
 const HeaderImage = styled.img`
-  width: 100%;
-  max-width: 380px;
-  height: auto;
-
-  @media (min-width: 768px) {
-    width: 50%;
-  }
+  max-width: 90%;
+  max-height: 400px;
+  animation: ${fadeIn} 1.5s ease-out;
+  z-index: 1;
 `;
 
 const FormContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  background-color: #ffffff;
-  padding: 20px 0;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  z-index: 1;
 `;
 
 const VerificationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 500px;
-  width: 100%;
-  padding: 20px;
-`;
-
-const UserSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  animation: ${fadeIn} 2s ease-out;
 `;
 
 const SignInTitle = styled.h2`
-  font-size: 1.8rem;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
+  color: #ffffff;
   font-weight: bold;
-  color: #333;
-  animation: ${slideIn} 1s ease-out;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
 `;
 
 const InputField = styled.input`
   width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
   font-size: 1rem;
   font-family: 'Roboto', sans-serif;
 
-  &:focus {
-    border-color: #007bff;
-    outline: none;
+  &::placeholder {
+    color: #bbb;
   }
 `;
 
 const Button = styled.button`
-  padding: 10px 20px;
+  width: 100%;
+  padding: 15px;
+  margin-top: 15px;
+  background: linear-gradient(45deg, #ff6bcb, #ff4e50);
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
+  border-radius: 5px;
+  color: #ffffff;
   font-size: 1rem;
-  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease;
+  font-family: 'Roboto', sans-serif;
 
   &:hover {
-    background-color: #0056b3;
+    background: linear-gradient(45deg, #ff4e50, #ff6bcb);
   }
 
   &:disabled {
-    background-color: #aaa;
+    background: #999;
     cursor: not-allowed;
   }
 `;
@@ -320,18 +378,17 @@ const LoadingOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 1000;
-  animation: ${fadeIn} 1s ease-out;
+  align-items: center;
+  z-index: 9999;
 `;
 
 const LoadingSpinner = styled.div`
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #007bff;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top: 5px solid #ffffff;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -339,28 +396,34 @@ const LoadingSpinner = styled.div`
 `;
 
 const LoadingMessage = styled.p`
-  font-size: 1.2rem;
-  color: #333;
-  margin-top: 10px;
+  color: #ffffff;
+  margin-top: 20px;
   font-family: 'Roboto', sans-serif;
 `;
 
-const WelcomeMessage = styled.h2`
-  font-size: 1.5rem;
-  color: #333;
-  text-align: center;
+const UserSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const WelcomeMessage = styled.h3`
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 10px;
-  width: 100%;
-`;
-const Span = styled.span`
-  font-weight: bold;
-  color: #007bff;
-`;
+  margin-top: 20px;
 
+  @media (max-width: 600px) {
+    flex-direction: column;
+    width: 100%;
+  }
+`;
 
 export default Verification;
