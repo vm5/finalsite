@@ -1,48 +1,87 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from './firebase'; 
 
 function Verification({ onVerify }) {
-  const [srn, setSrn] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [isNewUser, setIsNewUser] = useState(false); 
   const [processing, setProcessing] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [user, setUser] = useState(null);
+  const [srn, setSrn] = useState('');
 
-  useEffect(() => {
-    const storedSrn = localStorage.getItem('srn');
-    const storedName = localStorage.getItem('name');
-    if (storedSrn) setSrn(storedSrn);
-    if (storedName) setName(storedName);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('srn', srn);
-    localStorage.setItem('name', name);
-  }, [srn, name]);
-
-  const handleVerify = () => {
-    if (srn.length === 13 || srn.length === 14) {
-      if (name) {
-        setProcessing(true);
-        setLoadingMessage('Processing...');
-        setTimeout(() => {
-          setProcessing(false);
-          setLoadingMessage('');
-          setUser({ name });
-        }, 2000);
+  const handleAuth = async () => {
+    setProcessing(true);
+    setLoadingMessage(isNewUser ? 'Signing up...' : 'Logging in...');
+  
+    try {
+      let userCredential;
+  
+      if (isNewUser) {
+        userCredential = await createUserWithEmailAndPassword(auth, email, password);
       } else {
-        alert('Please enter your name!');
+        userCredential = await signInWithEmailAndPassword(auth, email, password);
       }
-    } else {
-      alert('Please enter a valid SRN!');
+  
+      const user = userCredential.user;
+      setUser(user);
+      setLoadingMessage('');
+  
+      // Ensure user is set before attempting to send a confirmation email
+      if (user) {
+        await sendConfirmationEmail(user.email);
+      }
+  
+      onVerify(); // Callback to parent on successful verification
+  
+    } catch (error) {
+      alert(error.message);
+      setLoadingMessage('');
+    } finally {
+      setProcessing(false);
     }
   };
 
-  const handleSignOut = () => {
-    window.location.href = "https://nucleusfusion.netlify.app";
-    setUser(null);
-    localStorage.removeItem('srn');
-    localStorage.removeItem('name');
+    
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      setEmail('');
+      setPassword('');
+      setName('');
+    } catch (error) {
+      alert('Error signing out: ' + error.message);
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    if (!email) {
+      alert('Please enter your email to reset your password.');
+      return;
+    }
+
+    setProcessing(true);
+    setLoadingMessage('Sending reset link...');
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert('Password reset link sent to your email.');
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setProcessing(false);
+      setLoadingMessage('');
+    }
+  };
+
+  const sendConfirmationEmail = async (email) => {
+    // Integrate with your email service to send a confirmation email
+    console.log(`Sending confirmation email to ${email}`);
   };
 
   return (
@@ -85,9 +124,9 @@ function Verification({ onVerify }) {
         <VerificationWrapper>
           {user ? (
             <UserSection>
-              <WelcomeMessage>Welcome, {user.name}</WelcomeMessage>
+              <WelcomeMessage>Welcome, {user.email}</WelcomeMessage>
               <ButtonContainer>
-                <Button onClick={handleSignOut}>Exit</Button>
+                <Button onClick={handleSignOut}>Sign Out</Button>
                 <Button onClick={onVerify} aria-label="Verify" disabled={processing}>
                   {processing ? 'Processing...' : 'Proceed'}
                 </Button>
@@ -96,31 +135,50 @@ function Verification({ onVerify }) {
           ) : (
             <>
               <SignInTitle>
-                Enter your details to explore nucleus
+                {isNewUser ? 'Sign Up' : 'Login'} to nucleus
                 <HighlightedText>FUSION</HighlightedText>!
               </SignInTitle>
-              <Description>
-                To access the full range of offerings provided by the nucleus
-                <HighlightedText>FUSION</HighlightedText> platform, please enter
-                your University SRN and name. This step is essential for
-                unlocking tailored resources and connecting with mentors.
-              </Description>
               <InputField
-                type="text"
-                placeholder="Enter your SRN"
-                value={srn}
-                onChange={(e) => setSrn(e.target.value)}
-                maxLength="14"
+                type="email"
+                placeholder="Enter your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <InputField
-                type="text"
-                placeholder="Enter your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                type="password"
+                placeholder="Set a Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
-              <Button onClick={handleVerify} disabled={processing}>
-                {processing ? 'Processing...' : 'Verify and Proceed'}
+              {isNewUser && (
+                <InputField
+                  type="text"
+                  placeholder="Enter your Full Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                
+              )}
+               {isNewUser && (
+                <InputField
+                  type="srn"
+                  placeholder="Enter your University SRN"
+                  value={srn}
+                  onChange={(e) => setSrn(e.target.value)}
+                />
+                
+              )}
+              <Button onClick={handleAuth} disabled={processing}>
+                {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
               </Button>
+              <SwitchAuthMode onClick={() => setIsNewUser(!isNewUser)}>
+                {isNewUser ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
+              </SwitchAuthMode>
+              {!isNewUser && (
+                <ForgotPasswordLink onClick={handlePasswordReset}>
+                  Forgot Password?
+                </ForgotPasswordLink>
+              )}
             </>
           )}
         </VerificationWrapper>
@@ -135,6 +193,16 @@ function Verification({ onVerify }) {
   );
 }
 
+const ForgotPasswordLink = styled.p`
+  color: #ffffff;
+  margin-top: 10px;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 // Animations
 const fadeIn = keyframes`
   from {
@@ -213,7 +281,7 @@ const StarLayer = styled.div`
   background-repeat: repeat; /* Allow image to repeat */
   background-position: 0 0; /* Start position */
   z-index: -1; /* Make sure it stays behind other content */
-  animation: ${starMovement} 20s linear infinite; /* Animation for movement */
+  animation: ${starMovement} 10s linear infinite; /* Animation for movement */
 `;
 
 const HeaderSection = styled.div`
@@ -234,136 +302,147 @@ const HeaderSection = styled.div`
 `;
 
 const TextContainer = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
-  text-align: center;
-
-  @media (min-width: 768px) {
-    text-align: left;
-  }
+  max-width: 500px;
+  padding: 20px;
+  text-align: left;
 `;
 
 const TitleContainer = styled.div`
-  margin-bottom: 30px;
+  text-align: left;
 `;
 
 const MainTitle = styled.h1`
-  color: #ffffff;
+  font-size: 50px;
+  color: silver;
   font-weight: bold;
-  font-size: 2.5rem;
+  text-align: left;
+  line-height: 1.2;
   font-family: 'Verdana';
-  margin-top: 40px;
-  animation: ${slideIn} 1s ease-out;
-  background: linear-gradient(90deg, #ffffff, #ff6bcb, #ffffc7);
-  background-size: 200% 200%;
-  animation: ${shimmer} 20s infinite linear;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  @media (min-width: 768px) {
-    font-size: 3rem;
-  }
 `;
 
 const HighlightedText = styled.span`
   color: purple;
+  animation: ${shimmer} 2s infinite alternate; /* Optional shimmer animation */
+  font-family: 'Verdana';
   font-weight: bold;
 `;
 
 const Subtitle = styled.h2`
-  color: #ffffff;
-  font-size: 1.5rem;
-  margin-top: 10px;
-  animation: ${slideIn} 1s ease-out;
-  @media (min-width: 768px) {
-    font-size: 2rem;
-  }
+  font-size: 25px;
+  color: silver;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-left: 0;
+  font-family:'Verdana';
 `;
 
 const Span = styled.span`
-  color: #ff6bcb;
-  font-weight: bold;
+  color: #ff8c00;
+  font-weight: 600;
 `;
 
 const Description = styled.p`
+  font-size: 20px;
   color: silver;
-  font-size: 1rem;
-  margin-top: 10px;
+  margin-top: 0;
+  text-align: left;
+  line-height: 1.6;
+  font-family: 'Verdana';
   font-weight: bold;
-  animation: ${fadeIn} 2s ease-out;
-  font-family:'Verdana';
-  @media (min-width: 768px) {
-    font-size: 1.1rem;
-  }
 `;
 
 const HeaderImage = styled.img`
-  max-width: 100%;
+  width: 300px;
   height: auto;
-  border-radius: 10px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  animation: ${slideIn} 2s ease-out;
+
+  @media (min-width: 768px) {
+    width: 400px;
+  }
 `;
 
 const FormContainer = styled.div`
-  display: flex;
-  justify-content: center;
   width: 100%;
+  max-width: 600px;
+  margin-bottom: 10px;
+  margin: 0 auto;
   padding: 20px;
   z-index: 1;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
+  margin-bottom: 30px;
 `;
 
 const VerificationWrapper = styled.div`
-  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
   width: 100%;
-  padding: 20px;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  animation: ${fadeIn} 1s ease-out;
-
-  @media (min-width: 768px) {
-    max-width: 600px;
-  }
+  margin-bottom: 40px;
 `;
 
-const SignInTitle = styled.h3`
-  color: #333333;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+const SignInTitle = styled.h2`
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Verdana';
+  font-weight: bold;
 `;
 
 const InputField = styled.input`
-  width: 75%;
-  padding: 12px;
+  width: 60%;
+  padding: 15px;
   margin: 10px 0;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  font-size: 16px;
   box-sizing: border-box;
+  background-color: #f5f5f5;
+  color: #333333;
 `;
 
 const Button = styled.button`
-  background: linear-gradient(to right, orange, red);
-  color: #ffffff;
+  background-color: #ff8c00;
+  color: white;
+  padding: 12px 24px;
+  margin-top: 20px;
   border: none;
-  border-radius: 4px;
-  padding: 12px 20px;
-  width: 75%;
-  margin: 10px 5px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  width: 75%
+  transition: background-color 0.3s ease;
 
   &:hover {
-    background: #ff4a9a;
+    background-color: #ff6c00;
   }
 
   &:disabled {
-    background: #bdbdbd;
+    background-color: #cccccc;
     cursor: not-allowed;
+  }
+`;
+
+const SwitchAuthMode = styled.p`
+  color: #ffffff;
+  margin-top: 20px;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
@@ -371,17 +450,20 @@ const UserSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 const WelcomeMessage = styled.p`
-  color: #333333;
-  font-size: 1.2rem;
+  color: #ffffff;
+  font-size: 20px;
+  margin-bottom: 20px;
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 20px;
   display: flex;
-  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 75%;
 `;
 
 const LoadingOverlay = styled.div`
@@ -390,26 +472,28 @@ const LoadingOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Black overlay */
+  z-index: 999;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
 `;
 
 const LoadingSpinner = styled.div`
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #ff6bcb;
+  border: 8px solid rgba(255, 255, 255, 0.2);
+  border-top: 8px solid #ffffff;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: ${spin} 1s linear infinite;
+  width: 60px;
+  height: 60px;
+  animation: ${spin} 1.5s linear infinite;
 `;
 
 const LoadingMessage = styled.p`
   color: #ffffff;
-  font-size: 1.2rem;
-  margin-left: 20px;
+  font-size: 18px;
+  margin-top: 20px;
+  text-align: center;
 `;
 
 export default Verification;
