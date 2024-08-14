@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import './App.css';
 
 const DummyAlumni = [
   { company: 'Walmart', designation: 'Software Development Engineer', logo: '/walmart.png' },
   { company: 'Morgan Stanley', designation: 'Tech Analyst', logo: '/morgan-stanley.png' },
-   { company: 'Apple', designation: 'Software Development Engineer', logo: '/apple-removebg-preview.png' },
+  { company: 'Apple', designation: 'Software Development Engineer', logo: '/apple-removebg-preview.png' },
   { company: 'CRED', designation: 'Software Development Engineer', logo: '/cred.png' },
   { company: 'Deloitte', designation: 'Solution Delivery Analyst', logo: '/deloitte.png' },
   { company: 'HCL', designation: 'Product Manager', logo: '/hcl.png' },
@@ -12,7 +13,7 @@ const DummyAlumni = [
   { company: 'PwC', designation: 'Tech Consultant', logo: '/pwc.png' },
   { company: 'Cisco', designation: 'Big Data Analytics Engineer', logo: '/cisco.png' },
   { company: 'IBM', designation: 'Software Development Engineer', logo: '/ibm.png' },
-  { company: 'SAP Labs', designation: 'Software Development Engineer', logo: '/sap.png' },
+  { company: 'SAP Labs', designation: 'Software Development Engineer', logo: '/SAP labs.png' },
   { company: 'Epsilon', designation: 'Software Development Engineer', logo: '/epsilon.png' },
   { company: 'Schneider Electric', designation: 'Full Stack Developer', logo: '/schneider-electric.png' },
   { company: 'Cloudera', designation: 'Software Development Engineer', logo: '/cloudera.png' },
@@ -51,7 +52,7 @@ const DummyAlumni = [
   { company: 'RtBrick', designation: 'Software Development Engineer', logo: '/rtbrick.png' },
   { company: 'Adobe', designation: 'Software Development Engineer', logo: '/adobe.png' },
   { company: 'Itron', designation: 'Software Development Engineer', logo: '/itron.png' },
-  { company: 'Rattle', designation: 'Software Development Engineer', logo: '/rattle.png' }
+  { company: 'Rattle', designation: 'Software Development Engineer', logo: '/rattle.png' },
 ];
 
 const Body = () => {
@@ -71,207 +72,274 @@ const Body = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <main style={styles.main}>
-        <section style={styles.searchSection}>
-          <h1 style={styles.heading}>Student Search</h1>
-          <div style={styles.radioGroup}>
-            <label style={styles.radioLabel}>
-              <input
+    <PageContainer>
+      <StarsContainer>
+        <StarLayer />
+      </StarsContainer>
+      <Main>
+        <SearchSection>
+          <Heading>Student Search</Heading>
+          <RadioGroup>
+            <RadioLabel>
+              <RadioInput
                 type="radio"
                 value="prepare"
                 checked={searchType === 'prepare'}
                 onChange={(e) => setSearchType(e.target.value)}
-                style={styles.radioInput}
               />
-              <span style={styles.radioText}>
+              <RadioText>
                 Connect to a mentor of your preferred organization if you have received an interview call and require tips on cracking it.
-              </span>
-            </label>
-            <label style={styles.radioLabel}>
-              <input
+              </RadioText>
+            </RadioLabel>
+            <RadioLabel>
+              <RadioInput
                 type="radio"
                 value="learn"
                 checked={searchType === 'learn'}
                 onChange={(e) => setSearchType(e.target.value)}
-                style={styles.radioInput}
               />
-              <span style={styles.radioText}>
+              <RadioText>
                 Connect to a mentor of your preferred organization if you require generic information about the organization (e.g. its work culture).
-              </span>
-            </label>
-          </div>
-          <div style={styles.searchWrapper}>
-            <select
+              </RadioText>
+            </RadioLabel>
+          </RadioGroup>
+          <SearchWrapper>
+            <Dropdown
               value={company}
               onChange={(e) => setCompany(e.target.value)}
-              style={styles.dropdown}
             >
               <option value="">Select a Company</option>
               {uniqueCompanies.map((company, index) => (
                 <option key={index} value={company}>{company}</option>
               ))}
-            </select>
-          </div>
-          <div style={styles.optionsSection}>
-            <button
+            </Dropdown>
+          </SearchWrapper>
+          <OptionsSection>
+            <Button
               style={{
-                ...styles.button,
                 backgroundColor: isButtonDisabled ? '#ccc' : '#007BFF',
               }}
               onClick={handleFormOption}
               disabled={isButtonDisabled}
             >
               Send Details via Form
-            </button>
-          </div>
-        </section>
-        <section style={styles.companySection}>
-          <h2 style={styles.companyHeading}>
+            </Button>
+          </OptionsSection>
+        </SearchSection>
+        <CompanySection>
+          <CompanyHeading>
             Organizations our mentors come from:
-          </h2>
-          <div style={styles.slidingSection}>
-            <div style={styles.slidingContainer}>
+          </CompanyHeading>
+          <SlidingSection>
+            <SlidingContainer>
               {DummyAlumni.map((alumnus, index) => (
-                <div key={index} style={styles.companyItem}>
-                  <img src={alumnus.logo} alt={alumnus.company} style={styles.logo} />
-                </div>
+                <CompanyItem key={index}>
+                  <CompanyLogo src={alumnus.logo} alt={alumnus.company} />
+                </CompanyItem>
               ))}
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+            </SlidingContainer>
+          </SlidingSection>
+        </CompanySection>
+      </Main>
+    </PageContainer>
   );
 };
 
-// Styles object with media queries
-const styles = {
-  container: {
-    padding: '0 20px',
-    maxWidth: '1200px',
-    margin: '0 auto',
-  },
-  main: {
-    padding: '20px',
-  },
-  searchSection: {
-    marginBottom: '40px',
-  },
-  heading: {
-    fontSize: '24px',
-    marginBottom: '20px',
-  },
-  radioGroup: {
-    marginBottom: '20px',
-  },
-  radioLabel: {
-    display: 'block',
-    marginBottom: '10px',
-  },
-  radioInput: {
-    marginRight: '10px',
-  },
-  radioText: {
-    fontSize: '16px',
-  },
-  searchWrapper: {
-    marginBottom: '20px',
-  },
-  dropdown: {
-    width: '100%',
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-  },
-  optionsSection: {
-    textAlign: 'center',
-  },
-  button: {
-    padding: '10px 20px',
-    border: 'none',
-    borderRadius: '4px',
-    color: '#fff',
-    cursor: 'pointer',
-  },
-  companySection: {
-    marginTop: '40px',
-  },
-  companyHeading: {
-    fontSize: '20px',
-    marginBottom: '20px',
-  },
-  slidingSection: {
-    overflow: 'hidden',
-    width: '100%',
-    position: 'relative',
-  },
-  slidingContainer: {
-    display: 'flex',
-    gap: '20px',
-    animation: 'slide-left 60s linear infinite',
-  },
-  companyItem: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '20px',
-  },
-  logo: {
-    width: '50px',
-    height: 'auto',
-  },
-  '@keyframes slide-left': {
-    '50%': { transform: 'translateX(-50%)' },
-    '100%': { transform: 'translateX(-100%)' },
-  },
-  '@media (max-width: 768px)': {
-    heading: {
-      fontSize: '20px',
-    },
-    radioText: {
-      fontSize: '14px',
-    },
-    dropdown: {
-      padding: '8px',
-    },
-    button: {
-      padding: '8px 16px',
-      fontSize: '14px',
-    },
-    companyHeading: {
-      fontSize: '18px',
-    },
-    slidingContainer: {
-      gap: '10px',
-    },
-    logo: {
-      width: '40px',
-    },
-  },
-  '@media (max-width: 480px)': {
-    heading: {
-      fontSize: '18px',
-    },
-    radioText: {
-      fontSize: '12px',
-    },
-    dropdown: {
-      padding: '6px',
-    },
-    button: {
-      padding: '6px 12px',
-      fontSize: '12px',
-    },
-    companyHeading: {
-      fontSize: '16px',
-    },
-    slidingContainer: {
-      gap: '5px',
-    },
-    logo: {
-      width: '30px',
-    },
-  },
-};
+// Animation for background movement
+const starMovement = keyframes`
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+`;
+
+// Styled Components
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0a0a0a, #1b1b1b); /* Dark gradient background */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+`;
+
+const StarsContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 1;
+`;
+
+const StarLayer = styled.div`
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: url('/sky-2668711_1280.jpg') repeat;
+  animation: ${starMovement} 50s linear infinite;
+`;
+
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1200px;
+`;
+
+const SearchSection = styled.section`
+  width: 100%;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  border-radius: 10px;
+  backdrop-filter: blur(10px); /* Background blur effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  text-align: center;
+`;
+
+const Heading = styled.h2`
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #ffffff; /* White text color */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+`;
+
+const RadioGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  text-align: left;
+`;
+
+const RadioLabel = styled.label`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #ffffff; /* White text color */
+`;
+
+const RadioInput = styled.input`
+  margin-right: 1rem;
+`;
+
+const RadioText = styled.span`
+  font-size: 1rem;
+  line-height: 1.5;
+`;
+
+const SearchWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+`;
+
+const Dropdown = styled.select`
+  padding: 1rem;
+  width: 100%;
+  max-width: 400px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+`;
+
+const OptionsSection = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const Button = styled.button`
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: none;
+  background-color: #007BFF;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const CompanySection = styled.section`
+  margin-top: 3rem;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  border-radius: 10px;
+  backdrop-filter: blur(10px); /* Background blur effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  padding: 2rem;
+`;
+
+const CompanyHeading = styled.h3`
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #ffffff; /* White text color */
+`;
+
+const SlidingSection = styled.div`
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+`;
+
+const SlidingContainer = styled.div`
+  display: flex;
+  animation: slide 60s linear infinite;
+
+  @keyframes slide {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+`;
+
+const CompanyItem = styled.div`
+  flex-shrink: 0;
+  width: 150px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
+
+const CompanyLogo = styled.img`
+  max-width: 80%;
+  max-height: 80%;
+`;
 
 export default Body;
