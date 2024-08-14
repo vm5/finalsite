@@ -312,7 +312,7 @@ const SlidingSection = styled.div`
 
 const SlidingContainer = styled.div`
   display: flex;
-  animation: slide 60s linear infinite;
+  animation: slide 30s linear infinite;
 
   @keyframes slide {
     0% {
