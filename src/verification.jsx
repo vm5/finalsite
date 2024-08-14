@@ -146,7 +146,7 @@ function Verification({ onVerify }) {
               />
               <InputField
                 type="password"
-                placeholder="Set a Password"
+                placeholder="Enter your Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
