@@ -208,7 +208,7 @@ const SignInButton = styled.button`
   border-radius: 5px;
   padding: 12px 24px;
   font-size: 1rem;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Verdana', 
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -243,7 +243,7 @@ const Header = () => {
   const handleSignIn = () => {
     if (!isSignedIn) {
       setIsSignedIn(true);
-      const middlePosition = document.body.scrollHeight / 4;
+      const middlePosition = document.body.scrollHeight / 3;
       window.scrollTo({
         top: middlePosition,
         behavior: 'smooth',
