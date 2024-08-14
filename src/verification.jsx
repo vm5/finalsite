@@ -413,7 +413,7 @@ const InputField = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #ff8c00;
+  background-color: linear-gradient(to right, orange, blue);
   color: white;
   padding: 12px 24px;
   margin-top: 20px;
