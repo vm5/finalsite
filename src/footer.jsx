@@ -159,7 +159,7 @@ const Footer = () => {
         <FAQContainer>
           <FAQBox>
             <Question>How do I get started?</Question>
-            <Answer>Enter your University SRN in the verification box and click 'Get Started' to proceed with verification.</Answer>
+            <Answer>Enter the mentioned details in the Sign Up container and get started!</Answer>
           </FAQBox>
           <FAQBox>
             <Question>Who can use nucleus<HighlightedText>FUSION</HighlightedText>?</Question>
@@ -171,7 +171,7 @@ const Footer = () => {
           </FAQBox>
           <FAQBox>
             <Question>How do I find a mentor?</Question>
-            <Answer>After verifying your SRN, you can search for mentors based on your preferred organization with specific designations or specific career needs.</Answer>
+            <Answer>After signing up, you can search for mentors based on your preferred organization with specific designations or specific career needs.</Answer>
           </FAQBox>
           <FAQBox>
             <Question>What kind of guidance can I get?</Question>
