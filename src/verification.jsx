@@ -1,48 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from './firebase'; 
 
 function Verification({ onVerify }) {
-  const [email, setEmail] = useState(() => localStorage.getItem('email') || '');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState(() => localStorage.getItem('name') || '');
-  const [srn, setSrn] = useState(() => localStorage.getItem('srn') || '');
-  const [isNewUser, setIsNewUser] = useState(false);
+  const [name, setName] = useState('');
+  const [isNewUser, setIsNewUser] = useState(false); 
   const [processing, setProcessing] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Save form data to localStorage whenever it changes
-    localStorage.setItem('email', email);
-    localStorage.setItem('name', name);
-    localStorage.setItem('srn', srn);
-  }, [email, name, srn]);
+  const [srn, setSrn] = useState('');
 
   const handleAuth = async () => {
     setProcessing(true);
     setLoadingMessage(isNewUser ? 'Signing up...' : 'Logging in...');
-
+  
     try {
       let userCredential;
-
+  
       if (isNewUser) {
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
       } else {
         userCredential = await signInWithEmailAndPassword(auth, email, password);
       }
-
+  
       const user = userCredential.user;
       setUser(user);
       setLoadingMessage('');
-
+  
+      // Ensure user is set before attempting to send a confirmation email
       if (user) {
         await sendConfirmationEmail(user.email);
       }
-
+  
       onVerify(); // Callback to parent on successful verification
-
+  
     } catch (error) {
       alert(error.message);
       setLoadingMessage('');
@@ -51,6 +45,8 @@ function Verification({ onVerify }) {
     }
   };
 
+    
+
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -58,10 +54,6 @@ function Verification({ onVerify }) {
       setEmail('');
       setPassword('');
       setName('');
-      setSrn('');
-      localStorage.removeItem('email');
-      localStorage.removeItem('name');
-      localStorage.removeItem('srn');
     } catch (error) {
       alert('Error signing out: ' + error.message);
     }
@@ -165,14 +157,16 @@ function Verification({ onVerify }) {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
+                
               )}
-              {isNewUser && (
+               {isNewUser && (
                 <InputField
-                  type="text"
+                  type="srn"
                   placeholder="Enter your University SRN"
                   value={srn}
                   onChange={(e) => setSrn(e.target.value)}
                 />
+                
               )}
               <Button onClick={handleAuth} disabled={processing}>
                 {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
@@ -199,7 +193,6 @@ function Verification({ onVerify }) {
   );
 }
 
-// Styled Components (unchanged)
 const ForgotPasswordLink = styled.p`
   color: #ffffff;
   margin-top: 10px;
@@ -210,8 +203,7 @@ const ForgotPasswordLink = styled.p`
     text-decoration: underline;
   }
 `;
-
-// Animations (unchanged)
+// Animations
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -253,7 +245,7 @@ const starMovement = keyframes`
   }
 `;
 
-// Styled Components (unchanged)
+// Styled Components
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -274,117 +266,180 @@ const StarsContainer = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  pointer-events: none;
   overflow: hidden;
+  z-index: 0;
 `;
 
 const StarLayer = styled.div`
-  position: absolute;
+  position: absolute; /* Adjusted to cover the entire viewport */
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 20%, rgba(0, 0, 0, 0) 60%);
-  animation: ${starMovement} 100s linear infinite;
+  background-image: url('/sky-2668711_1280.jpg'); /* Replace with your image path */
+  background-size: cover; /* Ensure the background image covers the entire area */
+  background-repeat: repeat; /* Allow image to repeat */
+  background-position: 0 0; /* Start position */
+  z-index: -1; /* Make sure it stays behind other content */
+  animation: ${starMovement} 10s linear infinite; /* Animation for movement */
 `;
 
-const HeaderSection = styled.section`
-  text-align: center;
-  margin-top: 20px;
+const HeaderSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 40px;
+  gap: 20px;
+  z-index: 1;
+  animation: ${fadeIn} 1s ease-out;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 500px;
+  padding: 20px;
+  text-align: left;
 `;
 
 const TitleContainer = styled.div`
-  animation: ${fadeIn} 1s ease-in-out;
+  text-align: left;
 `;
 
 const MainTitle = styled.h1`
-  font-size: 3rem;
-  color: #ffffff;
-  margin: 0;
+  font-size: 50px;
+  color: silver;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1.2;
+  font-family: 'Verdana';
 `;
 
 const HighlightedText = styled.span`
-  color: #00bcd4;
+  color: purple;
+  animation: ${shimmer} 2s infinite alternate; /* Optional shimmer animation */
+  font-family: 'Verdana';
   font-weight: bold;
 `;
 
 const Subtitle = styled.h2`
-  font-size: 1.5rem;
-  color: #ffffff;
-  margin: 10px 0;
+  font-size: 25px;
+  color: silver;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-left: 0;
+  font-family:'Verdana';
 `;
 
 const Span = styled.span`
-  color: #00bcd4;
+  color: #ff8c00;
+  font-weight: 600;
 `;
 
 const Description = styled.p`
-  font-size: 1rem;
-  color: #ffffff;
-  margin: 20px auto;
-  max-width: 800px;
+  font-size: 20px;
+  color: silver;
+  margin-top: 0;
+  text-align: left;
+  line-height: 1.6;
+  font-family: 'Verdana';
+  font-weight: bold;
 `;
 
 const HeaderImage = styled.img`
-  max-width: 100%;
+  width: 300px;
   height: auto;
-  margin-top: 20px;
+  z-index: 1;
+  animation: ${slideIn} 2s ease-out;
+
+  @media (min-width: 768px) {
+    width: 400px;
+  }
 `;
 
 const FormContainer = styled.div`
   width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
+  max-width: 600px;
+  margin-bottom: 10px;
+  margin: 0 auto;
   padding: 20px;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
+  margin-bottom: 30px;
 `;
 
 const VerificationWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  z-index: 1;
+  width: 100%;
+  margin-bottom: 40px;
 `;
 
 const SignInTitle = styled.h2`
-  font-size: 2rem;
-  color: #000000;
+  font-size: 24px;
+  color: #ffffff;
   margin-bottom: 20px;
-  animation: ${slideIn} 1s ease-in-out;
+  text-align: center;
+  font-family: 'Verdana';
+  font-weight: bold;
 `;
 
 const InputField = styled.input`
-  width: 100%;
-  padding: 10px;
+  width: 60%;
+  padding: 15px;
   margin: 10px 0;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  font-size: 1rem;
-`;
-
-const ButtonContainer = styled.div`
-  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+  color: #333333;
 `;
 
 const Button = styled.button`
-  background-color: #00bcd4;
-  color: #ffffff;
+  background-color: #ff8c00;
+  color: white;
+  padding: 12px 24px;
+  margin-top: 20px;
   border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
-  margin: 5px;
+  width: 75%
+  transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #0097a7;
+    background-color: #ff6c00;
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
   }
 `;
 
 const SwitchAuthMode = styled.p`
-  color: #000000;
+  color: #ffffff;
+  margin-top: 20px;
   cursor: pointer;
   text-align: center;
-  margin-top: 10px;
 
   &:hover {
     text-decoration: underline;
@@ -395,11 +450,20 @@ const UserSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
-const WelcomeMessage = styled.h3`
-  color: #000000;
+const WelcomeMessage = styled.p`
+  color: #ffffff;
+  font-size: 20px;
   margin-bottom: 20px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  width: 75%;
 `;
 
 const LoadingOverlay = styled.div`
@@ -408,26 +472,28 @@ const LoadingOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8); /* Black overlay */
+  z-index: 999;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 `;
 
 const LoadingSpinner = styled.div`
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #00bcd4;
+  border: 8px solid rgba(255, 255, 255, 0.2);
+  border-top: 8px solid #ffffff;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: ${spin} 1s linear infinite;
+  width: 60px;
+  height: 60px;
+  animation: ${spin} 1.5s linear infinite;
 `;
 
 const LoadingMessage = styled.p`
   color: #ffffff;
-  margin-top: 10px;
-  font-size: 1rem;
+  font-size: 18px;
+  margin-top: 20px;
+  text-align: center;
 `;
 
 export default Verification;
