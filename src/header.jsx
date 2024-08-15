@@ -261,7 +261,7 @@ const Header = () => {
           {isSignedIn ? 'Exit' : 'Get Started'}
         </SignInButton>
         <SlidingDiv>
-          <SlidingText>This portal is now functional for 2024-25. This portal can also be installed as an app through your phone browser(s)</SlidingText>
+          <SlidingText>This portal is now functional for 2024-25. This portal can also be installed as an app through your web browser(s)</SlidingText>
         </SlidingDiv>
         <HeaderContent>
           <LogoContainer>
