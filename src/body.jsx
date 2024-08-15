@@ -108,7 +108,7 @@ const Body = () => {
               value={company}
               onChange={(e) => setCompany(e.target.value)}
             >
-              <option value="">Select a Company</option>
+              <option value="">Select an Organization</option>
               {uniqueCompanies.map((company, index) => (
                 <option key={index} value={company}>{company}</option>
               ))}
