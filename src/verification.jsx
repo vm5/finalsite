@@ -1,19 +1,42 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from './firebase'; 
 
 function Verification({ onVerify }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // New state for confirming password
   const [name, setName] = useState('');
   const [isNewUser, setIsNewUser] = useState(false); 
   const [processing, setProcessing] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [user, setUser] = useState(null);
-  const [srn, setSrn] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isNotARobot, setIsNotARobot] = useState(false); // New state for "I'm not a robot" checkbox
 
+  const handleCheckboxChange = () => {
+    if (isProcessing) return; // Prevent multiple toggles while processing
+
+    setIsProcessing(true);
+
+    // Delay before updating state
+    setTimeout(() => {
+      setIsNotARobot(prevState => !prevState);
+      setIsProcessing(false); // Allow further toggles after delay
+    }, 2000); 
+  };
   const handleAuth = async () => {
+    if (isNewUser && password !== confirmPassword) {
+      alert('Passwords do not match. Please try again.');
+      return;
+    }
+
+    if (!isNotARobot) {
+      alert('Please confirm that you are not a robot.');
+      return;
+    }
+
     setProcessing(true);
     setLoadingMessage(isNewUser ? 'Signing up...' : 'Logging in...');
   
@@ -44,8 +67,6 @@ function Verification({ onVerify }) {
       setProcessing(false);
     }
   };
-
-    
 
   const handleSignOut = async () => {
     try {
@@ -138,6 +159,7 @@ function Verification({ onVerify }) {
                 {isNewUser ? 'Sign Up' : 'Login'} to nucleus
                 <HighlightedText>FUSION</HighlightedText>!
               </SignInTitle>
+              <Description>Whether you're a mentor or a job-seeking student, log in to nucleusFUSION to connect and collaborate!</Description>
               <InputField
                 type="email"
                 placeholder="Enter your Email"
@@ -150,24 +172,33 @@ function Verification({ onVerify }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+
               {isNewUser && (
-                <InputField
-                  type="text"
-                  placeholder="Enter your Full Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                
+                <>
+                  <InputField
+                    type="text"
+                    placeholder="Enter your Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <InputField
+                    type="password"
+                    placeholder="Confirm your password"
+                    value={confirmPassword} // Bind the confirmPassword state
+                    onChange={(e) => setConfirmPassword(e.target.value)} // Update the confirmPassword state
+                  />
+                </>
               )}
-               {isNewUser && (
-                <InputField
-                  type="srn"
-                  placeholder="Enter your University SRN"
-                  value={srn}
-                  onChange={(e) => setSrn(e.target.value)}
+
+              <CheckboxContainer>
+                <Checkbox
+                  type="checkbox"
+                  checked={isNotARobot} 
+                  onChange={handleCheckboxChange}
                 />
-                
-              )}
+                <CheckboxLabel>I’m not a robot</CheckboxLabel>
+              </CheckboxContainer>
+
               <Button onClick={handleAuth} disabled={processing}>
                 {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
               </Button>
@@ -192,7 +223,22 @@ function Verification({ onVerify }) {
     </PageContainer>
   );
 }
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+`;
 
+const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+`;
+
+const CheckboxLabel = styled.div`
+  font-size: 18x;
+  color: grey;
+`;
 const ForgotPasswordLink = styled.p`
   color: #ffffff;
   margin-top: 10px;
