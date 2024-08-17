@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import './App.css';
+import {QueryData} from './data';
+import emailjs from "emailjs-com";
 
 const DummyAlumni = [
   { company: 'Walmart', designation: 'Software Development Engineer', logo: '/walmart.png' },
@@ -54,20 +56,67 @@ const DummyAlumni = [
   { company: 'Itron', designation: 'Software Development Engineer', logo: '/itron.png' },
   { company: 'Rattle', designation: 'Software Development Engineer', logo: '/rattle.png' },
 ];
-
 const Body = () => {
   const [company, setCompany] = useState('');
   const [searchType, setSearchType] = useState('learn');
+  const [mentorCode, setMentorCode] = useState('');
+  const [isMentorAccessGranted, setMentorAccessGranted] = useState(false);
+  const [selectedCompanyForMentor, setSelectedCompanyForMentor] = useState('');
+  const [queries, setQueries] = useState([]);
+  const [persons, setPersons] = useState([]);
+  const [responseText, setSelectedSlot] = useState(''); 
+  const [selectedSlot, setResponseText] = useState(''); 
+  const [isMeetingScheduled, setIsMeetingScheduled] = useState(false);
+  const [scheduleVideoCall, setScheduleVideoCall] = useState(false); // New state for scheduling video call
 
-  // Create unique list of companies for the dropdown
   const uniqueCompanies = [...new Set(DummyAlumni.map(alumnus => alumnus.company))];
   const isButtonDisabled = !company.trim();
+
+  useEffect(() => {
+    if (mentorCode && selectedCompanyForMentor) {
+      const companyQueries = QueryData[selectedCompanyForMentor];
+      if (companyQueries && companyQueries.codes.includes(mentorCode)) {
+        setMentorAccessGranted(true);
+        setQueries(companyQueries.queries);
+        setPersons(companyQueries.persons || []);
+      } else {
+        setMentorAccessGranted(false);
+        setQueries([]);
+        setPersons([]);
+      }
+    }
+  }, [mentorCode, selectedCompanyForMentor]);
 
   const handleFormOption = () => {
     if (searchType === 'prepare') {
       window.location.href = 'https://nucleusfusioninterviewform.netlify.app/';
     } else if (searchType === 'learn') {
       window.location.href = 'https://nucleusfusioninfo.netlify.app/';
+    }
+  };
+
+  const handleSubmitSlots = () => {
+    if (responseText.trim()) {
+      const templateParams = {
+        company: selectedCompanyForMentor,
+        slot: scheduleVideoCall ? selectedSlot : 'No video call requested', // Only include slot if video call is scheduled
+        mentorcode: mentorCode,
+        response: responseText, 
+        queries: queries.join(', '),
+        persons: persons.map(person => `${person.name} (${person.icon})`).join(', '),
+      };
+
+      emailjs.send('service_skcxg47', 'template_9pyhzgb', templateParams, 'bZNzwiq7H32zsXN_e')
+        .then((response) => {
+          alert('Response submitted successfully.');
+          setIsMeetingScheduled(true);
+        })
+        .catch((err) => {
+          alert('Failed to send response. Please try again.');
+          console.error('Error sending email:', err);
+        });
+    } else {
+      alert('Please provide a response.');
     }
   };
 
@@ -140,12 +189,190 @@ const Body = () => {
             </SlidingContainer>
           </SlidingSection>
         </CompanySection>
+        {/* Mentor Section */}
+        <MentorSection>
+          <MentorHeading>Mentor Access</MentorHeading>
+          <Mentorsub>We want to extend our heartfelt thanks to all the mentors on this platform. Your willingness to share your expertise and guide us is truly appreciated. Your support and advice make a significant difference. Thank you for being such an integral part of our community!</Mentorsub>
+          <Dropdown
+            value={selectedCompanyForMentor}
+            onChange={(e) => setSelectedCompanyForMentor(e.target.value)}
+          >
+            <option value="">Select an Organization</option>
+            {uniqueCompanies.map((company, index) => (
+              <option key={index} value={company}>{company}</option>
+            ))}
+          </Dropdown>
+          <Input
+            type="text"
+            placeholder="Enter Mentor Code"
+            value={mentorCode}
+            onChange={(e) => setMentorCode(e.target.value)}
+          />
+
+          {isMentorAccessGranted && (
+            <>
+              <QueriesSection>
+                <QueriesHeading>Queries for {selectedCompanyForMentor}:</QueriesHeading>
+                <ul>
+                  {queries.map((query, index) => (
+                    <li key={index} style = {{color:'silver'}}>{query}</li>
+                  ))}
+                </ul>
+              </QueriesSection>
+
+              <QueriesSection>
+                <QueriesHeading>Person(s) requesting a response for {selectedCompanyForMentor}:</QueriesHeading>
+                <ul>
+                  {persons.map((person, index) => (
+                    <li key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px',color:'silver' }}>
+                      <img
+                        src={person.icon}
+                        alt={person.name}
+                        style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
+                      />
+                      <span>{person.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </QueriesSection>
+
+              {/* Mentor's Response Section */}
+              <ResponseSection>
+                <ResponseHeading>Provide your response:</ResponseHeading>
+                <TextArea
+                  placeholder="Type your response here..."
+                  value={responseText}
+                  onChange={(e) => setResponseText(e.target.value)}
+                />
+              </ResponseSection>
+
+              {/* Toggle for Scheduling Video Call */}
+              <div style={{ marginTop: '20px',color:'silver',fontSize: '20px' }}>
+                <input
+                  type="checkbox"
+                  checked={scheduleVideoCall}
+                  onChange={(e) => setScheduleVideoCall(e.target.checked)}
+                />
+                <label style={{ marginLeft: '10px' ,color: 'silver, fontSize:30px'}}>I want to schedule a video call</label>
+              </div>
+
+              {/* Conditional Time Slot Selection */}
+              {scheduleVideoCall && (
+                <FreeSlotsSection>
+                  <select value={selectedSlot} onChange={(e) => setSelectedSlot(e.target.value)}>
+                    <option value="">Select a time slot for the video call</option>
+                    <option value="9:00 AM - 10:00 AM">9:00 AM - 10:00 AM</option>
+                    <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
+                    <option value="4:00 PM - 5:00 PM">4:00 PM - 5:00 PM</option>
+                  </select>
+                </FreeSlotsSection>
+              )}
+
+              <Button onClick={handleSubmitSlots}>Submit Response</Button>
+
+              {isMeetingScheduled && scheduleVideoCall && (
+                <MeetingSection>
+                  <MeetingHeading>Schedule a Google Meet</MeetingHeading>
+                  <p>Schedule a Google Meet to connect with the student, click the button below and select a time slot that you preferred earlier</p>
+                  <Button
+                    style={{ backgroundColor: '#007BFF' }}
+                    onClick={() => window.location.href = 'https://calendar.google.com/calendar/u/0/r?hl=en&pli=1'}
+                  >
+                    Schedule a Google Meet
+                  </Button>
+                </MeetingSection>
+              )}
+            </>
+          )}
+        </MentorSection>
       </Main>
     </PageContainer>
   );
 };
+const ResponseSection = styled.div`
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+`;
 
-// Animation for background movement
+const ResponseHeading = styled.h3`
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: silver;
+`;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical; /* Allows vertical resizing of the text area */
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.1);
+  outline: none;
+  &:focus {
+   background-color: rgba(255, 255, 255, 0.1);
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+`;
+const FreeSlotsSection = styled.div`
+  margin-top: 20px;
+  padding: 40px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: Cyan;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+
+  select {
+    width: 75%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    background-color: silver;
+    color: purple;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    font-weight: bold;
+    font-family:'Verdana';
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+`;
+
+const MeetingSection = styled.div`
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+`;
+
+const MeetingHeading = styled.h3`
+  font-size: 18px;
+  color: silver;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-family: 'Verdana';
+`;
+
+
 const starMovement = keyframes`
   0% {
     background-position: 0 0;
@@ -154,6 +381,59 @@ const starMovement = keyframes`
     background-position: 100% 100%;
   }
 `;
+// MentorSection
+const MentorSection = styled.section`
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin: 20px 0;
+`;
+
+// MentorHeading
+const MentorHeading = styled.h2`
+  font-size: 240x;
+  color: silver;
+  margin-bottom: 10px;
+  font-famiy:'Verdana';
+  font-weight: bold;
+`;
+const Mentorsub = styled.h4`
+  font-size: 15px;
+  color: white;
+  margin-bottom: 10px;
+  font-famiy:'Verdana';
+  font-weight: bold;
+`;
+
+
+// Input
+const Input = styled.input`
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 75%;
+  box-sizing: border-box;
+`;
+
+// QueriesSection
+const QueriesSection = styled.section`
+  padding: 20px;
+ background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin: 20px 0;
+`;
+
+// QueriesHeading
+const QueriesHeading = styled.h3`
+  font-size: 20px;
+  color: silver;
+  font-weight: bold;
+  font-family: 'Verdana';
+  margin-bottom: 10px;
+`;
+
 
 // Styled Components
 const PageContainer = styled.div`
@@ -164,7 +444,7 @@ const PageContainer = styled.div`
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #0a0a0a, #1b1b1b); /* Dark gradient background */
+ background-color: rgba(255, 255, 255, 0.1); /* Dark gradient background */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -184,10 +464,10 @@ const StarLayer = styled.div`
   position: absolute;
   width: 200%;
   height: 200%;
-  background: url('/sky-2668711_1280.jpg') repeat;
-  animation: ${starMovement} 50s linear infinite;
+  background: url('/sky-2668711_1280.jpg') no-repeat center center;
+  background-size: cover; /* Ensures the image covers the entire element */
+  animation: ${starMovement} 20s linear infinite;
 `;
-
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -211,7 +491,7 @@ const SearchSection = styled.section`
 const Heading = styled.h2`
   margin-bottom: 2rem;
   font-size: 2rem;
-  color: #ffffff; /* White text color */
+  color: silver;
   text-transform: uppercase;
   letter-spacing: 2px;
 `;
@@ -228,7 +508,7 @@ const RadioLabel = styled.label`
   align-items: center;
   margin-bottom: 1rem;
   font-size: 1rem;
-  color: #ffffff; /* White text color */
+  color: silver;
 `;
 
 const RadioInput = styled.input`
@@ -254,8 +534,8 @@ const Dropdown = styled.select`
   font-size: 1rem;
   border-radius: 5px;
   border: none;
-  background-color: #333;
-  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: silver;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
@@ -312,7 +592,7 @@ const SlidingSection = styled.div`
 
 const SlidingContainer = styled.div`
   display: flex;
-  animation: slide 30s linear infinite;
+  animation: slide 20s linear infinite;
 
   @keyframes slide {
     0% {
