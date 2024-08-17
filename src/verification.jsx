@@ -2,30 +2,74 @@ import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from './firebase'; 
+const spinAnimation = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+// Spinner styling
+const LoadingSpinner = styled.div`
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #ff6f61;
+  width: 40px;
+  height: 40px;
+  animation: ${spinAnimation} 1s linear infinite;
+`;
+
+// Overlay styling
+const LoadingOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+// Loading message styling
+const LoadingMessage = styled.div`
+  color: white;
+  font-size: 16px;
+  margin-top: 10px;
+`;
+
+// Your other styled components
+// ...
 
 function Verification({ onVerify }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // New state for confirming password
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
-  const [isNewUser, setIsNewUser] = useState(false); 
+  const [isNewUser, setIsNewUser] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [user, setUser] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isNotARobot, setIsNotARobot] = useState(false); // New state for "I'm not a robot" checkbox
+  const [isNotARobot, setIsNotARobot] = useState(false);
 
   const handleCheckboxChange = () => {
-    if (isProcessing) return; // Prevent multiple toggles while processing
+    if (isProcessing) return;
 
     setIsProcessing(true);
+    setLoadingMessage(isNotARobot ? 'Verified...' : 'Verifying...');
 
-    // Delay before updating state
     setTimeout(() => {
       setIsNotARobot(prevState => !prevState);
-      setIsProcessing(false); // Allow further toggles after delay
-    }, 2000); 
+      setIsProcessing(false);
+      setLoadingMessage('');
+    }, 1000);
   };
+
   const handleAuth = async () => {
     if (isNewUser && password !== confirmPassword) {
       alert('Passwords do not match. Please try again.');
@@ -39,27 +83,26 @@ function Verification({ onVerify }) {
 
     setProcessing(true);
     setLoadingMessage(isNewUser ? 'Signing up...' : 'Logging in...');
-  
+
     try {
       let userCredential;
-  
+
       if (isNewUser) {
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
       } else {
         userCredential = await signInWithEmailAndPassword(auth, email, password);
       }
-  
+
       const user = userCredential.user;
       setUser(user);
       setLoadingMessage('');
-  
-      // Ensure user is set before attempting to send a confirmation email
+
       if (user) {
         await sendConfirmationEmail(user.email);
       }
-  
-      onVerify(); // Callback to parent on successful verification
-  
+
+      onVerify();
+
     } catch (error) {
       alert(error.message);
       setLoadingMessage('');
@@ -69,6 +112,9 @@ function Verification({ onVerify }) {
   };
 
   const handleSignOut = async () => {
+    setProcessing(true);
+    setLoadingMessage('Signing out...');
+
     try {
       await signOut(auth);
       setUser(null);
@@ -77,6 +123,9 @@ function Verification({ onVerify }) {
       setName('');
     } catch (error) {
       alert('Error signing out: ' + error.message);
+    } finally {
+      setProcessing(false);
+      setLoadingMessage('');
     }
   };
 
@@ -101,7 +150,6 @@ function Verification({ onVerify }) {
   };
 
   const sendConfirmationEmail = async (email) => {
-    // Integrate with your email service to send a confirmation email
     console.log(`Sending confirmation email to ${email}`);
   };
 
@@ -184,8 +232,8 @@ function Verification({ onVerify }) {
                   <InputField
                     type="password"
                     placeholder="Confirm your password"
-                    value={confirmPassword} // Bind the confirmPassword state
-                    onChange={(e) => setConfirmPassword(e.target.value)} // Update the confirmPassword state
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </>
               )}
@@ -193,7 +241,7 @@ function Verification({ onVerify }) {
               <CheckboxContainer>
                 <Checkbox
                   type="checkbox"
-                  checked={isNotARobot} 
+                  checked={isNotARobot}
                   onChange={handleCheckboxChange}
                 />
                 <CheckboxLabel>I’m not a robot</CheckboxLabel>
@@ -511,35 +559,4 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
   width: 75%;
 `;
-
-const LoadingOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8); /* Black overlay */
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LoadingSpinner = styled.div`
-  border: 8px solid rgba(255, 255, 255, 0.2);
-  border-top: 8px solid #ffffff;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: ${spin} 1.5s linear infinite;
-`;
-
-const LoadingMessage = styled.p`
-  color: #ffffff;
-  font-size: 18px;
-  margin-top: 20px;
-  text-align: center;
-`;
-
 export default Verification;
