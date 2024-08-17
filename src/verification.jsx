@@ -320,10 +320,6 @@ const slideIn = keyframes`
   }
 `;
 
-const spin = keyframes`
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-`;
 
 const shimmer = keyframes`
   0% { background-position: 0 0; }
