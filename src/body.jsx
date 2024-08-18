@@ -198,7 +198,7 @@ const Body = () => {
         {/* Mentor Section */}
         <MentorSection>
           <MentorHeading>Mentor Access</MentorHeading>
-          <Mentorsub>We want to extend our heartfelt thanks to all the mentors on this platform. Your willingness to share your expertise and guide us is truly appreciated. Your support and advice make a significant difference. Thank you for being such an integral part of our community!</Mentorsub>
+          <Mentorsub>This section is solely for mentors. To begin with, we want to extend our heartfelt thanks to all the mentors on this platform. Your willingness to share your expertise and guide us is truly appreciated. Your support and advice make a significant difference. Thank you for being such an integral part of our community! Please note, you can answer queries of the organization(s) you belong to by selecting them from the dropdown below and then entering the code for the respective organization(s). If nothing pops up, it'd mean that there is no query for the respective organization(s)</Mentorsub>
           <Dropdown
             value={selectedCompanyForMentor}
             onChange={(e) => setSelectedCompanyForMentor(e.target.value)}
@@ -210,7 +210,7 @@ const Body = () => {
           </Dropdown>
           <Input
             type="text"
-            placeholder="Enter Mentor Code"
+            placeholder="Enter your mentor code.."
             value={mentorCode}
             onChange={(e) => setMentorCode(e.target.value)}
           />
@@ -265,10 +265,11 @@ const Body = () => {
               {scheduleVideoCall && (
                 <FreeSlotsSection>
                   <select value={selectedSlot} onChange={(e) => setSelectedSlot(e.target.value)}>
-                    <option value="">Select a time slot for the video call</option>
-                    <option value="9:00 AM - 10:00 AM">9:00 AM - 10:00 AM</option>
-                    <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
+                    <option value="">Select a time slot for a video call</option>
                     <option value="4:00 PM - 5:00 PM">4:00 PM - 5:00 PM</option>
+                    <option value="6:00 PM - 7:00 PM">6:00 PM - 7:00 PM</option>
+                    <option value="9:00 PM - 10:00 PM">9:00 PM - 10:00 PM</option>
+                    <option value="10:00 PM - 11:00 PM">10:00 PM - 11:00 PM</option>
                   </select>
                 </FreeSlotsSection>
               )}
