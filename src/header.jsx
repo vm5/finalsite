@@ -197,32 +197,67 @@ const NavLinks = styled.div`
     gap: 5px;
   }
 `;
+
 const UpdatesContainer = styled.div`
-  background:  rgba(255, 255, 255, 0.1);
-  color: white;
-  padding: 10px 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+  color: #f8f8f8;
+  padding: 20px 30px;
   margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   width: 80%;
-  text-align: center;
-  font-size: 1rem;
-  font-family: 'Verdana';
+  text-align: left;
+  font-size: 1.1rem;
+  font-family: 'Verdana', sans-serif;
   font-weight: bold;
   animation: ${fadeIn} 1.5s ease-in-out;
 
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #e0e0e0;
+  }
+
+  ol {
+    list-style-position: inside;
+    margin-left: 0;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #dcdcdc;
+    }
+  }
+
   @media (max-width: 768px) {
     width: 90%;
-    font-size: 0.9rem;
-    padding: 8px 16px;
+    font-size: 1rem;
+    padding: 15px 25px;
+
+    p {
+      font-size: 1.1rem;
+    }
+
+    li {
+      font-size: 0.95rem;
+    }
   }
 
   @media (max-width: 480px) {
     width: 95%;
-    font-size: 0.8rem;
-    padding: 6px 12px;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+
+    p {
+      font-size: 1rem;
+    }
+
+    li {
+      font-size: 0.85rem;
+    }
   }
-`;
+`
 
 const SignInButton = styled.button`
   position: fixed;
@@ -311,15 +346,14 @@ const Header = () => {
             </a>
           </NavLinks>
           <UpdatesContainer>
-            <p>New Update(s):Things have changed. What's new?</p>
-            <ol>
-              <li>A designated section for signing up and logging in to users' respective accounts ensuring uniformity and ease of accessing the portal</li>
-              <li>Addition of a mentor section ensuring easy access to queries thereby ensuring that no query goes unanswered</li>
-              <li>An improved user interface for better user experience</li>
-              <li>Fixing of minor bugs</li>
-            </ol>
-            
-          </UpdatesContainer>
+  <p>New Update(s): What's New?</p>
+  <ol>
+    <li>A designated section for signing up and logging in to users' respective accounts ensuring uniformity and ease of accessing the portal.</li>
+    <li>Addition of a mentor section ensuring easy access to queries, ensuring that no query goes unanswered.</li>
+    <li>An improved user interface for a better user experience.</li>
+    <li>Fixing of minor bugs.</li>
+  </ol>
+</UpdatesContainer>
         </HeaderContent>
       </HeaderContainer>
     </>
