@@ -367,6 +367,7 @@ const Header = () => {
     <li>A designated section for signing up and logging in to users' respective accounts ensuring uniformity and ease of accessing the portal.</li>
     <li>Addition of a mentor section ensuring easy access to queries, ensuring that no query goes unanswered.</li>
     <li>An improved user interface for a better user experience.</li>
+    <li>Addition of a feeback section in the footer</li>
     <li>Fixing of minor bugs.</li>
   </ol>
 </UpdatesContainer>
