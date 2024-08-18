@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail,
+} from 'firebase/auth';
 import { auth } from './firebase'; 
+
 const spinAnimation = keyframes`
   0% {
     transform: rotate(0deg);
@@ -42,11 +48,9 @@ const LoadingMessage = styled.div`
   margin-top: 10px;
 `;
 
-// Your other styled components
-// ...
-
 function Verification({ onVerify }) {
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(''); // New state for phone number
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
@@ -56,6 +60,7 @@ function Verification({ onVerify }) {
   const [user, setUser] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isNotARobot, setIsNotARobot] = useState(false);
+  const [role, setRole] = useState('student');
 
   const handleCheckboxChange = () => {
     if (isProcessing) return;
@@ -89,6 +94,8 @@ function Verification({ onVerify }) {
 
       if (isNewUser) {
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // Additional logic to handle phone number can be added here
+        console.log(`Phone number entered: ${phoneNumber}`);
       } else {
         userCredential = await signInWithEmailAndPassword(auth, email, password);
       }
@@ -152,7 +159,9 @@ function Verification({ onVerify }) {
   const sendConfirmationEmail = async (email) => {
     console.log(`Sending confirmation email to ${email}`);
   };
-
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
   return (
     <PageContainer>
       <StarsContainer>
@@ -196,7 +205,7 @@ function Verification({ onVerify }) {
               <WelcomeMessage>Welcome, {user.email}</WelcomeMessage>
               <ButtonContainer>
                 <Button onClick={handleSignOut}>Sign Out</Button>
-                <Button onClick={onVerify} aria-label="Verify" disabled={processing}>
+                <Button onClick={() => {}} aria-label="Verify" disabled={processing}>
                   {processing ? 'Processing...' : 'Proceed'}
                 </Button>
               </ButtonContainer>
@@ -208,12 +217,46 @@ function Verification({ onVerify }) {
                 <HighlightedText>FUSION</HighlightedText>!
               </SignInTitle>
               <Description>Whether you're a mentor or a job-seeking student, log in to nucleusFUSION to connect and collaborate!</Description>
-              <InputField
-                type="email"
-                placeholder="Enter your Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+
+              {/* Role Selection */}
+              <div style={{ display: 'flex', gap: '20px' }}>
+  <label style={{ color: 'white', marginLeft: '0' }}>
+    <input
+      type="radio"
+      value="student"
+      checked={role === 'student'}
+      onChange={handleRoleChange}
+    />
+    Continue as a student
+  </label>
+  <label style={{ color: 'white', marginRight: '0' }}>
+    <input
+      type="radio"
+      value="mentor"
+      checked={role === 'mentor'}
+      onChange={handleRoleChange}
+    />
+    Continue as a mentor
+  </label>
+</div>
+
+              {/* Conditionally Render Email or Phone Number Field */}
+              {role === 'student' ? (
+                <InputField
+                  type="email"
+                  placeholder="Enter your Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              ) : (
+                <InputField
+                  type="text"
+                  placeholder="Enter your Phone Number"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+              )}
+
               <InputField
                 type="password"
                 placeholder="Enter your Password"
@@ -271,6 +314,7 @@ function Verification({ onVerify }) {
     </PageContainer>
   );
 }
+
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
@@ -284,8 +328,8 @@ const Checkbox = styled.input.attrs({ type: 'checkbox' })`
 `;
 
 const CheckboxLabel = styled.div`
-  font-size: 18x;
-  color: grey;
+  font-size: 18px;
+  color: white;
 `;
 const ForgotPasswordLink = styled.p`
   color: #ffffff;
