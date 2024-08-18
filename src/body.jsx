@@ -561,35 +561,30 @@ const Button = styled.button`
 const CompanySection = styled.section`
   margin-top: 3rem;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.9); /* Dark background similar to the image */
   border-radius: 10px;
-  backdrop-filter: blur(10px); /* Background blur effect */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
   padding: 2rem;
-`;
-
-const CompanyHeading = styled.h3`
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: #ffffff; /* White text color */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 const SlidingSection = styled.div`
   width: 100%;
   overflow: hidden;
   position: relative;
+  
 `;
 
 const SlidingContainer = styled.div`
   display: flex;
-  animation: slide 20s linear infinite;
+  animation: slide 30s linear infinite;
 
   @keyframes slide {
     0% {
       transform: translateX(0%);
     }
     100% {
-      transform: translateX(-100%);
+      transform: translateX(-50%);
     }
   }
 `;
@@ -601,15 +596,22 @@ const CompanyItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 2rem;
-  background-color: #fff;
+  margin-right: 3rem;
+  background-color: transparent; 
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 const CompanyLogo = styled.img`
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 100%;
+  max-height: 100%;
+  filter: brightness(1) invert(0); /* White logo color */
+`;
+const CompanyHeading = styled.h3`
+  font-size: 2rem; /* Adjust the size as needed */
+  margin-bottom: 2rem; /* Space below the heading */
+  color: #ffffff; /* White text color */
+  text-align: center; /* Center the heading */
+  font-weight: bold; /* Bold font */
 `;
 
 export default Body;
