@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import emailjs from 'emailjs-com';
+
 
 // Define keyframes for animations
 const fadeIn = keyframes`
@@ -149,8 +151,85 @@ const Answer = styled.p`
   font-size: 1.1rem;
   line-height: 1.6;
 `;
+const FeedbackSection = styled.section`
+  margin-bottom: 60px;
+  background: #2c2c2c;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: ${fadeIn} 1.5s ease-out;
 
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
+`;
+
+const FeedbackTitle = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #fff;
+  text-transform: uppercase;
+`;
+
+const FeedbackDescription = styled.p`
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 20px;
+  line-height: 1.5;
+`;
+
+const FeedbackForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  textarea {
+    width: 100%;
+    max-width: 600px;
+    height: 150px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background: #333;
+    color: #fff;
+    resize: vertical;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #6a1b9a;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #8e24aa;
+    }
+  }
+`;
 const Footer = () => {
+  const [feedback, setFeedback] = useState('');
+  const [status, setStatus] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    emailjs.sendForm('service_4ii20a5', 'template_fpxg518', e.target, 'U0Y3d6YQ3IXTIXliH')
+      .then((result) => {
+        setStatus('Feedback submitted successfully!');
+        setFeedback('');
+      }, (error) => {
+        setStatus('An error occurred. Please try again.');
+      });
+  };
   return (
     <FooterContainer>
       <FAQSection>
@@ -183,6 +262,21 @@ const Footer = () => {
           </FAQBox>
         </FAQContainer>
       </FAQSection>
+      <FeedbackSection>
+        <FeedbackTitle>How Was Your Experience with the Site?</FeedbackTitle>
+        <FeedbackDescription>We value your feedback and strive to improve our platform. Please share your thoughts and experiences with us.</FeedbackDescription>
+        <FeedbackForm onSubmit={handleSubmit}>
+          <textarea 
+            name="feedback"
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            placeholder="Your feedback and rating out of 5..."
+            required
+          />
+          <button type="submit">Submit Feedback</button>
+        </FeedbackForm>
+        {status && <p>{status}</p>}
+      </FeedbackSection>
 
       <Logo src="/nucleus.png" alt="nucleusFUSION Logo" />
 
