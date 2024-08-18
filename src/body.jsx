@@ -293,20 +293,6 @@ const Body = () => {
     </PageContainer>
   );
 };
-const ResponseSection = styled.div`
-  margin-top: 20px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
-`;
-
-const ResponseHeading = styled.h3`
-  margin-bottom: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  color: silver;
-`;
 
 const TextArea = styled.textarea`
   width: 100%;
