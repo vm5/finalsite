@@ -199,119 +199,131 @@ function Verification({ onVerify }) {
         <HeaderImage src="/networking.png" alt="Networking" />
       </HeaderSection>
       <FormContainer>
-        <VerificationWrapper>
-          {user ? (
-            <UserSection>
-              <WelcomeMessage>Welcome, {user.email}</WelcomeMessage>
-              <ButtonContainer>
-                <Button onClick={handleSignOut}>Sign Out</Button>
-                <Button onClick={() => {}} aria-label="Verify" disabled={processing}>
-                  {processing ? 'Processing...' : 'Proceed'}
-                </Button>
-              </ButtonContainer>
-            </UserSection>
-          ) : (
-            <>
-              <SignInTitle>
-                {isNewUser ? 'Sign Up' : 'Login'} to nucleus
-                <HighlightedText>FUSION</HighlightedText>!
-              </SignInTitle>
-              <Description>Whether you're a mentor or a job-seeking student, log in to nucleusFUSION to connect and collaborate!</Description>
+  <VerificationWrapper>
+    {user ? (
+      <UserSection>
+        <WelcomeMessage>Welcome, {user.email}</WelcomeMessage>
+        <ButtonContainer>
+          <Button onClick={handleSignOut}>Sign Out</Button>
+          <Button onClick={() => {}} aria-label="Verify" disabled={processing}>
+            {processing ? 'Processing...' : 'Proceed'}
+          </Button>
+        </ButtonContainer>
+      </UserSection>
+    ) : (
+      <>
+        <SignInTitle>
+          {isNewUser ? 'Sign Up' : 'Login'} to nucleus
+          <HighlightedText>FUSION</HighlightedText>!
+        </SignInTitle>
+        <Description>
+          Whether you're a mentor or a job-seeking student, log in to nucleusFUSION to connect and collaborate!
+        </Description>
 
-              {/* Role Selection */}
-              <div style={{ display: 'flex', gap: '20px' }}>
-  <label style={{ color: 'white', marginLeft: '0' }}>
-    <input
-      type="radio"
-      value="student"
-      checked={role === 'student'}
-      onChange={handleRoleChange}
-    />
-    Continue as a student
-  </label>
-  <label style={{ color: 'white', marginRight: '0' }}>
-    <input
-      type="radio"
-      value="mentor"
-      checked={role === 'mentor'}
-      onChange={handleRoleChange}
-    />
-    Continue as a mentor
-  </label>
-</div>
+        {/* Role Selection */}
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <label style={{ color: 'white', marginLeft: '0' }}>
+            <input
+              type="radio"
+              value="student"
+              checked={role === 'student'}
+              onChange={handleRoleChange}
+            />
+            Continue as a student
+          </label>
+          <label style={{ color: 'white', marginRight: '0' }}>
+            <input
+              type="radio"
+              value="mentor"
+              checked={role === 'mentor'}
+              onChange={handleRoleChange}
+            />
+            Continue as a mentor
+          </label>
+        </div>
 
-              {/* Conditionally Render Email or Phone Number Field */}
-              {role === 'student' ? (
-                <InputField
-                  type="email"
-                  placeholder="Enter your Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              ) : (
-                <InputField
-                  type="text"
-                  placeholder="Enter your Phone Number"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              )}
+        {/* Conditionally Render Email or Phone Number Field */}
+        {role === 'student' ? (
+          <InputField
+            type="email"
+            placeholder="Enter your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        ) : (
+          <InputField
+            type="email"
+            placeholder="Enter your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        )}
 
-              <InputField
-                type="password"
-                placeholder="Enter your Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+        {role === 'mentor' && (
+          <InputField
+            type="text"
+            placeholder="Enter your Phone Number"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+        )}
 
-              {isNewUser && (
-                <>
-                  <InputField
-                    type="text"
-                    placeholder="Enter your Full Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                  <InputField
-                    type="password"
-                    placeholder="Confirm your password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                </>
-              )}
+        <InputField
+          type="password"
+          placeholder="Enter your Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-              <CheckboxContainer>
-                <Checkbox
-                  type="checkbox"
-                  checked={isNotARobot}
-                  onChange={handleCheckboxChange}
-                />
-                <CheckboxLabel>I’m not a robot</CheckboxLabel>
-              </CheckboxContainer>
+        {isNewUser && (
+          <>
+            <InputField
+              type="text"
+              placeholder="Enter your Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <InputField
+              type="password"
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </>
+        )}
 
-              <Button onClick={handleAuth} disabled={processing}>
-                {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
-              </Button>
-              <SwitchAuthMode onClick={() => setIsNewUser(!isNewUser)}>
-                {isNewUser ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
-              </SwitchAuthMode>
-              {!isNewUser && (
-                <ForgotPasswordLink onClick={handlePasswordReset}>
-                  Forgot Password?
-                </ForgotPasswordLink>
-              )}
-            </>
-          )}
-        </VerificationWrapper>
-      </FormContainer>
-      {loadingMessage && (
-        <LoadingOverlay>
-          <LoadingSpinner />
-          <LoadingMessage>{loadingMessage}</LoadingMessage>
-        </LoadingOverlay>
-      )}
-    </PageContainer>
+        <CheckboxContainer>
+          <Checkbox
+            type="checkbox"
+            checked={isNotARobot}
+            onChange={handleCheckboxChange}
+          />
+          <CheckboxLabel>I’m not a robot</CheckboxLabel>
+        </CheckboxContainer>
+
+        <Button onClick={handleAuth} disabled={processing}>
+          {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
+        </Button>
+        <SwitchAuthMode onClick={() => setIsNewUser(!isNewUser)}>
+          {isNewUser ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
+        </SwitchAuthMode>
+        {!isNewUser && (
+          <ForgotPasswordLink onClick={handlePasswordReset}>
+            Forgot Password?
+          </ForgotPasswordLink>
+        )}
+      </>
+    )}
+  </VerificationWrapper>
+</FormContainer>
+{loadingMessage && (
+  <LoadingOverlay>
+    <LoadingSpinner />
+    <LoadingMessage>{loadingMessage}</LoadingMessage>
+  </LoadingOverlay>
+)}
+</PageContainer>
+
   );
 }
 
