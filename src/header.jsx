@@ -198,6 +198,17 @@ const NavLinks = styled.div`
   }
 `;
 
+const fallAnimation = keyframes`
+  0% {
+    transform: translateY(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
 const UpdatesContainer = styled.div`
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
   color: #f8f8f8;
@@ -208,14 +219,16 @@ const UpdatesContainer = styled.div`
   width: 80%;
   text-align: left;
   font-size: 1.1rem;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Verdana';
   font-weight: bold;
-  animation: ${fadeIn} 1.5s ease-in-out;
+  animation: ${fallAnimation} 1.5s ease-in-out;
 
   p {
     font-size: 1.2rem;
     margin-bottom: 15px;
-    color: #e0e0e0;
+    color: yellow;
+    line-height: 1.6;
+    font-weight: bold;
   }
 
   ol {
@@ -226,7 +239,9 @@ const UpdatesContainer = styled.div`
     li {
       margin-bottom: 10px;
       font-size: 1rem;
-      color: #dcdcdc;
+      color: purple;
+      line-height: 1.4;
+      font-weight: bold;
     }
   }
 
@@ -257,7 +272,8 @@ const UpdatesContainer = styled.div`
       font-size: 0.85rem;
     }
   }
-`
+`;
+
 
 const SignInButton = styled.button`
   position: fixed;
@@ -346,7 +362,7 @@ const Header = () => {
             </a>
           </NavLinks>
           <UpdatesContainer>
-  <p>New Update(s): What's New?</p>
+  <p>Things have changed. What's New?</p>
   <ol>
     <li>A designated section for signing up and logging in to users' respective accounts ensuring uniformity and ease of accessing the portal.</li>
     <li>Addition of a mentor section ensuring easy access to queries, ensuring that no query goes unanswered.</li>
