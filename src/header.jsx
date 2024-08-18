@@ -197,6 +197,32 @@ const NavLinks = styled.div`
     gap: 5px;
   }
 `;
+const UpdatesContainer = styled.div`
+  background:  rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  text-align: center;
+  font-size: 1rem;
+  font-family: 'Verdana';
+  font-weight: bold;
+  animation: ${fadeIn} 1.5s ease-in-out;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  @media (max-width: 480px) {
+    width: 95%;
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+`;
 
 const SignInButton = styled.button`
   position: fixed;
@@ -208,7 +234,7 @@ const SignInButton = styled.button`
   border-radius: 5px;
   padding: 12px 24px;
   font-size: 1rem;
-  font-family: 'Verdana', 
+  font-family: 'Verdana';
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -284,6 +310,16 @@ const Header = () => {
               Contact Us
             </a>
           </NavLinks>
+          <UpdatesContainer>
+            <p>New Update(s):Things have changed. What's new?</p>
+            <ol>
+              <li>A designated section for signing up and logging in to users' respective accounts ensuring uniformity and ease of accessing the portal</li>
+              <li>Addition of a mentor section ensuring easy access to queries thereby ensuring that no query goes unanswered</li>
+              <li>An improved user interface for better user experience</li>
+              <li>Fixing of minor bugs</li>
+            </ol>
+            
+          </UpdatesContainer>
         </HeaderContent>
       </HeaderContainer>
     </>
