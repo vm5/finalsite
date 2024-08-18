@@ -64,8 +64,8 @@ const Body = () => {
   const [selectedCompanyForMentor, setSelectedCompanyForMentor] = useState('');
   const [queries, setQueries] = useState([]);
   const [persons, setPersons] = useState([]);
-  const [responseText, setSelectedSlot] = useState(''); 
-  const [selectedSlot, setResponseText] = useState(''); 
+  const [responses, setResponses] = useState({}); // State for responses for each person
+  const [selectedSlot, setSelectedSlot] = useState(''); 
   const [isMeetingScheduled, setIsMeetingScheduled] = useState(false);
   const [scheduleVideoCall, setScheduleVideoCall] = useState(false); // New state for scheduling video call
 
@@ -96,14 +96,13 @@ const Body = () => {
   };
 
   const handleSubmitSlots = () => {
-    if (responseText.trim()) {
+    if (Object.values(responses).some(response => response.trim())) {
       const templateParams = {
         company: selectedCompanyForMentor,
         slot: scheduleVideoCall ? selectedSlot : 'No video call requested', // Only include slot if video call is scheduled
         mentorcode: mentorCode,
-        response: responseText, 
+        responses: persons.map(person => `${person.name}: ${responses[person.name] || 'No response'}`).join(', '),
         queries: queries.join(', '),
-        persons: persons.map(person => `${person.name} (${person.icon})`).join(', '),
       };
 
       emailjs.send('service_skcxg47', 'template_9pyhzgb', templateParams, 'bZNzwiq7H32zsXN_e')
@@ -116,8 +115,15 @@ const Body = () => {
           console.error('Error sending email:', err);
         });
     } else {
-      alert('Please provide a response.');
+      alert('Please provide at least one response.');
     }
+  };
+
+  const handleResponseChange = (personName, value) => {
+    setResponses(prevResponses => ({
+      ...prevResponses,
+      [personName]: value,
+    }));
   };
 
   return (
@@ -224,36 +230,35 @@ const Body = () => {
                 <QueriesHeading>Person(s) requesting a response for {selectedCompanyForMentor}:</QueriesHeading>
                 <ul>
                   {persons.map((person, index) => (
-                    <li key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px',color:'silver' }}>
+                    <li key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', color:'silver' }}>
                       <img
                         src={person.icon}
                         alt={person.name}
                         style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
                       />
                       <span>{person.name}</span>
+                      <div style={{ marginLeft: '10px', color: 'silver', fontSize: '12px' }}>
+                        {responses[person.name] && "Answer their query"}
+                      </div>
+                      <TextArea
+                        placeholder={`Type your response for ${person.name}...`}
+                        value={responses[person.name] || ''}
+                        onChange={(e) => handleResponseChange(person.name, e.target.value)}
+                        style={{ marginTop: '10px' }}
+                      />
                     </li>
                   ))}
                 </ul>
               </QueriesSection>
 
-              {/* Mentor's Response Section */}
-              <ResponseSection>
-                <ResponseHeading>Provide your response:</ResponseHeading>
-                <TextArea
-                  placeholder="Type your response here..."
-                  value={responseText}
-                  onChange={(e) => setResponseText(e.target.value)}
-                />
-              </ResponseSection>
-
               {/* Toggle for Scheduling Video Call */}
-              <div style={{ marginTop: '20px',color:'silver',fontSize: '20px' }}>
+              <div style={{ marginTop: '20px', color:'silver',fontSize: '20px' }}>
                 <input
                   type="checkbox"
                   checked={scheduleVideoCall}
                   onChange={(e) => setScheduleVideoCall(e.target.checked)}
                 />
-                <label style={{ marginLeft: '10px' ,color: 'silver, fontSize:30px'}}>I want to schedule a video call</label>
+                <label style={{ marginLeft: '10px' }}>I want to schedule a video call</label>
               </div>
 
               {/* Conditional Time Slot Selection */}
@@ -273,12 +278,11 @@ const Body = () => {
               {isMeetingScheduled && scheduleVideoCall && (
                 <MeetingSection>
                   <MeetingHeading>Schedule a Google Meet</MeetingHeading>
-                  <p>Schedule a Google Meet to connect with the student, click the button below and select a time slot that you preferred earlier</p>
-                  <Button
-                    style={{ backgroundColor: '#007BFF' }}
-                    onClick={() => window.location.href = 'https://calendar.google.com/calendar/u/0/r?hl=en&pli=1'}
-                  >
-                    Schedule a Google Meet
+                  <p>Schedule a Google Meet to guide the students and help them prepare better.</p>
+                  <Button>
+                    <a href="https://calendly.com/sanamsuniversal/calendly-sample" target="_blank" rel="noopener noreferrer">
+                      Schedule Google Meet
+                    </a>
                   </Button>
                 </MeetingSection>
               )}
