@@ -5,9 +5,10 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  updateProfile,
 } from 'firebase/auth';
-import { auth } from './firebase'; 
-
+import { auth } from './firebase';
+// Animations
 const spinAnimation = keyframes`
   0% {
     transform: rotate(0deg);
@@ -15,6 +16,77 @@ const spinAnimation = keyframes`
   100% {
     transform: rotate(360deg);
   }
+`;
+const VerificationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  width: 100%;
+  margin-bottom: 40px;
+`;
+
+const SignInTitle = styled.h2`
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Verdana';
+  font-weight: bold;
+`;
+const WelcomeMessage = styled.p`
+  color: #ffffff;
+  font-size: 20px;
+  margin-bottom: 20px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  width: 75%;
+`;
+const UserSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const starMovement = keyframes`
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+`;
+
+const shimmer = keyframes`
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 100%; }
 `;
 
 // Spinner styling
@@ -41,16 +113,215 @@ const LoadingOverlay = styled.div`
   z-index: 1000;
 `;
 
-// Loading message styling
-const LoadingMessage = styled.div`
+// Styled Components
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0a0a0a, #1b1b1b); /* Dark gradient background */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+`;
+
+const StarsContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 0;
+`;
+
+const StarLayer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/sky-2668711_1280.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-repeat: repeat;
+  background-position: 0 0;
+  z-index: -1;
+  animation: ${starMovement} 10s linear infinite;
+`;
+
+const HeaderSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 40px;
+  gap: 20px;
+  z-index: 1;
+  animation: ${fadeIn} 1s ease-out;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 500px;
+  padding: 20px;
+  text-align: left;
+`;
+const LoadingText = styled.p`
+  font-size: 18px;
   color: white;
+  margin-top: 20px;
+  text-align: center;
+`;
+const TitleContainer = styled.div`
+  text-align: left;
+`;
+
+const MainTitle = styled.h1`
+  font-size: 50px;
+  color: silver;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1.2;
+  font-family: 'Verdana';
+`;
+
+const HighlightedText = styled.span`
+  color: purple;
+  animation: ${shimmer} 2s infinite alternate;
+  font-family: 'Verdana';
+  font-weight: bold;
+`;
+
+const Subtitle = styled.h2`
+  font-size: 25px;
+  color: silver;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-left: 0;
+  font-family: 'Verdana';
+`;
+
+const Span = styled.span`
+  color: #ff8c00;
+  font-weight: 600;
+`;
+
+const Description = styled.p`
+  font-size: 20px;
+  color: silver;
+  margin-top: 0;
+  text-align: left;
+  line-height: 1.6;
+  font-family: 'Verdana';
+  font-weight: bold;
+`;
+
+const HeaderImage = styled.img`
+  width: 300px;
+  height: auto;
+  z-index: 1;
+  animation: ${slideIn} 2s ease-out;
+
+  @media (min-width: 768px) {
+    width: 400px;
+  }
+`;
+
+const FormContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 10px;
+  margin: 0 auto;
+  padding: 20px;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 30px;
+`;
+
+const InputField = styled.input`
+  width: 60%;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
   font-size: 16px;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+  color: #333333;
+`;
+
+const Button = styled.button`
+  background-color: #ff8c00;
+  color: white;
+  padding: 12px 24px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 75%;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #ff6c00;
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+`;
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
   margin-top: 10px;
 `;
 
+const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+`;
+
+const CheckboxLabel = styled.div`
+  font-size: 18px;
+  color: white;
+`;
+
+const ForgotPasswordLink = styled.p`
+  color: #ffffff;
+  margin-top: 10px;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+
+
 function Verification({ onVerify }) {
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState(''); // New state for phone number
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
@@ -69,7 +340,7 @@ function Verification({ onVerify }) {
     setLoadingMessage(isNotARobot ? 'Verified...' : 'Verifying...');
 
     setTimeout(() => {
-      setIsNotARobot(prevState => !prevState);
+      setIsNotARobot((prevState) => !prevState);
       setIsProcessing(false);
       setLoadingMessage('');
     }, 1000);
@@ -94,7 +365,11 @@ function Verification({ onVerify }) {
 
       if (isNewUser) {
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        // Additional logic to handle phone number can be added here
+
+        if (role === 'mentor') {
+          await updateProfile(auth.currentUser, { phoneNumber });
+        }
+
         console.log(`Phone number entered: ${phoneNumber}`);
       } else {
         userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -109,7 +384,6 @@ function Verification({ onVerify }) {
       }
 
       onVerify();
-
     } catch (error) {
       alert(error.message);
       setLoadingMessage('');
@@ -159,9 +433,15 @@ function Verification({ onVerify }) {
   const sendConfirmationEmail = async (email) => {
     console.log(`Sending confirmation email to ${email}`);
   };
+
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
+
+  const toggleNewUser = () => {
+    setIsNewUser((prev) => !prev);
+  };
+
   return (
     <PageContainer>
       <StarsContainer>
@@ -199,416 +479,153 @@ function Verification({ onVerify }) {
         <HeaderImage src="/networking.png" alt="Networking" />
       </HeaderSection>
       <FormContainer>
-  <VerificationWrapper>
-    {user ? (
-      <UserSection>
-        <WelcomeMessage>Welcome, {user.email}</WelcomeMessage>
-        <ButtonContainer>
-          <Button onClick={handleSignOut}>Sign Out</Button>
-          <Button onClick={() => {}} aria-label="Verify" disabled={processing}>
-            {processing ? 'Processing...' : 'Proceed'}
-          </Button>
-        </ButtonContainer>
-      </UserSection>
-    ) : (
-      <>
-        <SignInTitle>
-          {isNewUser ? 'Sign Up' : 'Login'} to nucleus
-          <HighlightedText>FUSION</HighlightedText>!
-        </SignInTitle>
-        <Description>
-          Whether you're a mentor or a job-seeking student, log in to nucleusFUSION to connect and collaborate!
-        </Description>
+        <VerificationWrapper>
+          {user ? (
+            <UserSection>
+              <WelcomeMessage>Welcome, {user.email}</WelcomeMessage>
+              <ButtonContainer>
+                <Button onClick={handleSignOut}>Sign Out</Button>
+                <Button onClick={() => {}} aria-label="Verify" disabled={processing}>
+                  {processing ? 'Processing...' : 'Proceed'}
+                </Button>
+              </ButtonContainer>
+            </UserSection>
+          ) : (
+            <>
+              <SignInTitle>
+                {isNewUser ? 'Sign Up' : 'Login'} to nucleus
+                <HighlightedText>FUSION</HighlightedText>!
+              </SignInTitle>
+              <Description>
+                Whether you're a mentor or a job-seeking student, log in to nucleusFUSION to connect and collaborate!
+              </Description>
 
-        {/* Role Selection */}
-        <div style={{ display: 'flex', gap: '20px' }}>
-          <label style={{ color: 'white', marginLeft: '0' }}>
-            <input
-              type="radio"
-              value="student"
-              checked={role === 'student'}
-              onChange={handleRoleChange}
-            />
-            Continue as a student
-          </label>
-          <label style={{ color: 'white', marginRight: '0' }}>
-            <input
-              type="radio"
-              value="mentor"
-              checked={role === 'mentor'}
-              onChange={handleRoleChange}
-            />
-            Continue as a mentor
-          </label>
-        </div>
+              {/* Role Selection */}
+              <div style={{ display: 'flex', gap: '20px' }}>
+                <label style={{ color: 'white', marginLeft: '0' }}>
+                  <input
+                    type="radio"
+                    value="student"
+                    checked={role === 'student'}
+                    onChange={handleRoleChange}
+                  />
+                  Continue as a student
+                </label>
+                <label style={{ color: 'white', marginRight: '0' }}>
+                  <input
+                    type="radio"
+                    value="mentor"
+                    checked={role === 'mentor'}
+                    onChange={handleRoleChange}
+                  />
+                  Continue as a mentor
+                </label>
+              </div>
 
-        {/* Conditionally Render Email or Phone Number Field */}
-        {role === 'student' ? (
-          <InputField
-            type="email"
-            placeholder="Enter your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        ) : (
-          <InputField
-            type="email"
-            placeholder="Enter your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        )}
+              {/* Conditionally Render Email or Phone Number Field */}
+              {role === 'student' ? (
+                <InputField
+                  type="email"
+                  placeholder="Enter your Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              ) : (
+                <InputField
+                  type="email"
+                  placeholder="Enter your Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              )}
 
-        {role === 'mentor' && (
-          <InputField
-            type="text"
-            placeholder="Enter your Phone Number"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-        )}
+              {role === 'mentor' && (
+                <InputField
+                  type="text"
+                  placeholder="Enter your Phone Number"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+              )}
 
-        <InputField
-          type="password"
-          placeholder="Enter your Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+              <InputField
+                type="password"
+                placeholder="Enter your Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-        {isNewUser && (
-          <>
-            <InputField
-              type="text"
-              placeholder="Enter your Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <InputField
-              type="password"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </>
-        )}
+              {isNewUser && (
+                <>
+                  <InputField
+                    type="text"
+                    placeholder="Enter your Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <InputField
+                    type="password"
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </>
+              )}
 
-        <CheckboxContainer>
-          <Checkbox
-            type="checkbox"
-            checked={isNotARobot}
-            onChange={handleCheckboxChange}
-          />
-          <CheckboxLabel>I’m not a robot</CheckboxLabel>
-        </CheckboxContainer>
+              <CheckboxContainer>
+                <Checkbox
+                  type="checkbox"
+                  checked={isNotARobot}
+                  onChange={handleCheckboxChange}
+                />
+                <CheckboxLabel>I’m not a robot</CheckboxLabel>
+              </CheckboxContainer>
 
-        <Button onClick={handleAuth} disabled={processing}>
-          {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
-        </Button>
-        <SwitchAuthMode onClick={() => setIsNewUser(!isNewUser)}>
-          {isNewUser ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
-        </SwitchAuthMode>
-        {!isNewUser && (
-          <ForgotPasswordLink onClick={handlePasswordReset}>
-            Forgot Password?
-          </ForgotPasswordLink>
-        )}
-      </>
-    )}
-  </VerificationWrapper>
-</FormContainer>
-{loadingMessage && (
-  <LoadingOverlay>
-    <LoadingSpinner />
-    <LoadingMessage>{loadingMessage}</LoadingMessage>
-  </LoadingOverlay>
-)}
-</PageContainer>
-
+              <Button onClick={handleAuth} disabled={processing}>
+                {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
+              </Button>
+              <ForgotPasswordLink onClick={handlePasswordReset} disabled={processing}>
+                Forgot Password?
+              </ForgotPasswordLink>
+              
+           
+              <div style={{ marginTop: '20px', color: 'white', textAlign: 'center' }}>
+                {isNewUser ? (
+                  <p>
+                    Already have an account?{' '}
+                    <span
+                      style={{ color: '#4A90E2', cursor: 'pointer' }}
+                      onClick={toggleNewUser}
+                    >
+                      Login
+                    </span>
+                  </p>
+                ) : (
+                  <p>
+                    Don't have an account?{' '}
+                    <span
+                      style={{ color: '#4A90E2', cursor: 'pointer' }}
+                      onClick={toggleNewUser}
+                    >
+                      Sign Up
+                    </span>
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+        </VerificationWrapper>
+      </FormContainer>
+      {loadingMessage && (
+        <LoadingOverlay>
+          <div>
+            <LoadingSpinner />
+            <LoadingText>{loadingMessage}</LoadingText>
+          </div>
+        </LoadingOverlay>
+      )}
+    </PageContainer>
   );
 }
 
-const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-`;
-
-const Checkbox = styled.input.attrs({ type: 'checkbox' })`
-  margin-right: 10px;
-  width: 30px;
-  height: 30px;
-`;
-
-const CheckboxLabel = styled.div`
-  font-size: 18px;
-  color: white;
-`;
-const ForgotPasswordLink = styled.p`
-  color: #ffffff;
-  margin-top: 10px;
-  cursor: pointer;
-  text-align: center;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-// Animations
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const slideIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
-
-const shimmer = keyframes`
-  0% { background-position: 0 0; }
-  100% { background-position: 100% 100%; }
-`;
-
-const starMovement = keyframes`
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
-`;
-
-// Styled Components
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, #0a0a0a, #1b1b1b); /* Dark gradient background */
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-`;
-
-const StarsContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  z-index: 0;
-`;
-
-const StarLayer = styled.div`
-  position: absolute; /* Adjusted to cover the entire viewport */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/sky-2668711_1280.jpg'); /* Replace with your image path */
-  background-size: cover; /* Ensure the background image covers the entire area */
-  background-repeat: repeat; /* Allow image to repeat */
-  background-position: 0 0; /* Start position */
-  z-index: -1; /* Make sure it stays behind other content */
-  animation: ${starMovement} 10s linear infinite; /* Animation for movement */
-`;
-
-const HeaderSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 1200px;
-  margin-bottom: 40px;
-  gap: 20px;
-  z-index: 1;
-  animation: ${fadeIn} 1s ease-out;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
-`;
-
-const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  max-width: 500px;
-  padding: 20px;
-  text-align: left;
-`;
-
-const TitleContainer = styled.div`
-  text-align: left;
-`;
-
-const MainTitle = styled.h1`
-  font-size: 50px;
-  color: silver;
-  font-weight: bold;
-  text-align: left;
-  line-height: 1.2;
-  font-family: 'Verdana';
-`;
-
-const HighlightedText = styled.span`
-  color: purple;
-  animation: ${shimmer} 2s infinite alternate; /* Optional shimmer animation */
-  font-family: 'Verdana';
-  font-weight: bold;
-`;
-
-const Subtitle = styled.h2`
-  font-size: 25px;
-  color: silver;
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  text-align: left;
-  margin-left: 0;
-  font-family:'Verdana';
-`;
-
-const Span = styled.span`
-  color: #ff8c00;
-  font-weight: 600;
-`;
-
-const Description = styled.p`
-  font-size: 20px;
-  color: silver;
-  margin-top: 0;
-  text-align: left;
-  line-height: 1.6;
-  font-family: 'Verdana';
-  font-weight: bold;
-`;
-
-const HeaderImage = styled.img`
-  width: 300px;
-  height: auto;
-  z-index: 1;
-  animation: ${slideIn} 2s ease-out;
-
-  @media (min-width: 768px) {
-    width: 400px;
-  }
-`;
-
-const FormContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 10px;
-  margin: 0 auto;
-  padding: 20px;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
-  margin-bottom: 30px;
-`;
-
-const VerificationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  width: 100%;
-  margin-bottom: 40px;
-`;
-
-const SignInTitle = styled.h2`
-  font-size: 24px;
-  color: #ffffff;
-  margin-bottom: 20px;
-  text-align: center;
-  font-family: 'Verdana';
-  font-weight: bold;
-`;
-
-const InputField = styled.input`
-  width: 60%;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #d0d0d0;
-  font-size: 16px;
-  box-sizing: border-box;
-  background-color: #f5f5f5;
-  color: #333333;
-`;
-
-const Button = styled.button`
-  background-color: #ff8c00;
-  color: white;
-  padding: 12px 24px;
-  margin-top: 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 75%
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #ff6c00;
-  }
-
-  &:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-`;
-
-const SwitchAuthMode = styled.p`
-  color: #ffffff;
-  margin-top: 20px;
-  cursor: pointer;
-  text-align: center;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const UserSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const WelcomeMessage = styled.p`
-  color: #ffffff;
-  font-size: 20px;
-  margin-bottom: 20px;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-  width: 75%;
-`;
 export default Verification;
