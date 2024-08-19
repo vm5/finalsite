@@ -48,8 +48,8 @@ const handlePhoneSignIn = async (phoneNumber) => {
   }
 };
 
-// Verify the code received via SMS
-const verifyCode = async (code) => {
+// Verify the code received via SMS and store user information
+const verifyCode = async (code, email, name, role) => {
   const confirmationResult = window.confirmationResult;
 
   try {
@@ -62,8 +62,9 @@ const verifyCode = async (code) => {
     await setDoc(doc(db, 'users', user.uid), {
       uid: user.uid,
       phoneNumber: user.phoneNumber,
-      role: user.role || 'undefined',
-      name: user.name || 'undefined',
+      email: email || '',
+      name: name || '',
+      role: role || 'undefined',
       createdAt: serverTimestamp()
     });
 
