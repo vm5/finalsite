@@ -47,7 +47,7 @@ const ButtonContainer = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 20px;
-  width: 75%;
+  width: 50%;
 `;
 const UserSection = styled.div`
   display: flex;
