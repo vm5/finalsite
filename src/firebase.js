@@ -41,8 +41,9 @@ const handlePhoneSignIn = async (phoneNumber) => {
     return confirmationResult;
   } catch (error) {
     console.error('Error during sign-in:', error);
-    if (window.recaptchaWidgetId && typeof grecaptcha !== 'undefined') {
-      grecaptcha.reset(window.recaptchaWidgetId);
+    if (window.recaptchaWidgetId) {
+      // Reset the reCAPTCHA widget if it exists
+      window.recaptchaVerifier.reset();
     }
     throw error;
   }
@@ -58,8 +59,11 @@ const verifyCode = async (code, email, name, role) => {
 
     console.log('User signed in successfully:', user);
 
+    // Determine the collection based on user role
+    const collectionPath = role === 'mentor' ? 'mentors' : 'students';
+
     // Store user information in Firestore
-    await setDoc(doc(db, 'users', user.uid), {
+    await setDoc(doc(db, collectionPath, user.uid), {
       uid: user.uid,
       phoneNumber: user.phoneNumber,
       email: email || '',
