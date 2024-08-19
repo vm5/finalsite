@@ -9,7 +9,7 @@ import {
   PhoneAuthProvider,
   signInWithCredential,
 } from 'firebase/auth';
-import { auth, setupRecaptcha, handlePhoneSignIn } from './firebase'; 
+import { auth, db, setupRecaptcha, handlePhoneSignIn } from './firebase'; 
 
 const spinAnimation = keyframes`
   0% {
