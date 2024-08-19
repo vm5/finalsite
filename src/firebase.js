@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
-// Firebase configuration object
+import { getFirestore, doc, setDoc, serverTimestamp } from 'firebase/firestore';
+
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCsx7mCjpBA0lup2-L9Dz2aVph9iuFTw_s",
   authDomain: "nucleusfusion-e3a6f.firebaseapp.com",
@@ -11,6 +12,13 @@ const firebaseConfig = {
   appId: "1:1072587854792:web:e4e8a3c6921cbc228e26fd",
   measurementId: "G-GWV49V75P0"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Set up reCAPTCHA
 const setupRecaptcha = (containerId) => {
   window.recaptchaVerifier = new RecaptchaVerifier(containerId, {}, auth);
   window.recaptchaVerifier.render().then((widgetId) => {
@@ -54,7 +62,9 @@ const verifyCode = async (code) => {
     await setDoc(doc(db, 'users', user.uid), {
       uid: user.uid,
       phoneNumber: user.phoneNumber,
-      createdAt: serverTimestamp()  // Use Firestore server timestamp
+      role: user.role || 'undefined',
+      name: user.name || 'undefined',
+      createdAt: serverTimestamp()
     });
 
     console.log('User information stored in Firestore.');
