@@ -238,10 +238,10 @@ const Body = () => {
                       />
                       <span>{person.name}</span>
                       <div style={{ marginLeft: '10px', color: 'silver', fontSize: '12px' }}>
-                        {responses[person.name] && "Select a suitable date for yourself"}
+                        {responses[person.name] && "Answer their query"}
                       </div>
                       <TextArea
-                        placeholder={`Select a suitable date for your response for ${person.name}...`}
+                        placeholder={`Type your response for ${person.name}...`}
                         value={responses[person.name] || ''}
                         onChange={(e) => handleResponseChange(person.name, e.target.value)}
                         style={{ marginTop: '10px' }}
@@ -261,18 +261,13 @@ const Body = () => {
                 <label style={{ marginLeft: '10px' }}>I want to schedule a video call</label>
               </div>
 
-             
+              {/* Conditional Time Slot Selection */}
               {scheduleVideoCall && (
                 <FreeSlotsSection>
                   <select value={selectedSlot} onChange={(e) => setSelectedSlot(e.target.value)}>
                     <option value="">Select a time slot for a video call</option>
-                    <option value="12:00 PM - 1:00 PM">12:00 PM - 1:00 PM</option>
-                    <option value="1:00 PM - 2:00 PM">1:00 PM - 2:00 PM</option>
-                    <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
-                    <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
                     <option value="4:00 PM - 5:00 PM">4:00 PM - 5:00 PM</option>
                     <option value="6:00 PM - 7:00 PM">6:00 PM - 7:00 PM</option>
-                    <option value="7:00 PM - 8:00 PM">7:00 PM - 8:00 PM</option>
                     <option value="9:00 PM - 10:00 PM">9:00 PM - 10:00 PM</option>
                     <option value="10:00 PM - 11:00 PM">10:00 PM - 11:00 PM</option>
                   </select>
@@ -283,11 +278,11 @@ const Body = () => {
 
               {isMeetingScheduled && scheduleVideoCall && (
                 <MeetingSection>
-                  <MeetingHeading>Schedule video call</MeetingHeading>
-                  <MeetingHeading>Schedule a Google Meet to guide the students and help them prepare better.</MeetingHeading>
+                  <MeetingHeading>Schedule a Google Meet</MeetingHeading>
+                  <p>Schedule a Google Meet to guide the students and help them prepare better.</p>
                   <Button>
-                    <a href="https://calendar.google.com/calendar/u/0/r/eventedit?vcon=meet&dates=now&hl=en" target="_blank" rel="noopener noreferrer">
-                      Schedule a video call
+                    <a href="https://calendly.com/sanamsuniversal/calendly-sample" target="_blank" rel="noopener noreferrer">
+                      Schedule Google Meet
                     </a>
                   </Button>
                 </MeetingSection>
@@ -460,9 +455,9 @@ const StarLayer = styled.div`
   position: absolute;
   width: 200%;
   height: 200%;
-  background: url('/sky-2668711_1280.jpg') no-repeat center center;
+  background: url('/aura.png') no-repeat center center;
   background-size: cover; /* Ensures the image covers the entire element */
-  animation: ${starMovement} 20s linear infinite;
+  animation: ${starMovement} 50s linear infinite;
 `;
 const Main = styled.div`
   display: flex;
