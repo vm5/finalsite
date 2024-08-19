@@ -1,8 +1,6 @@
-/* global grecaptcha */
-
 import { initializeApp } from 'firebase/app';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 // Firebase configuration object
 const firebaseConfig = {
   apiKey: "AIzaSyCsx7mCjpBA0lup2-L9Dz2aVph9iuFTw_s",
@@ -14,9 +12,9 @@ const firebaseConfig = {
   measurementId: "G-GWV49V75P0"
 };
 
-// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 // Set up reCAPTCHA
 const setupRecaptcha = (containerId) => {
@@ -41,7 +39,6 @@ const handlePhoneSignIn = async (phoneNumber) => {
     return confirmationResult;
   } catch (error) {
     console.error('Error during sign-in:', error);
-    // Reset reCAPTCHA widget if there's an error
     if (window.recaptchaWidgetId && typeof grecaptcha !== 'undefined') {
       grecaptcha.reset(window.recaptchaWidgetId);
     }
@@ -56,7 +53,18 @@ const verifyCode = async (code) => {
   try {
     const result = await confirmationResult.confirm(code);
     const user = result.user;
+
     console.log('User signed in successfully:', user);
+
+    // Store user information in Firestore
+    await setDoc(doc(db, 'users', user.uid), {
+      uid: user.uid,
+      phoneNumber: user.phoneNumber,
+      createdAt: new Date()
+    });
+
+    console.log('User information stored in Firestore.');
+
     return user;
   } catch (error) {
     console.error('Error verifying code:', error);
