@@ -1,15 +1,13 @@
+
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
-  updateProfile,
-  PhoneAuthProvider,
-  signInWithCredential,
 } from 'firebase/auth';
-import { auth, db, setupRecaptcha, handlePhoneSignIn, verifyCode } from './firebase';
+import { auth} from './firebase';
 
 const spinAnimation = keyframes`
   0% {
@@ -18,6 +16,23 @@ const spinAnimation = keyframes`
   100% {
     transform: rotate(360deg);
   }
+`;
+
+const SwitchAuthMode = styled.button`
+  background: none;
+  border: none;
+  color: #00f;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  margin-top: 10px;
+  padding: 0;
+`;
+
+const LoadingMessage = styled.div`
+  color: white;
+  font-size: 16px;
+  margin-top: 10px;
 `;
 const VerificationWrapper = styled.div`
   display: flex;
@@ -129,6 +144,21 @@ const PageContainer = styled.div`
   padding: 0;
   box-sizing: border-box;
 `;
+const TitleContainer = styled.div`
+  text-align: center;
+  margin-bottom: 20px;
+
+  /* Add other styling properties as needed */
+  color: white;
+  font-family: 'Arial', sans-serif;
+  padding: 10px;
+
+  @media (max-width: 768px) {
+    /* Adjust styles for smaller screens */
+    margin-bottom: 15px;
+  }
+`;
+
 
 const StarsContainer = styled.div`
   position: absolute;
@@ -180,15 +210,8 @@ const TextContainer = styled.div`
   padding: 20px;
   text-align: left;
 `;
-const LoadingText = styled.p`
-  font-size: 18px;
-  color: white;
-  margin-top: 20px;
-  text-align: center;
-`;
-const TitleContainer = styled.div`
-  text-align: left;
-`;
+
+
 
 const MainTitle = styled.h1`
   font-size: 50px;
@@ -318,6 +341,7 @@ const ForgotPasswordLink = styled.p`
     text-decoration: underline;
   }
 `;
+// Verification Component
 function Verification({ onVerify }) {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -328,47 +352,19 @@ function Verification({ onVerify }) {
   const [processing, setProcessing] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [user, setUser] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [isNotARobot, setIsNotARobot] = useState(false);
   const [role, setRole] = useState('student');
-  const [verificationCode, setVerificationCode] = useState('');
-  const [verificationId, setVerificationId] = useState(null);
-
-  const handlePhoneNumberSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const recaptchaVerifier = setupRecaptcha('recaptcha-container');
-      const confirmationResult = await handlePhoneSignIn(phoneNumber, recaptchaVerifier);
-      setVerificationId(confirmationResult.verificationId);
-      console.log('SMS sent. Verification ID:', confirmationResult.verificationId);
-    } catch (error) {
-      console.error('Error during phone number submission:', error);
-    }
-  };
-
-  const handleVerificationCodeSubmit = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-      const userCredential = await signInWithCredential(auth, credential);
-      await verifyCode(verificationCode, email, name, role); // Update profile and store user data
-  
-      setUser(userCredential.user);
-      console.log('User signed in successfully:', userCredential.user);
-    } catch (error) {
-      console.error('Error during verification code submission:', error);
-    }
-  };
 
   const handleCheckboxChange = () => {
-    if (processing) return;
+    if (isProcessing) return;
 
-    setProcessing(true);
+    setIsProcessing(true);
     setLoadingMessage(isNotARobot ? 'Verified...' : 'Verifying...');
 
     setTimeout(() => {
-      setIsNotARobot((prevState) => !prevState);
-      setProcessing(false);
+      setIsNotARobot(prevState => !prevState);
+      setIsProcessing(false);
       setLoadingMessage('');
     }, 1000);
   };
@@ -391,28 +387,22 @@ function Verification({ onVerify }) {
       let userCredential;
 
       if (isNewUser) {
-        if (role === 'student') {
-          userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        } else if (role === 'mentor') {
-          // Trigger phone number authentication separately
-          await handlePhoneNumberSubmit(new Event('submit'));
-          return;
-        }
-
-        await updateProfile(auth.currentUser, { displayName: name });
-
-        setUser(userCredential.user);
-        setLoadingMessage('');
-        onVerify();
+        userCredential = await createUserWithEmailAndPassword(auth, email, password);
+   
+        console.log(`Phone number entered: ${phoneNumber}`);
       } else {
         userCredential = await signInWithEmailAndPassword(auth, email, password);
-        setUser(userCredential.user);
       }
 
-      if (userCredential?.user) {
-        console.log(`User signed in successfully: ${userCredential.user.email}`);
-        onVerify();
+      const user = userCredential.user;
+      setUser(user);
+      setLoadingMessage('');
+
+      if (user) {
+        await sendConfirmationEmail(user.email);
       }
+
+      onVerify();
 
     } catch (error) {
       alert(error.message);
@@ -460,12 +450,15 @@ function Verification({ onVerify }) {
     }
   };
 
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
+
+
+  const sendConfirmationEmail = async (email) => {
+    console.log(`Sending confirmation email to ${email}`);
+    // Implement actual confirmation email sending if required
   };
 
-  const toggleNewUser = () => {
-    setIsNewUser((prev) => !prev);
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
   };
 
   return (
@@ -508,27 +501,6 @@ function Verification({ onVerify }) {
         <VerificationWrapper>
           {user ? (
             <UserSection>
-              <div>
-      <form onSubmit={handlePhoneNumberSubmit}>
-        <label>
-          Phone Number:
-          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-        </label>
-        <button type="submit">Send Verification Code</button>
-      </form>
-
-      {verificationId && (
-        <form onSubmit={handleVerificationCodeSubmit}>
-          <label>
-            Verification Code:
-            <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
-          </label>
-          <button type="submit">Verify Code and Sign In</button>
-        </form>
-      )}
-
-      <div id="recaptcha-container"></div>
-    </div>
               <WelcomeMessage>Welcome, {user.email}</WelcomeMessage>
               <ButtonContainer>
                 <Button onClick={handleSignOut}>Sign Out</Button>
@@ -548,7 +520,7 @@ function Verification({ onVerify }) {
               </Description>
 
               {/* Role Selection */}
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '20px' }}>
                 <label style={{ color: 'white', marginLeft: '0' }}>
                   <input
                     type="radio"
@@ -570,63 +542,43 @@ function Verification({ onVerify }) {
               </div>
 
               {/* Conditionally Render Email or Phone Number Field */}
-              {role === 'student' && (
-                <>
-                  <InputField
-                    type="email"
-                    placeholder="Enter your Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <InputField
-                    type="password"
-                    placeholder="Enter your Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  {isNewUser && (
-                    <>
-                      <InputField
-                        type="text"
-                        placeholder="Enter your Full Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                      <InputField
-                        type="password"
-                        placeholder="Confirm your password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                      />
-                    </>
-                  )}
-                </>
-              )}
+              <InputField
+                type="email"
+                placeholder="Enter your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
               {role === 'mentor' && (
+                <InputField
+                  type="text"
+                  placeholder="Enter your Phone Number"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+              )}
+
+              <InputField
+                type="password"
+                placeholder="Enter your Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              {isNewUser && (
                 <>
                   <InputField
                     type="text"
-                    placeholder="Enter your Phone Number"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Enter your Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                  <form onSubmit={handlePhoneNumberSubmit}>
-                    <button type="submit">Send Verification Code</button>
-                  </form>
-
-                  {verificationId && (
-                    <form onSubmit={handleVerificationCodeSubmit}>
-                      <InputField
-                        type="text"
-                        placeholder="Verification Code"
-                        value={verificationCode}
-                        onChange={(e) => setVerificationCode(e.target.value)}
-                      />
-                      <button type="submit">Verify Code and Sign In</button>
-                    </form>
-                  )}
-                  <div id="recaptcha-container"></div>
+                  <InputField
+                    type="password"
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
                 </>
               )}
 
@@ -642,46 +594,27 @@ function Verification({ onVerify }) {
               <Button onClick={handleAuth} disabled={processing}>
                 {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
               </Button>
-              <ForgotPasswordLink onClick={handlePasswordReset} disabled={processing}>
-                Forgot Password?
-              </ForgotPasswordLink>
-              
-              <div style={{ marginTop: '20px', color: 'white', textAlign: 'center' }}>
-                {isNewUser ? (
-                  <p>
-                    Already have an account?{' '}
-                    <span
-                      style={{ color: '#4A90E2', cursor: 'pointer' }}
-                      onClick={toggleNewUser}
-                    >
-                      Login
-                    </span>
-                  </p>
-                ) : (
-                  <p>
-                    Don't have an account?{' '}
-                    <span
-                      style={{ color: '#4A90E2', cursor: 'pointer' }}
-                      onClick={toggleNewUser}
-                    >
-                      Sign Up
-                    </span>
-                  </p>
-                )}
-              </div>
+              <SwitchAuthMode onClick={() => setIsNewUser(!isNewUser)}>
+                {isNewUser ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
+              </SwitchAuthMode>
+              {!isNewUser && (
+                <ForgotPasswordLink onClick={handlePasswordReset}>
+                  Forgot Password?
+                </ForgotPasswordLink>
+              )}
+             
             </>
           )}
         </VerificationWrapper>
       </FormContainer>
       {loadingMessage && (
         <LoadingOverlay>
-          <div>
-            <LoadingSpinner />
-            <LoadingText>{loadingMessage}</LoadingText>
-          </div>
+          <LoadingSpinner />
+          <LoadingMessage>{loadingMessage}</LoadingMessage>
         </LoadingOverlay>
       )}
     </PageContainer>
   );
 }
+
 export default Verification;
