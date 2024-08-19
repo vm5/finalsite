@@ -11,12 +11,6 @@ const firebaseConfig = {
   appId: "1:1072587854792:web:e4e8a3c6921cbc228e26fd",
   measurementId: "G-GWV49V75P0"
 };
-
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
-
-// Set up reCAPTCHA
 const setupRecaptcha = (containerId) => {
   window.recaptchaVerifier = new RecaptchaVerifier(containerId, {}, auth);
   window.recaptchaVerifier.render().then((widgetId) => {
@@ -60,7 +54,7 @@ const verifyCode = async (code) => {
     await setDoc(doc(db, 'users', user.uid), {
       uid: user.uid,
       phoneNumber: user.phoneNumber,
-      createdAt: new Date()
+      createdAt: serverTimestamp()  // Use Firestore server timestamp
     });
 
     console.log('User information stored in Firestore.');
