@@ -238,10 +238,10 @@ const Body = () => {
                       />
                       <span>{person.name}</span>
                       <div style={{ marginLeft: '10px', color: 'silver', fontSize: '12px' }}>
-                        {responses[person.name] && "Answer their query"}
+                        {responses[person.name] && "Select a suitable date for yourself"}
                       </div>
                       <TextArea
-                        placeholder={`Type your response for ${person.name}...`}
+                        placeholder={`Select a suitable date for your response for ${person.name}...`}
                         value={responses[person.name] || ''}
                         onChange={(e) => handleResponseChange(person.name, e.target.value)}
                         style={{ marginTop: '10px' }}
@@ -278,11 +278,11 @@ const Body = () => {
 
               {isMeetingScheduled && scheduleVideoCall && (
                 <MeetingSection>
-                  <MeetingHeading>Schedule a Google Meet</MeetingHeading>
-                  <p>Schedule a Google Meet to guide the students and help them prepare better.</p>
+                  <MeetingHeading>Schedule video call</MeetingHeading>
+                  <MeetingHeading>Schedule a Google Meet to guide the students and help them prepare better.</MeetingHeading>
                   <Button>
-                    <a href="https://calendly.com/sanamsuniversal/calendly-sample" target="_blank" rel="noopener noreferrer">
-                      Schedule Google Meet
+                    <a href="https://calendar.google.com/calendar/u/0/r/eventedit?vcon=meet&dates=now&hl=en" target="_blank" rel="noopener noreferrer">
+                      Schedule a video call
                     </a>
                   </Button>
                 </MeetingSection>
