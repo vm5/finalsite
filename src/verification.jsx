@@ -556,7 +556,7 @@ function Verification({ onVerify }) {
               </Description>
 
               {/* Role Selection */}
-              <div style={{ display: 'flex', gap: '20px' }}>
+              <div style={{ display: 'flex', gap: '10px' }}>
                 <label style={{ color: 'white', marginLeft: '0' }}>
                   <input
                     type="radio"
@@ -564,7 +564,7 @@ function Verification({ onVerify }) {
                     checked={role === 'student'}
                     onChange={handleRoleChange}
                   />
-                  Continue as a student
+                  I'm a student
                 </label>
                 <label style={{ color: 'white', marginRight: '0' }}>
                   <input
@@ -573,7 +573,7 @@ function Verification({ onVerify }) {
                     checked={role === 'mentor'}
                     onChange={handleRoleChange}
                   />
-                  Continue as a mentor
+                  I'm a mentor
                 </label>
               </div>
 
