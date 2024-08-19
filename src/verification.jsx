@@ -6,9 +6,11 @@ import {
   signOut,
   sendPasswordResetEmail,
   updateProfile,
+  PhoneAuthProvider,
+  signInWithCredential,
 } from 'firebase/auth';
-import { auth } from './firebase';
-// Animations
+import { auth, setupRecaptcha, handlePhoneSignIn } from './firebase'; 
+
 const spinAnimation = keyframes`
   0% {
     transform: rotate(0deg);
@@ -332,6 +334,37 @@ function Verification({ onVerify }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isNotARobot, setIsNotARobot] = useState(false);
   const [role, setRole] = useState('student');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [verificationId, setVerificationId] = useState(null);
+
+  const handlePhoneNumberSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const recaptchaVerifier = setupRecaptcha('recaptcha-container');
+      const confirmationResult = await handlePhoneSignIn(phoneNumber, recaptchaVerifier);
+      setVerificationId(confirmationResult.verificationId);
+      console.log('SMS sent. Verification ID:', confirmationResult.verificationId);
+    } catch (error) {
+      console.error('Error during phone number submission:', error);
+    }
+  };
+
+  const handleVerificationCodeSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
+      const userCredential = await signInWithCredential(auth, credential);
+      await auth.currentUser.updateProfile({
+        phoneNumber: phoneNumber,
+      });
+  
+      console.log('User signed in successfully:', userCredential.user);
+    } catch (error) {
+      console.error('Error during verification code submission:', error);
+    }
+  };
+
 
   const handleCheckboxChange = () => {
     if (isProcessing) return;
@@ -443,6 +476,7 @@ function Verification({ onVerify }) {
   };
 
   return (
+    
     <PageContainer>
       <StarsContainer>
         <StarLayer />
@@ -482,6 +516,27 @@ function Verification({ onVerify }) {
         <VerificationWrapper>
           {user ? (
             <UserSection>
+              <div>
+      <form onSubmit={handlePhoneNumberSubmit}>
+        <label>
+          Phone Number:
+          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+        </label>
+        <button type="submit">Send Verification Code</button>
+      </form>
+
+      {verificationId && (
+        <form onSubmit={handleVerificationCodeSubmit}>
+          <label>
+            Verification Code:
+            <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
+          </label>
+          <button type="submit">Verify Code and Sign In</button>
+        </form>
+      )}
+
+      <div id="recaptcha-container"></div>
+    </div>
               <WelcomeMessage>Welcome, {user.email}</WelcomeMessage>
               <ButtonContainer>
                 <Button onClick={handleSignOut}>Sign Out</Button>
