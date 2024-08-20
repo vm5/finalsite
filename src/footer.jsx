@@ -222,7 +222,7 @@ const Footer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    emailjs.sendForm('service_4ii20a5', 'template_fpxg518', e.target, 'U0Y3d6YQ3IXTIXliH')
+    emailjs.sendForm('service_nra8ibh', 'template_7zhdusk', e.target, 'vW5x6b44wyKCaQKLb')
       .then((result) => {
         setStatus('Feedback submitted successfully!');
         setFeedback('');
