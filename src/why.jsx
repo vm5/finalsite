@@ -1,9 +1,5 @@
-// pages/WhyNucleusFusion.jsx
-
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-
-
 
 const slideUp = keyframes`
   from {
@@ -43,11 +39,11 @@ const Container = styled.div`
 
 const Content = styled.div`
   background-color: #ffffff;
-  padding: 40px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 800px;
+  max-width: 90%;
   width: 100%;
   box-sizing: border-box;
   opacity: 1;
@@ -56,36 +52,57 @@ const Content = styled.div`
   font-weight: bold;
   transform: translateY(0);
   animation: ${slideUp} 1s ease-in-out;
+
+  @media (min-width: 768px) {
+    padding: 40px;
+    max-width: 800px;
+  }
 `;
 
 const Header = styled.h1`
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: #333;
   margin-bottom: 20px;
   animation: ${slideUp} 1s ease-out;
   font-weight: bold;
+
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
 `;
 
 const Section = styled.section`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   animation: ${slideUp} 1s ease-out;
+
+  @media (min-width: 768px) {
+    margin-bottom: 30px;
+  }
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   color: #000;
   margin-bottom: 10px;
   font-family: 'Verdana', sans-serif;
   font-weight: bold;
+
+  @media (min-width: 768px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const Paragraph = styled.p`
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.6;
   color: #333;
   margin-bottom: 20px;
   font-family: 'Verdana', sans-serif;
   font-weight: normal;
+
+  @media (min-width: 768px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const Highlight = styled.span`
@@ -94,12 +111,18 @@ const Highlight = styled.span`
 `;
 
 const SvgContainer = styled.div`
-  width: 500px;
-  height: 500px;
-  z-index: 1;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 20px;
+
+  @media (min-width: 768px) {
+    width: 500px;
+    height: 500px;
+  }
 `;
 
 function Why() {
