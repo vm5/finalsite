@@ -7,16 +7,8 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { auth} from './firebase';
-
-const spinAnimation = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`;
+import {auth, db} from './firebase';
+import {addDoc, collection, getDocs,query,where } from 'firebase/firestore';
 
 const SwitchAuthMode = styled.button`
   background: none;
@@ -29,11 +21,7 @@ const SwitchAuthMode = styled.button`
   padding: 0;
 `;
 
-const LoadingMessage = styled.div`
-  color: white;
-  font-size: 16px;
-  margin-top: 10px;
-`;
+
 const VerificationWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -106,29 +94,8 @@ const shimmer = keyframes`
   100% { background-position: 100% 100%; }
 `;
 
-// Spinner styling
-const LoadingSpinner = styled.div`
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 4px solid #ff6f61;
-  width: 40px;
-  height: 40px;
-  animation: ${spinAnimation} 1s linear infinite;
-`;
 
-// Overlay styling
-const LoadingOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
+
 
 // Styled Components
 const PageContainer = styled.div`
@@ -341,8 +308,8 @@ const ForgotPasswordLink = styled.p`
     text-decoration: underline;
   }
 `;
-// Verification Component
-function Verification({ onVerify }) {
+
+const Verification = ({ onVerify }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -352,19 +319,35 @@ function Verification({ onVerify }) {
   const [processing, setProcessing] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [user, setUser] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
   const [isNotARobot, setIsNotARobot] = useState(false);
   const [role, setRole] = useState('student');
+  const [organization, setOrganization] = useState('');
+
+  const usersCollectionRef = collection(db, 'mentors');
+
+  const createUser = async () => {
+    // Check if the user already exists
+    const userQuery = query(usersCollectionRef, where('email', '==', email));
+    const querySnapshot = await getDocs(userQuery);
+
+    if (!querySnapshot.empty) {
+      alert('User with this email already exists.');
+      return;
+    }
+
+    // If not, create a new user
+    await addDoc(usersCollectionRef, { name, email, phone: phoneNumber, role,organization });
+  };
 
   const handleCheckboxChange = () => {
-    if (isProcessing) return;
+    if (processing) return;
 
-    setIsProcessing(true);
+    setProcessing(true);
     setLoadingMessage(isNotARobot ? 'Verified...' : 'Verifying...');
 
     setTimeout(() => {
-      setIsNotARobot(prevState => !prevState);
-      setIsProcessing(false);
+      setIsNotARobot((prevState) => !prevState);
+      setProcessing(false);
       setLoadingMessage('');
     }, 1000);
   };
@@ -388,7 +371,7 @@ function Verification({ onVerify }) {
 
       if (isNewUser) {
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
-   
+        await createUser();
         console.log(`Phone number entered: ${phoneNumber}`);
       } else {
         userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -403,7 +386,6 @@ function Verification({ onVerify }) {
       }
 
       onVerify();
-
     } catch (error) {
       alert(error.message);
       setLoadingMessage('');
@@ -449,8 +431,6 @@ function Verification({ onVerify }) {
       setLoadingMessage('');
     }
   };
-
-
 
   const sendConfirmationEmail = async (email) => {
     console.log(`Sending confirmation email to ${email}`);
@@ -556,6 +536,16 @@ function Verification({ onVerify }) {
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
+                
+              )}
+               {role === 'mentor' && (
+                <InputField
+                  type="text"
+                  placeholder="Enter the organization you are associated with"
+                  value={organization}
+                  onChange={(e) => setOrganization(e.target.value)}
+                />
+                
               )}
 
               <InputField
@@ -590,6 +580,10 @@ function Verification({ onVerify }) {
                 />
                 <CheckboxLabel>I’m not a robot</CheckboxLabel>
               </CheckboxContainer>
+             <loadingMessage>
+              {loadingMessage}
+             </loadingMessage>
+
 
               <Button onClick={handleAuth} disabled={processing}>
                 {processing ? 'Processing...' : isNewUser ? 'Sign Up' : 'Login'}
@@ -602,19 +596,12 @@ function Verification({ onVerify }) {
                   Forgot Password?
                 </ForgotPasswordLink>
               )}
-             
             </>
           )}
         </VerificationWrapper>
       </FormContainer>
-      {loadingMessage && (
-        <LoadingOverlay>
-          <LoadingSpinner />
-          <LoadingMessage>{loadingMessage}</LoadingMessage>
-        </LoadingOverlay>
-      )}
     </PageContainer>
   );
-}
+};
 
 export default Verification;
