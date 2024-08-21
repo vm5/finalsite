@@ -5,6 +5,7 @@ import Footer from './footer';
 import Verification from './verification';
 import './animations.css';
 import './App.css';
+import Why from './why.jsx';
 
 
 
@@ -23,8 +24,8 @@ function App() {
       ) : (
         <Body />
       )}
-
-      
+        
+      <Why />
       <Footer />
     </div>
   );
