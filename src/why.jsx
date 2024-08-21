@@ -20,7 +20,6 @@ const moveBackground = keyframes`
     background-position: 100% 100%;
   }
 `;
-
 // Styled Components
 const Container = styled.div`
   background: url('https://st2.depositphotos.com/2171279/6793/i/450/depositphotos_67934195-stock-photo-blackboard-chalkboard-texture-infographics-collection.jpg') no-repeat center center/cover;
@@ -110,21 +109,6 @@ const Highlight = styled.span`
   font-weight: bold;
 `;
 
-const SvgContainer = styled.div`
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-
-  @media (min-width: 768px) {
-    width: 500px;
-    height: 500px;
-  }
-`;
-
 function Why() {
   return (
     <Container>
@@ -149,30 +133,6 @@ function Why() {
           </Paragraph>
         </Section>
       </Content>
-      <SvgContainer>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 200 200"
-        >
-          <circle cx="100" cy="100" r="20" fill="#FFA500" />
-          <circle cx="60" cy="60" r="40" fill="#4DB6E9" />
-          <text x="60" y="60" textAnchor="middle" fontSize="10" fill="#fff" fontFamily="Arial, sans-serif">
-            Experience
-          </text>
-          <circle cx="140" cy="60" r="40" fill="#E56BA5" />
-          <text x="140" y="60" textAnchor="middle" fontSize="10" fill="#fff" fontFamily="Arial, sans-serif">
-            Knowledge
-          </text>
-          <circle cx="60" cy="140" r="40" fill="#97E95D" />
-          <text x="60" y="140" textAnchor="middle" fontSize="10" fill="#fff" fontFamily="Arial, sans-serif">
-            Competitive
-          </text>
-          <circle cx="140" cy="140" r="40" fill="#FDCB32" />
-          <text x="140" y="140" textAnchor="middle" fontSize="10" fill="#fff" fontFamily="Arial, sans-serif">
-            Focused
-          </text>
-        </svg>
-      </SvgContainer>
     </Container>
   );
 }
