@@ -181,6 +181,33 @@ const FeedbackDescription = styled.p`
   margin-bottom: 20px;
   line-height: 1.5;
 `;
+const FloatingWhatsAppButton = styled.a`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366; /* WhatsApp green */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: #128c7e; /* Darker WhatsApp green */
+    transform: translateY(-3px);
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+`;
 
 const FeedbackForm = styled.form`
   display: flex;
@@ -293,6 +320,10 @@ const Footer = () => {
         <p>&copy; {new Date().getFullYear()} nucleus<HighlightedText>FUSION</HighlightedText>. All rights reserved.</p>
         <p>Version v1.0.1</p>
       </AdditionalContent>
+      <FloatingWhatsAppButton href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" />
+        Chat with us
+      </FloatingWhatsAppButton>
     </FooterContainer>
   );
 };
