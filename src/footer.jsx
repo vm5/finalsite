@@ -320,7 +320,7 @@ const Footer = () => {
         <p>&copy; {new Date().getFullYear()} nucleus<HighlightedText>FUSION</HighlightedText>. All rights reserved.</p>
         <p>Version v1.0.1</p>
       </AdditionalContent>
-      <FloatingWhatsAppButton href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
+      <FloatingWhatsAppButton href="https://wa.me/918951475102" target="_blank" rel="noopener noreferrer">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" />
         Chat with us
       </FloatingWhatsAppButton>
