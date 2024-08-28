@@ -7,6 +7,9 @@ body, html {
   width: 100%;
   height: 100%;
   overflow-x: hidden; /* Prevents horizontal scrolling */
+  overflow-y: auto;   /* Allows vertical scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  box-sizing: border-box; /* Ensures padding and borders are included in width and height */
 }
 
 /* Ensure that the App component fits within the viewport */
@@ -20,8 +23,9 @@ body, html {
   overflow-y: auto;   /* Allows vertical scrolling if needed */
 }
 
+/* Ensure logo and other elements are responsive */
 .App-logo {
-  height: 40vmin;
+  max-height: 40vmin;
   pointer-events: none;
 }
 
@@ -31,6 +35,7 @@ body, html {
   }
 }
 
+/* Header styling adjusted for responsiveness */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -40,6 +45,9 @@ body, html {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  text-align: center; /* Centers content on mobile */
+  padding: 20px; /* Adds padding for mobile devices */
+  box-sizing: border-box; /* Ensures padding is included in width */
 }
 
 .App-link {
@@ -54,29 +62,33 @@ body, html {
     transform: rotate(360deg);
   }
 }
+
 .rounded-box {
-  width: 200px;            
-  padding: 20px;          
-  background-color: #f0f0f0; 
-  border-radius: 15px;    
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  margin: 20px auto;     
-  text-align: center;    
+  width: 90%; /* Adjusts width for mobile devices */
+  max-width: 200px; /* Limits maximum width */
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
 }
 
 .rounded-box img {
-  max-width: 100%;       
-  height: auto;          
+  max-width: 100%;
+  height: auto;
 }
+
 .companyContainer {
   overflow: hidden;
   position: relative;
-  height: 6 rem;
+  height: 6rem; /* Fixes rem unit usage */
   background-color: LightCyan;
   border-radius: 0.5rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 @keyframes slide-left {
@@ -94,15 +106,12 @@ body, html {
   color: purple;
   font-weight: bold;
   white-space: nowrap;
-  animation: slide-left 60s linear infinite; 
-  width: 200%; 
+  animation: slide-left 60s linear infinite;
+  width: 200%; /* Ensures the list scrolls properly */
 }
 
 .companyItem {
-  padding: 1.3rem; 
+  padding: 1.3rem;
   font-size: 1.9rem;
   display: inline-block;
 }
-
-
-
