@@ -276,7 +276,7 @@ const UpdatesContainer = styled.div`
 
 
 const SignInButton = styled.button`
-  position: fixed;
+  position: sticky;
   top: 10px;
   right: 10px;
   background-color: #333;
