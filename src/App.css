@@ -1,5 +1,23 @@
+/* App.css */
+
+/* Ensure no horizontal scroll by setting overflow-x to hidden */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+/* Ensure that the App component fits within the viewport */
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  overflow-y: auto;   /* Allows vertical scrolling if needed */
 }
 
 .App-logo {
