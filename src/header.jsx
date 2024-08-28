@@ -326,6 +326,7 @@ const Header = () => {
         behavior: 'smooth',
       });
     } else {
+      // Redirect to the homepage
       window.location.href = '/';
     }
   };
