@@ -1,25 +1,9 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden; /* Prevents horizontal scrolling */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  box-sizing: border-box; /* Ensures padding and borders are included in width and height */
-}
-
 .App {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
-  box-sizing: border-box;
-  overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 .App-logo {
-  max-height: 40vmin;
+  height: 40vmin;
   pointer-events: none;
 }
 
@@ -38,9 +22,6 @@ body, html {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  text-align: center; /* Centers content on mobile */
-  padding: 20px; /* Adds padding for mobile devices */
-  box-sizing: border-box; /* Ensures padding is included in width */
 }
 
 .App-link {
@@ -55,33 +36,29 @@ body, html {
     transform: rotate(360deg);
   }
 }
-
 .rounded-box {
-  width: 90%; /* Adjusts width for mobile devices */
-  max-width: 200px; /* Limits maximum width */
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  text-align: center;
+  width: 200px;            /* Adjust width as needed */
+  padding: 20px;          /* Space inside the box */
+  background-color: #f0f0f0; /* Light gray background color */
+  border-radius: 15px;    /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+  margin: 20px auto;      /* Center the box horizontally and add margin */
+  text-align: center;     /* Center text inside the box */
 }
 
 .rounded-box img {
-  max-width: 100%;
-  height: auto;
+  max-width: 100%;        /* Ensure the image fits within the box */
+  height: auto;           /* Maintain the image's aspect ratio */
 }
-
 .companyContainer {
   overflow: hidden;
   position: relative;
-  height: 6rem; /* Correct unit usage */
+  height: 6 rem; /* Adjust based on content height */
   background-color: LightCyan;
   border-radius: 0.5rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 @keyframes slide-left {
@@ -99,12 +76,16 @@ body, html {
   color: purple;
   font-weight: bold;
   white-space: nowrap;
-  animation: slide-left 60s linear infinite;
-  width: 200%; /* Ensures the list scrolls properly */
+  animation: slide-left 60s linear infinite; /* Adjust duration as needed */
+  width: 200%; /* Ensure this is double the width of the container for seamless scroll */
 }
 
 .companyItem {
-  padding: 1.3rem; /* Correct unit usage */
-  font-size: 1.9rem; /* Correct unit usage */
+  padding: 1 rem; /* Adjust padding as needed */
+  font-size: 2 rem;
   display: inline-block;
 }
+
+
+
+
