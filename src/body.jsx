@@ -154,7 +154,7 @@ const Body = () => {
                 onChange={(e) => setSearchType(e.target.value)}
               />
               <RadioText>
-                Connect to a mentor of your preferred organization if you require generic information about the organization (e.g. its work culture).
+                Connect to a mentor of your preferred organization if you require generic information about the organization (e.g. its work culture, prerequisites etc).
               </RadioText>
             </RadioLabel>
           </RadioGroup>
