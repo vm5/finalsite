@@ -455,7 +455,7 @@ const Verification = ({ onVerify }) => {
               nucleus<HighlightedText>FUSION</HighlightedText>
             </MainTitle>
             <Subtitle>
-              Bridging the gap between <Span>professionals</Span> and{' '}
+              Bridging the gap between <Span>job seeking individuals</Span> and{' '}
               <Span>experienced mentors</Span>.
             </Subtitle>
           </TitleContainer>
