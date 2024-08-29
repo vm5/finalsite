@@ -197,84 +197,6 @@ const NavLinks = styled.div`
     gap: 5px;
   }
 `;
-
-const fallAnimation = keyframes`
-  0% {
-    transform: translateY(-1000px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`;
-
-const UpdatesContainer = styled.div`
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
-  color: #f8f8f8;
-  padding: 20px 30px;
-  margin-top: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  width: 80%;
-  text-align: left;
-  font-size: 1.1rem;
-  font-family: 'Verdana';
-  font-weight: bold;
-  animation: ${fallAnimation} 1.5s ease-in-out;
-
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    color: yellow;
-    line-height: 1.6;
-    font-weight: bold;
-  }
-
-  ol {
-    list-style-position: inside;
-    margin-left: 0;
-    padding-left: 20px;
-
-    li {
-      margin-bottom: 10px;
-      font-size: 1rem;
-      color: purple;
-      line-height: 1.4;
-      font-weight: bold;
-    }
-  }
-
-  @media (max-width: 768px) {
-    width: 90%;
-    font-size: 1rem;
-    padding: 15px 25px;
-
-    p {
-      font-size: 1.1rem;
-    }
-
-    li {
-      font-size: 0.95rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    width: 95%;
-    font-size: 0.9rem;
-    padding: 10px 20px;
-
-    p {
-      font-size: 1rem;
-    }
-
-    li {
-      font-size: 0.85rem;
-    }
-  }
-`;
-
-
 const SignInButton = styled.button`
   position: fixed;
   top: 10px;
@@ -362,16 +284,6 @@ const Header = () => {
               Contact Us
             </a>
           </NavLinks>
-          <UpdatesContainer>
-  <p>Things have changed. What's New?</p>
-  <ol>
-    <li>A designated section for signing up and logging in to users' respective accounts ensuring uniformity and ease of accessing the portal.</li>
-    <li>Addition of a mentor section ensuring easy access to queries, ensuring that no query goes unanswered.</li>
-    <li>An improved user interface for a better user experience.</li>
-    <li>Addition of a feeback section in the footer.</li>
-    <li>Fixing of minor bugs.</li>
-  </ol>
-</UpdatesContainer>
         </HeaderContent>
       </HeaderContainer>
     </>
