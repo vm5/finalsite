@@ -13,10 +13,12 @@ import {addDoc, collection, getDocs,query,where } from 'firebase/firestore';
 const SwitchAuthMode = styled.button`
   background: none;
   border: none;
-  color: #00f;
+  color: white;
   cursor: pointer;
   text-decoration: underline;
-  font-size: 14px;
+  font-size: 20px
+  font-family:'Verdana';
+  font-weight:'bold';
   margin-top: 10px;
   padding: 0;
 `;
