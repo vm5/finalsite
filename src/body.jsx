@@ -89,7 +89,7 @@ const Body = () => {
 
   const handleFormOption = () => {
     if (searchType === 'prepare') {
-      window.location.href = 'https://nucleusfusioninterviewform.netlify.app/';
+      window.location.href = 'https://nucleusfusioninterview.netlify.app/';
     } else if (searchType === 'learn') {
       window.location.href = 'https://nucleusfusioninfo.netlify.app/';
     }
