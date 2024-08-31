@@ -12,24 +12,13 @@ const slideUp = keyframes`
   }
 `;
 
-const moveBackground = keyframes`
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
-`;
-// Styled Components
 const Container = styled.div`
-  background: url('https://st2.depositphotos.com/2171279/6793/i/450/depositphotos_67934195-stock-photo-blackboard-chalkboard-texture-infographics-collection.jpg') no-repeat center center/cover;
-  animation: ${moveBackground} 60s linear infinite;
   padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #111;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -37,7 +26,7 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  background-color: #ffffff;
+  background-color: black;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -46,7 +35,7 @@ const Content = styled.div`
   width: 100%;
   box-sizing: border-box;
   opacity: 1;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Verdana';
   color: #333;
   font-weight: bold;
   transform: translateY(0);
@@ -60,7 +49,7 @@ const Content = styled.div`
 
 const Header = styled.h1`
   font-size: 1.8rem;
-  color: #333;
+  color: silver;
   margin-bottom: 20px;
   animation: ${slideUp} 1s ease-out;
   font-weight: bold;
@@ -81,9 +70,9 @@ const Section = styled.section`
 
 const SectionTitle = styled.h2`
   font-size: 1.4rem;
-  color: #000;
+  color: purple;
   margin-bottom: 10px;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Verdana';
   font-weight: bold;
 
   @media (min-width: 768px) {
@@ -94,9 +83,9 @@ const SectionTitle = styled.h2`
 const Paragraph = styled.p`
   font-size: 1rem;
   line-height: 1.6;
-  color: #333;
+  color: white;
   margin-bottom: 20px;
-  font-family: 'Verdana', sans-serif;
+  font-family: 'Verdana';
   font-weight: normal;
 
   @media (min-width: 768px) {
