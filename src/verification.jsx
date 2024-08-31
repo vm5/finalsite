@@ -179,18 +179,6 @@ const TextContainer = styled.div`
   padding: 20px;
   text-align: left;
 `;
-
-
-
-const MainTitle = styled.h1`
-  font-size: 50px;
-  color: silver;
-  font-weight: bold;
-  text-align: left;
-  line-height: 1.2;
-  font-family: 'Verdana';
-`;
-
 const HighlightedText = styled.span`
   color: purple;
   animation: ${shimmer} 2s infinite alternate;
@@ -261,7 +249,7 @@ const InputField = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #ff8c00;
+  background-color: #111;
   color: white;
   padding: 12px 24px;
   margin-top: 20px;
@@ -386,6 +374,11 @@ const Verification = ({ onVerify }) => {
       if (user) {
         await sendConfirmationEmail(user.email);
       }
+      if (role === 'student') {
+        window.location.href = 'https://student-ko6p.vercel.app/';  // Redirect to student page
+      } else if (role === 'mentor') {
+        window.location.href = 'https://mentoraccess.vercel.app/';  // Redirect to mentor page
+      }
 
       onVerify();
     } catch (error) {
@@ -451,9 +444,6 @@ const Verification = ({ onVerify }) => {
       <HeaderSection>
         <TextContainer>
           <TitleContainer>
-            <MainTitle>
-              nucleus<HighlightedText>FUSION</HighlightedText>
-            </MainTitle>
             <Subtitle>
               Bridging the gap between <Span>job seeking individuals</Span> and{' '}
               <Span>experienced mentors</Span>.
