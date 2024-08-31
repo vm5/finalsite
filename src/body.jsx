@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import styled, { keyframes } from 'styled-components';
 import './App.css';
-import {QueryData} from './data';
-import emailjs from "emailjs-com";
 
 const DummyAlumni = [
   { company: 'Walmart', designation: 'Software Development Engineer', logo: '/walmart.png' },
@@ -59,71 +57,14 @@ const DummyAlumni = [
 const Body = () => {
   const [company, setCompany] = useState('');
   const [searchType, setSearchType] = useState('learn');
-  const [mentorCode, setMentorCode] = useState('');
-  const [isMentorAccessGranted, setMentorAccessGranted] = useState(false);
-  const [selectedCompanyForMentor, setSelectedCompanyForMentor] = useState('');
-  const [queries, setQueries] = useState([]);
-  const [persons, setPersons] = useState([]);
-  const [responses, setResponses] = useState({}); // State for responses for each person
-  const [selectedSlot, setSelectedSlot] = useState(''); 
-  const [isMeetingScheduled, setIsMeetingScheduled] = useState(false);
-  const [scheduleVideoCall, setScheduleVideoCall] = useState(false); // New state for scheduling video call
-
   const uniqueCompanies = [...new Set(DummyAlumni.map(alumnus => alumnus.company))];
   const isButtonDisabled = !company.trim();
-
-  useEffect(() => {
-    if (mentorCode && selectedCompanyForMentor) {
-      const companyQueries = QueryData[selectedCompanyForMentor];
-      if (companyQueries && companyQueries.codes.includes(mentorCode)) {
-        setMentorAccessGranted(true);
-        setQueries(companyQueries.queries);
-        setPersons(companyQueries.persons || []);
-      } else {
-        setMentorAccessGranted(false);
-        setQueries([]);
-        setPersons([]);
-      }
-    }
-  }, [mentorCode, selectedCompanyForMentor]);
-
   const handleFormOption = () => {
     if (searchType === 'prepare') {
-      window.location.href = 'https://nucleusfusioninterview.netlify.app/';
+      window.location.href = 'https://interview-sooty-phi.vercel.app/';
     } else if (searchType === 'learn') {
-      window.location.href = 'https://nucleusfusioninfo.netlify.app/';
+      window.location.href = 'https://connectify-five-sable.vercel.app/';
     }
-  };
-
-  const handleSubmitSlots = () => {
-    if (Object.values(responses).some(response => response.trim())) {
-      const templateParams = {
-        company: selectedCompanyForMentor,
-        slot: scheduleVideoCall ? selectedSlot : 'No video call requested', // Only include slot if video call is scheduled
-        mentorcode: mentorCode,
-        responses: persons.map(person => `${person.name}: ${responses[person.name] || 'No response'}`).join(', '),
-        queries: queries.join(', '),
-      };
-
-      emailjs.send('service_skcxg47', 'template_9pyhzgb', templateParams, 'bZNzwiq7H32zsXN_e')
-        .then((response) => {
-          alert('Response submitted successfully.');
-          setIsMeetingScheduled(true);
-        })
-        .catch((err) => {
-          alert('Failed to send response. Please try again.');
-          console.error('Error sending email:', err);
-        });
-    } else {
-      alert('Please provide at least one response.');
-    }
-  };
-
-  const handleResponseChange = (personName, value) => {
-    setResponses(prevResponses => ({
-      ...prevResponses,
-      [personName]: value,
-    }));
   };
 
   return (
@@ -195,237 +136,18 @@ const Body = () => {
             </SlidingContainer>
           </SlidingSection>
         </CompanySection>
-        {/* Mentor Section */}
-        <MentorSection>
-          <MentorHeading>Mentor Access</MentorHeading>
-          <Mentorsub>This section is solely for mentors. To begin with, we want to extend our heartfelt thanks to all the mentors on this platform. Your willingness to share your expertise and guide us is truly appreciated. Your support and advice make a significant difference. Thank you for being such an integral part of our community! Please note, you can answer queries of the organization(s) you belong to by selecting them from the dropdown below and then entering the code for the respective organization(s). If nothing pops up, it'd mean that there is no query for the respective organization(s)</Mentorsub>
-          <Dropdown
-            value={selectedCompanyForMentor}
-            onChange={(e) => setSelectedCompanyForMentor(e.target.value)}
-          >
-            <option value="">Select an Organization</option>
-            {uniqueCompanies.map((company, index) => (
-              <option key={index} value={company}>{company}</option>
-            ))}
-          </Dropdown>
-          <Input
-            type="text"
-            placeholder="Enter your mentor code.."
-            value={mentorCode}
-            onChange={(e) => setMentorCode(e.target.value)}
-          />
-
-          {isMentorAccessGranted && (
-            <>
-              <QueriesSection>
-                <QueriesHeading>Queries for {selectedCompanyForMentor}:</QueriesHeading>
-                <ul>
-                  {queries.map((query, index) => (
-                    <li key={index} style = {{color:'silver'}}>{query}</li>
-                  ))}
-                </ul>
-              </QueriesSection>
-
-              <QueriesSection>
-                <QueriesHeading>Person(s) requesting a response for {selectedCompanyForMentor}:</QueriesHeading>
-                <ul>
-                  {persons.map((person, index) => (
-                    <li key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', color:'silver' }}>
-                      <img
-                        src={person.icon}
-                        alt={person.name}
-                        style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
-                      />
-                      <span>{person.name}</span>
-                      <div style={{ marginLeft: '10px', color: 'silver', fontSize: '12px' }}>
-                        {responses[person.name] && "Answer their query"}
-                      </div>
-                      <TextArea
-                        placeholder={`Type your response for ${person.name}...`}
-                        value={responses[person.name] || ''}
-                        onChange={(e) => handleResponseChange(person.name, e.target.value)}
-                        style={{ marginTop: '10px' }}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </QueriesSection>
-
-              {/* Toggle for Scheduling Video Call */}
-              <div style={{ marginTop: '20px', color:'silver',fontSize: '20px' }}>
-                <input
-                  type="checkbox"
-                  checked={scheduleVideoCall}
-                  onChange={(e) => setScheduleVideoCall(e.target.checked)}
-                />
-                <label style={{ marginLeft: '10px' }}>I want to schedule a video call</label>
-              </div>
-
-              {/* Conditional Time Slot Selection */}
-              {scheduleVideoCall && (
-                <FreeSlotsSection>
-                  <select value={selectedSlot} onChange={(e) => setSelectedSlot(e.target.value)}>
-                    <option value="">Select a time slot for a video call</option>
-                    <option value="4:00 PM - 5:00 PM">4:00 PM - 5:00 PM</option>
-                    <option value="6:00 PM - 7:00 PM">6:00 PM - 7:00 PM</option>
-                    <option value="9:00 PM - 10:00 PM">9:00 PM - 10:00 PM</option>
-                    <option value="10:00 PM - 11:00 PM">10:00 PM - 11:00 PM</option>
-                  </select>
-                </FreeSlotsSection>
-              )}
-
-              <Button onClick={handleSubmitSlots}>Submit Response</Button>
-
-              {isMeetingScheduled && scheduleVideoCall && (
-                <MeetingSection>
-                  <MeetingHeading>Schedule a Google Meet</MeetingHeading>
-                  <p>Schedule a Google Meet to guide the students and help them prepare better.</p>
-                  <Button>
-                    <a href="https://calendly.com/sanamsuniversal/calendly-sample" target="_blank" rel="noopener noreferrer">
-                      Schedule Google Meet
-                    </a>
-                  </Button>
-                </MeetingSection>
-              )}
-            </>
-          )}
-        </MentorSection>
       </Main>
     </PageContainer>
   );
 };
-
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 100px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical; /* Allows vertical resizing of the text area */
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.1);
-  outline: none;
-  &:focus {
-   background-color: rgba(255, 255, 255, 0.1);
-    border-color: #007BFF;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-`;
-const FreeSlotsSection = styled.div`
-  margin-top: 20px;
-  padding: 40px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: Cyan;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.1);
-
-  select {
-    width: 75%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-
-  button {
-    background-color: silver;
-    color: purple;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-    margin-top: 20px;
-    font-weight: bold;
-    font-family:'Verdana';
-
-    &:hover {
-      background-color: #0056b3;
-    }
-  }
-`;
-
-const MeetingSection = styled.div`
-  margin-top: 20px;
-  padding: 10px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.1);
-`;
-
-const MeetingHeading = styled.h3`
-  font-size: 18px;
-  color: silver;
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-family: 'Verdana';
-`;
-
-
 const starMovement = keyframes`
-  0% {
+  from {
     background-position: 0 0;
   }
-  100% {
+  to {
     background-position: 100% 100%;
   }
 `;
-// MentorSection
-const MentorSection = styled.section`
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  margin: 20px 0;
-`;
-
-// MentorHeading
-const MentorHeading = styled.h2`
-  font-size: 240x;
-  color: silver;
-  margin-bottom: 10px;
-  font-famiy:'Verdana';
-  font-weight: bold;
-`;
-const Mentorsub = styled.h4`
-  font-size: 15px;
-  color: white;
-  margin-bottom: 10px;
-  font-famiy:'Verdana';
-  font-weight: bold;
-`;
-
-
-// Input
-const Input = styled.input`
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  width: 75%;
-  box-sizing: border-box;
-`;
-
-// QueriesSection
-const QueriesSection = styled.section`
-  padding: 20px;
- background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  margin: 20px 0;
-`;
-
-// QueriesHeading
-const QueriesHeading = styled.h3`
-  font-size: 20px;
-  color: silver;
-  font-weight: bold;
-  font-family: 'Verdana';
-  margin-bottom: 10px;
-`;
-
-
 // Styled Components
 const PageContainer = styled.div`
   display: flex;
@@ -455,9 +177,9 @@ const StarLayer = styled.div`
   position: absolute;
   width: 200%;
   height: 200%;
-  background: url('/aura.png') no-repeat center center;
+  background: url('/sky-2668711_1280.jpg') no-repeat center center;
   background-size: cover; /* Ensures the image covers the entire element */
-  animation: ${starMovement} 50s linear infinite;
+  animation: ${starMovement} 30s linear infinite;
 `;
 const Main = styled.div`
   display: flex;
