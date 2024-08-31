@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import emailjs from 'emailjs-com';
 
-
 // Define keyframes for animations
 const fadeIn = keyframes`
   from {
@@ -35,6 +34,14 @@ const FooterContainer = styled.footer`
   width: 100%;
   font-family: 'Verdana', sans-serif;
   animation: ${fadeIn} 1s ease-in-out;
+
+  @media (max-width: 768px) {
+    padding: 30px 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 10px;
+  }
 `;
 
 const HighlightedText = styled.span`
@@ -50,10 +57,12 @@ const AdditionalContent = styled.div`
 
   @media (max-width: 768px) {
     font-size: 14px;
+    margin-top: 30px;
   }
 
   @media (max-width: 480px) {
     font-size: 12px;
+    margin-top: 20px;
   }
 
   p {
@@ -102,10 +111,26 @@ const Logo = styled.img`
   height: auto;
   margin: 30px auto;
   display: block;
+
+  @media (max-width: 768px) {
+    width: 120px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100px;
+  }
 `;
 
 const FAQSection = styled.section`
   margin-bottom: 60px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const FAQTitle = styled.h2`
@@ -113,12 +138,30 @@ const FAQTitle = styled.h2`
   margin-bottom: 20px;
   color: #fff;
   text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const FAQSubtitle = styled.h5`
   font-size: 1.5rem;
   color: #bbb;
   margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
 `;
 
 const FAQContainer = styled.div`
@@ -128,6 +171,14 @@ const FAQContainer = styled.div`
   gap: 30px;
   max-width: 1200px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    gap: 20px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 10px;
+  }
 `;
 
 const FAQBox = styled.div`
@@ -139,18 +190,43 @@ const FAQBox = styled.div`
   width: 100%;
   max-width: 300px;
   color: #ddd;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `;
 
 const Question = styled.h3`
   font-size: 1.3rem;
   margin-bottom: 10px;
   color: #6a1b9a;
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `;
 
 const Answer = styled.p`
   font-size: 1.1rem;
   line-height: 1.6;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
 `;
+
 const FeedbackSection = styled.section`
   margin-bottom: 60px;
   background: #2c2c2c;
@@ -173,6 +249,14 @@ const FeedbackTitle = styled.h2`
   margin-bottom: 20px;
   color: #fff;
   text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const FeedbackDescription = styled.p`
@@ -180,7 +264,16 @@ const FeedbackDescription = styled.p`
   color: #ccc;
   margin-bottom: 20px;
   line-height: 1.5;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
 `;
+
 const FloatingWhatsAppButton = styled.a`
   position: fixed;
   bottom: 20px;
@@ -207,6 +300,25 @@ const FloatingWhatsAppButton = styled.a`
     height: 24px;
     margin-right: 10px;
   }
+
+  @media (max-width: 768px) {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    bottom: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `;
 
 const FeedbackForm = styled.form`
@@ -226,6 +338,15 @@ const FeedbackForm = styled.form`
     color: #fff;
     resize: vertical;
     font-size: 1rem;
+
+    @media (max-width: 768px) {
+      max-width: 500px;
+    }
+
+    @media (max-width: 480px) {
+      max-width: 100%;
+      font-size: 0.9rem;
+    }
   }
 
   button {
@@ -241,8 +362,19 @@ const FeedbackForm = styled.form`
     &:hover {
       background: #8e24aa;
     }
+
+    @media (max-width: 768px) {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
   }
 `;
+
 const Footer = () => {
   const [feedback, setFeedback] = useState('');
   const [status, setStatus] = useState('');
