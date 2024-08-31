@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
+import { styled, keyframes } from '@mui/material/styles';
 
+// Animation for fading in elements
 const fadeIn = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
@@ -12,6 +14,7 @@ const fadeIn = keyframes`
   }
 `;
 
+// Animation for sliding down the heading
 const slideDown = keyframes`
   from {
     transform: translateY(-100%);
@@ -23,270 +26,182 @@ const slideDown = keyframes`
   }
 `;
 
-const slideRightToLeft = keyframes`
-  0% {
-    transform: translateX(100%);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-100%);
-    opacity: 1;
-  }
-`;
+// Styled component for the header container
+const HeaderContainer = styled(AppBar)(({ theme }) => ({
+  background: '#111',
+  borderBottom: '2px solid #3399ff',
+  color: '#f0f0f0',
+  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+  animation: `${fadeIn} 1.5s ease-in-out`,
+  zIndex: 1000,
+  width: '100%',
+  position: 'relative',
+  padding: theme.spacing(2, 1),
+  [theme.breakpoints.down('md')]: {
+    padding: theme.spacing(1),
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(0.5),
+  },
+}));
 
-const SlidingDiv = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  background: linear-gradient(to right, #ff5733, #ffbd00);
-  padding: 10px 0;
-  z-index: 0;
+// Styled component for the header content
+const HeaderContent = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column', // Change to column direction
+  alignItems: 'center', // Center horizontally
+  justifyContent: 'center', // Center vertically
+  width: '100%',
+  textAlign: 'center', // Center text within its container
+  gap: theme.spacing(2), // Add gap between children
+}));
 
-  @media (max-width: 768px) {
-    padding: 0;
-  }
-`;
+const SlidingHeading = styled(Typography)(({ theme }) => ({
+  animation: `${slideDown} 1.5s ease-out`,
+  fontFamily: 'Verdana',
+  color: 'silver',
+  fontSize: '2.5rem',
+  fontWeight: 'bold',
+  textShadow: '2px 2px 8px rgba(0, 0, 0, 0.5)',
+  textAlign: 'center', // Center text within its container
+  marginBottom: theme.spacing(4), // Space between heading and nav links
+  [theme.breakpoints.down('md')]: {
+    fontSize: '2rem',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.5rem',
+  },
+  '& span': {
+    color: 'purple',
+  },
+  '& p': {
+    color: 'white',
+    fontFamily: 'Verdana',
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    margin: 0,
+  },
+}));
 
-const SlidingText = styled.span`
-  display: inline-block;
-  animation: ${slideRightToLeft} 15s linear infinite;
-  color: white;
-  font-size: 18px;
-  white-space: nowrap;
-  font-family: 'Verdana';
-  font-style: italic;
+// Styled component for the navigation links
+const NavLinks = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(2), // Adjust gap between links
+  '& a': {
+    display: 'flex',
+    alignItems: 'center',
+    textDecoration: 'none',
+    fontWeight: '600',
+    color: '#ffdf00',
+    fontSize: '1rem',
+    transition: 'color 0.3s, transform 0.3s',
+    padding: theme.spacing(1), // Padding around links
+    borderRadius: '8px',
+    '&:hover': {
+      color: '#fff',
+      transform: 'translateY(-2px)',
+    },
+    '& img': {
+      width: '24px',
+      height: 'auto',
+      marginRight: theme.spacing(1), // Space between image and text
+    },
+  },
+  [theme.breakpoints.down('md')]: {
+    gap: theme.spacing(1.5),
+  },
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    gap: theme.spacing(1),
+  },
+}));
 
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
+// Styled component for the sign-in button
+const SignInButton = styled(IconButton)(({ theme }) => ({
+  position: 'fixed',
+  top: '15px',
+  right: '20px',
+  backgroundColor: '#111',
+  color: '#fff',
+  borderRadius: '25px',
+  padding: '12px 24px',
+  fontSize: '1rem',
+  fontFamily: 'Verdana',
+  cursor: 'pointer',
+  transition: 'background-color 0.3s, transform 0.3s',
+  zIndex: 2000,
+  display: 'flex',
+  alignItems: 'center',
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  '&:hover': {
+    backgroundColor: '#0056b3',
+    transform: 'scale(1.05)',
+  },
+  '& img': {
+    width: '20px',
+    height: '20px',
+    marginRight: '8px',
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.9rem',
+    padding: '10px 20px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem',
+    padding: '8px 16px',
+  },
+}));
 
-  @media (max-width: 480px) {
-    font-size: 14px;
-  }
-`;
-
-const HeaderContainer = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background: black;
-  border-bottom: 2px solid #3399ff;
-  font-size: 2rem;
-  font-family: 'Verdana';
-  color: #003366;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  position: relative;
-  animation: ${fadeIn} 2.5s ease-in-out;
-  text-align: center;
-  z-index: 1000;
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-    padding: 15px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.2rem;
-    padding: 10px;
-    width: 100%;
-  }
-`;
-
-const HeaderContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding-bottom: 20px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-left: 0;
-
-  @media (max-width: 768px) {
-    margin-bottom: 10px;
-  }
-`;
-
-const StyledLogo = styled.img`
-  width: 200px;
-  height: 200px;
-  margin: 40px;
-
-  @media (max-width: 768px) {
-    width: 150px;
-    height: 150px;
-    margin: 20px;
-  }
-
-  @media (max-width: 480px) {
-    width: 120px;
-    height: 120px;
-    margin: 10px;
-  }
-`;
-
-const SlidingHeading = styled.h1`
-  animation: ${slideDown} 3s ease-out;
-  font-family: 'Verdana';
-  color: grey;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 2.3rem;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.2rem;
-  }
-
-  span {
-    color: purple;
-  }
-`;
-
-const NavLinks = styled.div`
-  margin-top: 10px;
-  font-family: 'Verdana';
-  gap: 50px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-
-  a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    font-weight: normal;
-    color: lightblue;
-    font-size: 15px;
-    transition: color 0.3s;
-    padding: 5px;
-
-    img {
-      width: 24px;
-      height: auto;
-      margin-right: 8px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-    gap: 10px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 12px;
-    flex-direction: column;
-    gap: 5px;
-  }
-`;
-const SignInButton = styled.button`
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-family: 'Verdana';
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-  z-index: 2000;
-
-  &:hover {
-    background-color: #357ae8;
-    transform: scale(1.05);
-  }
-
-  img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 0.9rem;
-    padding: 10px 20px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.8rem;
-    padding: 8px 16px;
-  }
-`;
-
+// Header component
 const Header = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const handleSignIn = () => {
     if (!isSignedIn) {
       setIsSignedIn(true);
-      const middlePosition = document.body.scrollHeight / 3;
+      const middlePosition = document.body.scrollHeight / 3.9;
       window.scrollTo({
         top: middlePosition,
         behavior: 'smooth',
       });
     } else {
-      // Redirect to the homepage
       window.location.href = '/';
     }
   };
 
   return (
-    <>
-      <HeaderContainer>
+    <HeaderContainer position="static">
+      <Toolbar>
         <SignInButton onClick={handleSignIn}>
           <img src="/dm-removebg-preview.png" alt="Google Logo" />
           {isSignedIn ? 'Exit' : 'Get Started'}
         </SignInButton>
-        <SlidingDiv>
-          <SlidingText>This portal is now functional for 2024-25. This portal can also be installed as an app through your web browser(s)</SlidingText>
-        </SlidingDiv>
         <HeaderContent>
-          <LogoContainer>
-            <StyledLogo src="/nucleus.png" alt="connectCOMPASS Logo" />
-          </LogoContainer>
-          <SlidingHeading>
-            Welcome to nucleus<span>FUSION</span>
+          <SlidingHeading variant="h1">
+            nucleus<span>FUSION</span>
+            <p>Navigating Success!</p>
           </SlidingHeading>
           <NavLinks>
             <a href="/">
               <img src="/home-removebg-preview (1).png" alt="Home" />
               Home
             </a>
-            <a href="#bottom" onClick={() => window.scrollTo({ top: document.body.scrollHeight / 2, behavior: 'smooth' })}>
+            <a href="https://studentdashboard-eight.vercel.app/">
+              <img src="https://st2.depositphotos.com/4520249/44334/v/450/depositphotos_443344106-stock-illustration-student-college-male-icon-image.jpg" alt="Dashboard" />
+              Student Dashboard
+            </a>
+            <a
+              href="#bottom"
+              onClick={() => window.scrollTo({ top: document.body.scrollHeight / 2, behavior: 'smooth' })}
+            >
               <img src="/faq.png" alt="FAQS" />
               FAQS
             </a>
-            <a href="#bottom" onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}>
-              <img src="/contactus-removebg-preview.png" alt="Contact Us" />
-              Contact Us
-            </a>
           </NavLinks>
         </HeaderContent>
-      </HeaderContainer>
-    </>
+      </Toolbar>
+    </HeaderContainer>
   );
 };
 
